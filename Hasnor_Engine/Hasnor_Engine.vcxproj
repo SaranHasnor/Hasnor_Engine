@@ -1,0 +1,101 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{453F4A57-04CA-445E-B270-1A0CBF17DDB3}</ProjectGuid>
+    <RootNamespace>Hasnor_Engine</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup />
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>$(SolutionDir)Hasnor_Interface;$(SolutionDir)Hasnor_Utils;$(ProjectDir)Libraries\glut\include;$(ProjectDir)Libraries\glew-1.12.0\include;$(ProjectDir)Libraries\stb</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>$(ProjectDir)Libraries\glut\lib;</AdditionalLibraryDirectories>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <AdditionalIncludeDirectories>$(SolutionDir)Hasnor_Interface;$(SolutionDir)Hasnor_Utils;$(ProjectDir)Libraries\glut\include;$(ProjectDir)Libraries\glew-1.12.0\include;$(ProjectDir)Libraries\stb</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalLibraryDirectories>$(ProjectDir)Libraries\glut\lib;</AdditionalLibraryDirectories>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClInclude Include="engine.h" />
+    <ClInclude Include="engine_callbacks.h" />
+    <ClInclude Include="engine_input.h" />
+    <ClInclude Include="engine_interface.h" />
+    <ClInclude Include="engine_camera.h" />
+    <ClInclude Include="engine_physics.h" />
+    <ClInclude Include="engine_render.h" />
+    <ClInclude Include="engine_texture.h" />
+    <ClInclude Include="engine_utils.h" />
+    <ClInclude Include="engine_window.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="engine.c" />
+    <ClCompile Include="engine_callbacks.c" />
+    <ClCompile Include="engine_input.c" />
+    <ClCompile Include="engine_interface.c" />
+    <ClCompile Include="engine_physics.c" />
+    <ClCompile Include="engine_render.c" />
+    <ClCompile Include="engine_texture.c" />
+    <ClCompile Include="engine_utils.c" />
+    <ClCompile Include="engine_camera.c" />
+    <ClCompile Include="engine_window.c" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Hasnor_Interface\Hasnor_Interface.vcxproj">
+      <Project>{cf76d548-eae5-4185-9f7b-f959d918df9f}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\Hasnor_Utils\Hasnor_Utils.vcxproj">
+      <Project>{9b213836-dac9-4c0a-83e0-54c218514f43}</Project>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

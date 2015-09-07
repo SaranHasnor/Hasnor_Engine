@@ -1,0 +1,50 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Hasnor_Network", "Hasnor_Network\Hasnor_Network.vcxproj", "{2F167CA0-3724-4627-A61E-80968BE9E437}"
+	ProjectSection(ProjectDependencies) = postProject
+		{9B213836-DAC9-4C0A-83E0-54C218514F43} = {9B213836-DAC9-4C0A-83E0-54C218514F43}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Hasnor_Engine", "Hasnor_Engine\Hasnor_Engine.vcxproj", "{453F4A57-04CA-445E-B270-1A0CBF17DDB3}"
+	ProjectSection(ProjectDependencies) = postProject
+		{9B213836-DAC9-4C0A-83E0-54C218514F43} = {9B213836-DAC9-4C0A-83E0-54C218514F43}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Hasnor_Utils", "Hasnor_Utils\Hasnor_Utils.vcxproj", "{9B213836-DAC9-4C0A-83E0-54C218514F43}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Hasnor_Interface", "Hasnor_Interface\Hasnor_Interface.vcxproj", "{CF76D548-EAE5-4185-9F7B-F959D918DF9F}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Main", "Main\Main.vcxproj", "{423D6C66-E77A-4673-80F2-04A7F35B2A09}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{2F167CA0-3724-4627-A61E-80968BE9E437}.Debug|Win32.ActiveCfg = Debug|Win32
+		{2F167CA0-3724-4627-A61E-80968BE9E437}.Debug|Win32.Build.0 = Debug|Win32
+		{2F167CA0-3724-4627-A61E-80968BE9E437}.Release|Win32.ActiveCfg = Release|Win32
+		{2F167CA0-3724-4627-A61E-80968BE9E437}.Release|Win32.Build.0 = Release|Win32
+		{453F4A57-04CA-445E-B270-1A0CBF17DDB3}.Debug|Win32.ActiveCfg = Debug|Win32
+		{453F4A57-04CA-445E-B270-1A0CBF17DDB3}.Debug|Win32.Build.0 = Debug|Win32
+		{453F4A57-04CA-445E-B270-1A0CBF17DDB3}.Release|Win32.ActiveCfg = Release|Win32
+		{453F4A57-04CA-445E-B270-1A0CBF17DDB3}.Release|Win32.Build.0 = Release|Win32
+		{9B213836-DAC9-4C0A-83E0-54C218514F43}.Debug|Win32.ActiveCfg = Debug|Win32
+		{9B213836-DAC9-4C0A-83E0-54C218514F43}.Debug|Win32.Build.0 = Debug|Win32
+		{9B213836-DAC9-4C0A-83E0-54C218514F43}.Release|Win32.ActiveCfg = Release|Win32
+		{9B213836-DAC9-4C0A-83E0-54C218514F43}.Release|Win32.Build.0 = Release|Win32
+		{CF76D548-EAE5-4185-9F7B-F959D918DF9F}.Debug|Win32.ActiveCfg = Debug|Win32
+		{CF76D548-EAE5-4185-9F7B-F959D918DF9F}.Debug|Win32.Build.0 = Debug|Win32
+		{CF76D548-EAE5-4185-9F7B-F959D918DF9F}.Release|Win32.ActiveCfg = Release|Win32
+		{CF76D548-EAE5-4185-9F7B-F959D918DF9F}.Release|Win32.Build.0 = Release|Win32
+		{423D6C66-E77A-4673-80F2-04A7F35B2A09}.Debug|Win32.ActiveCfg = Debug|Win32
+		{423D6C66-E77A-4673-80F2-04A7F35B2A09}.Debug|Win32.Build.0 = Debug|Win32
+		{423D6C66-E77A-4673-80F2-04A7F35B2A09}.Release|Win32.ActiveCfg = Release|Win32
+		{423D6C66-E77A-4673-80F2-04A7F35B2A09}.Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

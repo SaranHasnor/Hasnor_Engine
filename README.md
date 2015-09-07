@@ -1,2 +1,1 @@
-# Hasnor_Engine
-Hasnor Engine
+# Saran Hasnor's C libraries
