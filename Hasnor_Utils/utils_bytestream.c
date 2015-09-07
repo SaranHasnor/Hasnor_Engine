@@ -1,8 +1,7 @@
 #include "utils_bytestream.h"
 #include "utils_ctools.h"
-#include "utils_types.h"
 
-void bytestream_init(bytestream *stream, unsigned int size)
+void bytestream_init(bytestream *stream, uint size)
 {
 	if (size)
 	{
@@ -17,7 +16,7 @@ void bytestream_init(bytestream *stream, unsigned int size)
 	stream->cursor = 0;
 }
 
-int bytestream_write(bytestream *stream, byte *data, unsigned int size)
+int bytestream_write(bytestream *stream, byte *data, uint size)
 {
 	assert(stream->cursor + size <= stream->len);
 	if (size > 0)
@@ -28,7 +27,7 @@ int bytestream_write(bytestream *stream, byte *data, unsigned int size)
 	return size;
 }
 
-int bytestream_read(bytestream *stream, byte *out, unsigned int size)
+int bytestream_read(bytestream *stream, byte *out, uint size)
 {
 	assert(stream->cursor + size <= stream->len);
 	mem_cpy(out, stream->data+stream->cursor, size);

@@ -10,10 +10,6 @@ button_t *newButton()
 
 void destroyButton(button_t *button)
 {
-	if (button->dynText)
-	{
-		mem_free(button->dynText);
-	}
 	if (button->text)
 	{
 		mem_free(button->text);

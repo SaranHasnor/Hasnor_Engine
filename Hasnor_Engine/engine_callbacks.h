@@ -36,8 +36,8 @@ typedef struct {
 	void	(*keyDownFunc)(uchar key);
 	void	(*keyUpFunc)(uchar key);
 
-	void	(*mouseDownFunc)(ushort button);
-	void	(*mouseUpFunc)(ushort button);
+	void	(*mouseDownFunc)(ushort button, int x, int y);
+	void	(*mouseUpFunc)(ushort button, int x, int y);
 
 	void	(*updateFunc)(timeStruct_t time, inputStruct_t input);
 	void	(*renderFunc)(void);

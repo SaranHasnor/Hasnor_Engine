@@ -124,9 +124,9 @@ bool TCP_sendMessage(SOCKET socket, bytestream message)
 
 bool TCP_receiveMessages(SOCKET socket, bytestream *out)
 {
-	static char buffer[8192];
+	static char buffer[65536];
 	
-	int received = recv(socket, buffer, 8192, 0);
+	int received = recv(socket, buffer, 65536, 0);
 	if (received > 0)
 	{
 		bytestream_init(out, received);

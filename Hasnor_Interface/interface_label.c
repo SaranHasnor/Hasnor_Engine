@@ -10,10 +10,6 @@ label_t *newLabel()
 
 void destroyLabel(label_t *label)
 {
-	if (label->dynText)
-	{
-		mem_free(label->dynText);
-	}
 	if (label->text)
 	{
 		mem_free(label->text);

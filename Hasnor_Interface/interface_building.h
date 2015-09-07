@@ -27,6 +27,7 @@ void interface_saveListSelectedIndex(uint id);
 void interface_loadListSelectedIndex(uint id);
 
 void interface_deleteObject(uint objectID);
+void interface_deleteAllObjects();
 void interface_clearSideMenu(uint menuID);
 
 void interface_setRadioGroupSelectionCallback(uint groupID, void (*onSelectionChanged)(uint index));

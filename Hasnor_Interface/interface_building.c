@@ -154,7 +154,7 @@ int interface_staticButton(char *text, placement_t placement, void (*onClick)(vo
 	component_t *component = _addComponent(COMP_BUTTON, placement);
 	button_t *button = component->gen_component.object.button;
 	
-	button->text = text;
+	button->text = quickString(text);
 	button->dynText = NULL;
 	button->onClick = onClick;
 
@@ -190,6 +190,7 @@ int interface_list(placement_t placement, anchor_t textAnchor, void (*onSelect)(
 
 	// FIXME
 	//list->maxDisplayedEntries = (int)(((float)placement-40.0)/15.0);
+	list->maxDisplayedEntries = 500;
 
 	return component->id;
 }
@@ -237,6 +238,19 @@ void interface_deleteObject(uint objectID)
 	}
 
 	destroyComponent(_interface.allComponents[objectID]);
+}
+
+void interface_deleteAllObjects()
+{
+	uint i;
+
+	for (i = 0; i < _interface.nbComponents; i++)
+	{
+		if (_interface.allComponents[i]->gen_component.type != COMP_INACTIVE)
+		{
+			destroyComponent(_interface.allComponents[i]);
+		}
+	}
 }
 
 void interface_clearSideMenu(uint menuID)

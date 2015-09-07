@@ -51,12 +51,9 @@ bool CL_connected()
 	return currentNetworkMode() == NETWORK_MODE_CLIENT;
 }
 
-void CL_sendMessage(int targetID, string message)
+void CL_sendMessage(int targetID, bytestream message)
 {
-	bytestream stream;
-	bytestream_init(&stream, message.len);
-	bytestream_write(&stream, message.s, message.len);
-	sendMessage(NETWORK_MESSAGE_CUSTOM, -1, targetID, stream);
+	sendMessage(NETWORK_MESSAGE_CUSTOM, -1, targetID, message);
 }
 
 void CL_update(networkUpdate_t *update)

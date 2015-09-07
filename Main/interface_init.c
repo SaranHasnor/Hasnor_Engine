@@ -24,11 +24,12 @@ char *message;
 
 void send(void)
 {
-	string str;
-	str.len = strlen(message);
-	str.s = quickString(message);
-	CL_sendMessage(-1, str);
-	mem_free(str.s);
+	uint len = strlen(message);
+	bytestream stream;
+	bytestream_init(&stream, len);
+	bytestream_write(&stream, (byte*)message, len);
+	CL_sendMessage(-1, stream);
+	bytestream_destroy(&stream);
 	message[0] = '\0';
 }
 

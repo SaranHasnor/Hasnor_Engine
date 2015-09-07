@@ -32,7 +32,6 @@ void createWindow(window_t *window)
 	const int screenX = glutGet(GLUT_SCREEN_WIDTH);
 	const int screenY = glutGet(GLUT_SCREEN_HEIGHT);
 
-	// Initializing GLUT
 	glutInitWindowSize(window->width, window->height);
 	glutInitWindowPosition((screenX-window->width)/2, (screenY-window->height)/2);
 	window->id = glutCreateWindow(window->name);

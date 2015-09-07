@@ -187,7 +187,7 @@ mesh_t *duplicateMesh(mesh_t *mesh)
 
 void destroyVertex(vertex_t *vertex)
 {
-	mem_free(vertex);
+	mem_free_safe(vertex);
 }
 
 void destroyFace(face_t *face)
@@ -197,7 +197,23 @@ void destroyFace(face_t *face)
 	{
 		destroyVertex(face->vertices[i]);
 	}
-	mem_free(face->vertices);
+
+	glDeleteBuffers(1, &face->vboIndex);
+	glDeleteBuffers(1, &face->eboIndex);
+
+	if (face->vbo)
+	{
+		mem_free(face->vbo);
+	}
+	if (face->ebo)
+	{
+		mem_free(face->ebo);
+	}
+
+	if (face->vertices)
+	{
+		mem_free(face->vertices);
+	}
 	mem_free(face);
 }
 
@@ -208,7 +224,10 @@ void destroyMesh(mesh_t *mesh)
 	{
 		destroyFace(mesh->faces[i]);
 	}
-	mem_free(mesh->faces);
+	if (mesh->faces)
+	{
+		mem_free(mesh->faces);
+	}
 	mem_free(mesh);
 }
 
@@ -469,6 +488,11 @@ void renderMesh(const mesh_t *mesh, float viewMatrix[16])
 		glUniform4fv(program->colorLocation, 1, face->color);
 
 		glDrawElements(GL_TRIANGLES, face->nbVertices, GL_UNSIGNED_SHORT, NULL);
+
+		if (gotTexture)
+		{
+			glBindTexture(GL_TEXTURE_2D, 0);
+		}
 	}
 	glUseProgram(0);
 }

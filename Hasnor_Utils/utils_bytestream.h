@@ -7,18 +7,17 @@ utils_bytestream
 - Functions and structures for writing and reading streams of bytes
 */
 
-typedef unsigned char byte;
-typedef char sbyte;
+#include "utils_types.h"
 
 typedef struct {
-	byte			*data;
-	unsigned int	len;
-	unsigned int	cursor;
+	byte	*data;
+	uint	len;
+	uint	cursor;
 } bytestream;
 
-void bytestream_init(bytestream *stream, unsigned int size);
-int bytestream_write(bytestream *stream, byte *data, unsigned int size);
-int bytestream_read(bytestream *stream, byte *out, unsigned int size);
+void bytestream_init(bytestream *stream, uint size);
+int bytestream_write(bytestream *stream, byte *data, uint size);
+int bytestream_read(bytestream *stream, byte *out, uint size);
 void bytestream_destroy(bytestream *stream);
 char *bytestream_toString(bytestream *stream);
 

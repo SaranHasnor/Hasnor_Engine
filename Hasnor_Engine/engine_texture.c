@@ -38,7 +38,7 @@ const char *defaultFragmentShader_texture =
 
 void updateTextureContents(texture_t *texture)
 {
-	texture->data = stbi_loadf(texture->filePath, &texture->width, &texture->height, NULL, 4);
+	texture->data = stbi_load(texture->filePath, &texture->width, &texture->height, NULL, STBI_rgb_alpha);
 
 	glEnable(GL_TEXTURE_2D);
 
@@ -56,13 +56,15 @@ void updateTextureContents(texture_t *texture)
 			texture->height,
 			0,
 			GL_RGBA,
-			GL_FLOAT,
+			GL_UNSIGNED_BYTE,
 			texture->data);
 
 	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
 	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+
+	glActiveTexture(GL_TEXTURE0);
 }
 
 texture_t *textureFromPath(const char *filePath)

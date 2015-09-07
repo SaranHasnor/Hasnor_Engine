@@ -27,7 +27,7 @@ void initCamera()
 
 void setCameraSize(int width, int height)
 {
-	mat_perspective(_renderProjectionMatrix, 60.0f, (float)width/(float)height, 1.0f, 200.0f);
+	mat_perspective(_renderProjectionMatrix, 60.0f, (float)width/(float)height, 0.1f, 200.0f);
 	mat_orthographic(_interfaceProjectionMatrix, width, height, -200.0f, 200.0f); // FIXME
 	_screenWidth = width;
 	_screenHeight = height;
@@ -36,6 +36,11 @@ void setCameraSize(int width, int height)
 void engine_setCameraPosition(float position[3])
 {
 	vectorCopy(_camPosition, position);
+}
+
+void engine_getCameraPosition(float out[3])
+{
+    vectorCopy(out, _camPosition);
 }
 
 void engine_moveCamera(float move[3])
@@ -51,6 +56,11 @@ void engine_setCameraVelocity(float velocity[3])
 void engine_setCameraAngles(float angles[3])
 {
 	vectorCopy(_camAngles, angles);
+}
+
+void engine_getCameraAngles(float out[3])
+{
+    vectorCopy(out, _camAngles);
 }
 
 void engine_rotateCamera(float rotation[3])

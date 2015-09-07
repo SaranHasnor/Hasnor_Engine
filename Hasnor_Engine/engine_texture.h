@@ -3,7 +3,7 @@
 typedef struct {
 	char		*filePath;
 
-	void		*data;
+	byte		*data;
 	int			width, height;
 
 	uint		textureID;

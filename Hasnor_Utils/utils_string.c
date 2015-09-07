@@ -3,6 +3,8 @@
 
 #include <string.h>
 
+#pragma warning (disable:4996)	// Allow use of deprecated/unsafe functions
+
 void string_initStr(string *str, char *value)
 {
 	str->s = quickString(value);
@@ -37,4 +39,12 @@ void string_strip(string *str, char c)
 {
 	strip(str->s, c);
 	str->len = strlen(str->s);
+}
+
+void string_appendStr(string *str, char *value)
+{
+	size_t newLen = str->len + strlen(value);
+	str->s = (char*)mem_realloc(str->s, sizeof(char) * newLen);
+	strcpy(str->s + str->len, value);
+	str->len = newLen;
 }

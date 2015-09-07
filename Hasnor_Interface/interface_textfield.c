@@ -13,7 +13,7 @@ textField_t *newTextField()
 
 void destroyTextField(textField_t *textField)
 {
-	mem_free(textField->value);
+	mem_free(textField->text);
 	mem_free(textField);
 }
 

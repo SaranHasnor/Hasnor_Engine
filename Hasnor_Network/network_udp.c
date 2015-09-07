@@ -34,9 +34,9 @@ bool UDP_sendMessage(bytestream message, SOCKET socket, const SOCKADDR *address,
 
 bool UDP_receiveMessages(bytestream *out, SOCKET socket, SOCKADDR *address, int *addrLen)
 {
-	static char buffer[8192];
+	static char buffer[65536];
 	
-	int received = recvfrom(socket, buffer, 8192, 0, address, addrLen);
+	int received = recvfrom(socket, buffer, 65536, 0, address, addrLen);
 	if (received > 0)
 	{
 		bytestream_init(out, received);

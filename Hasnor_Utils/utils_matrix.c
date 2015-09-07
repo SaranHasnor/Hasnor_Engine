@@ -53,12 +53,12 @@ void mat_orthographic(float mat[16], float width, float height, float near, floa
 	mat[15] = 1.0f;
 }
 
-void mat_rotation(float out[16], float pitch, float yaw, float roll)
+void mat_rotation(float out[16], float pitch, float yaw, float roll, bool degrees)
 {
 	float pitchMat[16], yawMat[16], rollMat[16], tempMat[16];
-	float cp = cosf(pitch), sp = sinf(pitch);
-	float cy = cosf(yaw), sy = sinf(yaw);
-	float cr = cosf(roll), sr = sinf(roll);
+	float cp = cosf(degrees ? pitch * M_PI / 180.0f : pitch), sp = sinf(degrees ? pitch * M_PI / 180.0f : pitch);
+	float cy = cosf(degrees ? yaw * M_PI / 180.0 : yaw), sy = sinf(degrees ? yaw * M_PI / 180.0f : yaw);
+	float cr = cosf(degrees ? roll * M_PI / 180.0f : roll), sr = sinf(degrees ? roll * M_PI / 180.0f : roll);
 
 	mem_set(pitchMat, 0, sizeof(float) * 16);
 	mem_set(yawMat, 0, sizeof(float) * 16);
@@ -85,7 +85,7 @@ void mat_rotation(float out[16], float pitch, float yaw, float roll)
 	rollMat[10] = cr;
 	rollMat[15] = 1.0f;
 
-	mat_multiply(tempMat, pitchMat, yawMat);
+	mat_multiply(tempMat, yawMat, pitchMat);
 	mat_multiply(out, tempMat, rollMat);
 }
 

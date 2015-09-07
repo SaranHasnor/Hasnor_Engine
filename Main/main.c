@@ -21,12 +21,12 @@ void keyUpFunc(uchar key)
 
 }
 
-void mouseDownFunc(ushort button)
+void mouseDownFunc(ushort button, int x, int y)
 {
 
 }
 
-void mouseUpFunc(ushort button)
+void mouseUpFunc(ushort button, int x, int y)
 {
 
 }
@@ -101,7 +101,7 @@ void updateFunc(timeStruct_t time, inputStruct_t input)
 	}
 
 	_testMesh->origin[2] += 0.1f * time.deltaTimeSeconds;
-	mat_rotation(_testMesh->rotation, _testMesh->origin[2], 0.0f, 0.0f);
+	mat_rotation(_testMesh->rotation, _testMesh->origin[2], 0.0f, 0.0f, false);
 
 	updateCamera(input);
 }
@@ -128,7 +128,7 @@ int main(int argc, char **argv)
 	listener.renderFunc = renderFunc;
 	listener.updateFunc = updateFunc;
 
-	setupNetwork();
+	setupNetwork(3000, 10000);
 
 	engine_run(argc, argv, 1200, 600, "Test", listener);
 

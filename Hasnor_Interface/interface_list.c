@@ -114,9 +114,7 @@ void drawList(list_t *list, staticPlacement_t placement)
 		if (i == list->selectIndex)
 		{ // Selected option
 			glColor3f(0.0f,0.0f,0.75f);
-			glBegin(GL_QUADS);
 			drawRect(entryPlacement);
-			glEnd();
 			glColor3f(1.0f,1.0f,1.0f);
 		}
 		else
@@ -126,15 +124,15 @@ void drawList(list_t *list, staticPlacement_t placement)
 
 		if (!text)
 		{
-			renderString("Unnamed entry", entryPlacement, ANCHOR_TOP_LEFT, -1);
+			renderString("Unnamed entry", entryPlacement, list->textAlignment, -1);
 		}
 		else if (text[0] != '\0' || list->selected)
 		{
-			renderString(text, entryPlacement, ANCHOR_TOP_LEFT, list->selected ? strlen(text) : -1);
+			renderString(text, entryPlacement, list->textAlignment, list->selected ? strlen(text) : -1);
 		}
 		else
 		{
-			renderString("(empty)", entryPlacement, ANCHOR_TOP_LEFT, -1);
+			renderString("(empty)", entryPlacement, list->textAlignment, -1);
 		}
 	}
 }

@@ -74,7 +74,8 @@ bool deleteHeldKey(unsigned char key)
 		}
 		curKey = &(*curKey)->next;
 	}
-	assert(0);
+
+	// There are plenty of reasons why this may happen, so it shouldn't be considered an error
 	return false;
 }
 
@@ -157,11 +158,11 @@ void mouse(int button, int state, int x, int y)
 
 	if (state == GLUT_DOWN)
 	{
-		_inputListener.mouseDownFunc(actualButton);
+		_inputListener.mouseDownFunc(actualButton, x, y);
 	}
 	else
 	{
-		_inputListener.mouseUpFunc(actualButton);
+		_inputListener.mouseUpFunc(actualButton, x, y);
 	}
 }
 

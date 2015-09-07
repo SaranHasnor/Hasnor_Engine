@@ -21,5 +21,6 @@ void string_initFloat(string *str, float value);
 void string_initVector(string *str, float *vec, uint size);
 
 void string_strip(string *str, char c);
+void string_appendStr(string *str, char *value);
 
 #endif

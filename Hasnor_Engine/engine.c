@@ -41,13 +41,13 @@ void display(void)
 	// Frame initialization
 	glDepthMask(GL_TRUE);
 	glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
-	glDepthMask(GL_FALSE);
 
 	// Rendering
 	positionGLCameraForRender();
 	_listener.renderFunc();
 
 	// Interface
+	glDepthMask(GL_FALSE);
 	positionGLCameraForInterface();
 	interface_render();
 

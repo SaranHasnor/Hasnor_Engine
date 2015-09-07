@@ -113,6 +113,11 @@ void mem_free(void *mem)
 	mem_t *mem2 = alloc;
 	mem_t *prev = NULL;
 
+	if (!mem)
+	{
+		return;
+	}
+
 	while (mem2)
 	{
 		if (mem2->address == mem)
@@ -141,6 +146,36 @@ void mem_free(void *mem)
 		printf("WARNING: Freeing memory address %p even though it was not allocated properly!\n", mem);
 		assert(0);
 		free(mem);
+	}
+}
+
+void mem_free_safe(void *mem)
+{
+	mem_t *mem2 = alloc;
+	mem_t *prev = NULL;
+
+	while (mem2)
+	{
+		if (mem2->address == mem)
+		{
+			break;
+		}
+		prev = mem2;
+		mem2 = mem2->next;
+	}
+
+	if (mem2)
+	{ // Found it
+		if (prev)
+		{ // Not the first one on the list
+			prev->next = mem2->next;
+		}
+		else
+		{ // First one on the list
+			alloc = mem2->next;
+		}
+		free(mem2->address);
+		free(mem2);
 	}
 }
 

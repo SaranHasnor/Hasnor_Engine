@@ -1,3 +1,6 @@
+#ifndef ENGINE_RENDER_IMPORTED
+#define ENGINE_RENDER_IMPORTED
+
 #include <utils.h>
 #include <utils_vector.h>
 
@@ -107,3 +110,5 @@ void resetWorkSpace();
 // Rendering functions
 void updateMeshGeometry(mesh_t *mesh);
 void renderMesh(const mesh_t *mesh, float viewMatrix[16]);
+
+#endif
