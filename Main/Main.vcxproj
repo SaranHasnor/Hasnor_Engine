@@ -81,8 +81,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="interface_init.c" />
+    <ClCompile Include="sample_interface.c" />
     <ClCompile Include="main.c" />
+    <ClCompile Include="sample_particles.c" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

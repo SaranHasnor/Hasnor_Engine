@@ -3,12 +3,13 @@
 
 #include "utils_types.h"
 
-typedef struct {
-	void		**content;
-	uint		size;
+typedef struct list_s {
+	void			*content;
+
+	struct list_s	*next;
 } list_t;
 
-void list_init(list_t *list);
+list_t *list_new(void *object);
 void list_add(list_t *list, void *object);
 void list_insert(list_t *list, void *object, uint pos);
 void list_remove(list_t *list, void *object);

@@ -45,6 +45,9 @@
     <ClInclude Include="engine_texture.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
+    <ClInclude Include="engine_particles.h">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="engine.c">
@@ -75,6 +78,9 @@
       <Filter>Fichiers sources</Filter>
     </ClCompile>
     <ClCompile Include="engine_texture.c">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
+    <ClCompile Include="engine_particles.c">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
   </ItemGroup>

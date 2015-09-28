@@ -2,78 +2,71 @@
 
 #include "utils.h"
 
-void list_init(list_t *list)
+list_t *list_new(void *object)
 {
-	list->content = NULL;
-	list->size = 0;
+	list_t *newList = (list_t*)mem_alloc(sizeof(list_t));
+	newList->content = object;
+	newList->next = NULL;
+	return newList;
 }
 
 void list_add(list_t *list, void *object)
 {
-	list->content = (void**)mem_realloc(list->content, sizeof(void*) * (list->size+1));
-	list->content[list->size] = object;
-	list->size++;
+	while (list->next)
+	{
+		list = list->next;
+	}
+	list->next = list_new(object);
 }
 
 void list_insert(list_t *list, void *object, uint pos)
 {
-	uint i;
-	list->content = (void**)mem_realloc(list->content, sizeof(void*) * (list->size+1));
-	for (i = list->size; i > pos; i--)
+	list_t **curList = &list;
+	int i = 0;
+	while (*curList && i < pos)
 	{
-		list->content[i] = list->content[i-1];
+		curList = &(*curList)->next;
+		i++;
 	}
-	list->content[pos] = object;
-	list->size++;
+
+	if (i == pos)
+	{
+		list_t *next = *curList;
+		*curList = list_new(object);
+		(*curList)->next = *curList;
+	}
 }
 
 void list_remove(list_t *list, void *object)
 {
-	uint i;
-	bool found = false;
-	for (i = 0; i < list->size; i++)
+	list_t **curList = &list;
+	while (*curList)
 	{
-		if (list->content[i] == object)
+		if ((*curList)->content == object)
 		{
-			found = true;
+			list_t *current = *curList;
+			*curList = (*curList)->next;
+			mem_free(current);
+			return;
 		}
-
-		if (found && i < list->size - 1)
-		{
-			list->content[i] = list->content[i+1];
-		}
-	}
-	if (found)
-	{
-		if (list->size == 1)
-		{
-			list->content = NULL;
-		}
-		else
-		{
-			list->content = (void**)mem_realloc(list->content, sizeof(void*) * (list->size-1));
-		}
-		list->size--;
+		curList = &(*curList)->next;
 	}
 }
 
 void list_removeAt(list_t *list, uint pos)
 {
-	if (pos < list->size)
+	list_t **curList = &list;
+	int i = 0;
+	while (*curList && i < pos)
 	{
-		uint i;
-		for (i = pos; i < list->size - 1; i++)
-		{
-			list->content[i] = list->content[i+1];
-		}
-		if (list->size == 1)
-		{
-			list->content = NULL;
-		}
-		else
-		{
-			list->content = (void**)mem_realloc(list->content, sizeof(void*) * (list->size-1));
-		}
-		list->size--;
+		curList = &(*curList)->next;
+		i++;
+	}
+
+	if (i == pos)
+	{
+		list_t *current = *curList;
+		*curList = (*curList)->next;
+		mem_free(current);
 	}
 }

@@ -18,7 +18,10 @@
     <ClCompile Include="main.c">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
-    <ClCompile Include="interface_init.c">
+    <ClCompile Include="sample_particles.c">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
+    <ClCompile Include="sample_interface.c">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
   </ItemGroup>

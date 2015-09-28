@@ -25,4 +25,7 @@ void mem_cpy(void *mem, void *src, size_t size);
 size_t mem_size(void *mem);
 void mem_print();
 
+#define new(x) ((x))mem_alloc(sizeof(x))
+#define newArray(x, n) ((x))mem_alloc(sizeof(x) * n)
+
 #endif

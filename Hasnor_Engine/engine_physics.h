@@ -1,4 +1,5 @@
 
+#include "utils_types.h"
 
 typedef struct {
 	float		position[3];
@@ -8,4 +9,4 @@ typedef struct {
 	float		rotation[3];
 } transform_t;
 
-void updateTransform(transform_t *transform, float deltaTime);
+void updateTransform(transform_t *transform, float deltaTime, bool useGravity);

@@ -2,6 +2,7 @@
 #include <engine.h>
 #include <engine_utils.h>
 #include <engine_render.h>
+#include <engine_particles.h>
 #include <network_server.h>
 
 #include <utils_matrix.h>
@@ -80,6 +81,7 @@ void updateCamera(inputStruct_t input)
 }
 
 extern void createInterface();
+extern void initSampleParticles();
 void updateFunc(timeStruct_t time, inputStruct_t input)
 {
 	if (time.currentTime == time.deltaTime)
@@ -98,12 +100,16 @@ void updateFunc(timeStruct_t time, inputStruct_t input)
 		addVertex(1.0f, 1.0f, 0.0f, 1.0f, 1.0f);
 
 		updateMeshGeometry(_testMesh);
+
+		initSampleParticles();
 	}
 
 	_testMesh->origin[2] += 0.1f * time.deltaTimeSeconds;
 	mat_rotation(_testMesh->rotation, _testMesh->origin[2], 0.0f, 0.0f, false);
 
 	updateCamera(input);
+
+	particles_Update(time);
 }
 
 void renderFunc(void)
@@ -115,6 +121,8 @@ void renderFunc(void)
 	engine_getViewMatrix(viewMatrix);
 
 	renderMesh(_testMesh, viewMatrix);
+
+	particles_Render(viewMatrix);
 }
 
 int main(int argc, char **argv)

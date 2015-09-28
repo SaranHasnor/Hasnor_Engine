@@ -1,3 +1,6 @@
+#ifndef HASNOR_TEXTURE_IMPORTED
+#define HASNOR_TEXTURE_IMPORTED
+
 #include <utils.h>
 
 typedef struct {
@@ -50,3 +53,5 @@ shader_t *shaderFromPath(shaderType_t type, const char *filePath);
 program_t *programWithShaders(shader_t *vertexShader, shader_t *fragmentShader);
 
 program_t *defaultProgram(bool forTexture);
+
+#endif
