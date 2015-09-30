@@ -10,14 +10,14 @@ const char *_particleVertexShader =
 	"in vec3 pos;																		\
 	in vec2 texPos;																		\
 	varying vec2 texCoord;																\
-	uniform vec3 origin;															\
+	uniform vec3 origin;																\
 	uniform float particleAngle;														\
 	uniform float scale;																\
 	uniform mat4 viewMatrix;															\
 	void main(void)																		\
 	{																					\
 		texCoord = texPos;																\
-		gl_Position = vec4(origin, 1.0) * viewMatrix + vec4(pos, 1.0);	\
+		gl_Position = vec4(origin, 1.0) * viewMatrix + vec4(pos, 1.0);					\
 	}";
 
 const char *_particleFragmentShader =  
@@ -177,7 +177,7 @@ void particles_Update(timeStruct_t time)
 		if (time.currentTime - emitter->lastSpawn >= emitter->spawnData.nextWave->delay)
 		{ // Time to create a new particle
 			array_t *particlesToSpawn = &emitter->spawnData.nextWave->models;
-			int i;
+			uint i;
 
 			for (i = 0; i < particlesToSpawn->size; i++)
 			{

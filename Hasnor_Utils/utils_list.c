@@ -22,7 +22,7 @@ void list_add(list_t *list, void *object)
 void list_insert(list_t *list, void *object, uint pos)
 {
 	list_t **curList = &list;
-	int i = 0;
+	uint i = 0;
 	while (*curList && i < pos)
 	{
 		curList = &(*curList)->next;
@@ -56,7 +56,7 @@ void list_remove(list_t *list, void *object)
 void list_removeAt(list_t *list, uint pos)
 {
 	list_t **curList = &list;
-	int i = 0;
+	uint i = 0;
 	while (*curList && i < pos)
 	{
 		curList = &(*curList)->next;
