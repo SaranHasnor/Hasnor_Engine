@@ -2,6 +2,7 @@
 #define HASNOR_TEXTURE_IMPORTED
 
 #include <utils.h>
+#include <utils_map.h>
 
 typedef struct {
 	char		*filePath;
@@ -43,6 +44,8 @@ typedef struct {
 
 	uint		textureLocation;
 	uint		colorLocation;
+
+	map_t		customLocations;
 } program_t;
 
 void updateTextureContents(texture_t *texture);
@@ -51,6 +54,9 @@ texture_t *textureFromPath(const char *filePath);
 shader_t *shaderFromContent(shaderType_t type, const char *contents);
 shader_t *shaderFromPath(shaderType_t type, const char *filePath);
 program_t *programWithShaders(shader_t *vertexShader, shader_t *fragmentShader);
+
+void registerCustomUniformForProgram(program_t *program, const char *name);
+int getCustomUniformLocationForProgram(program_t *program, const char *name);
 
 program_t *defaultProgram(bool forTexture);
 

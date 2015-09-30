@@ -13,8 +13,8 @@ void initSampleParticles()
 	emitterModel = particles_newEmitterModel();
 	emitterModel->particleTransform.velocity[0] = 5.0f;
 	particles_CreateNewWaveForEmitter(emitterModel, 10);
-	particleModel = particles_newParticleModel(texture, 1.0f, 1.0f, 1.0f, 1.0f, 1000, true);
-	particles_addFinalStateToParticleModel(particleModel, 1.0f, 1.0f, 1.0f, 0.0f);
+	particleModel = particles_newParticleModel(texture, 1.0f, 1.0f, 1.0f, 1.0f, 3.0f, 1000, true);
+	particles_addFinalStateToParticleModel(particleModel, 1.0f, 1.0f, 1.0f, 0.0f, 0.0f);
 	particles_AddNewParticleToEmitter(emitterModel, particleModel);
 	
 	emitter = particles_CreateEmitterFromModel(emitterModel);

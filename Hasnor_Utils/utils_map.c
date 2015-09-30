@@ -17,6 +17,23 @@ ulong _hashForKey(const char *key)
 	return value;
 }
 
+void *map_getValueForKey(map_t *map, const char *key)
+{
+	list_t **list = &map->list;
+	ulong hash = _hashForKey(key);
+
+	while (*list)
+	{
+		mapEntry_t *entry = (mapEntry_t*)(*list)->content;
+		if (entry->hash == hash)
+		{
+			return entry->value;
+		}
+		list = &(*list)->next;
+	}
+	return NULL;
+}
+
 void map_setValueForKey(map_t *map, const char *key, void *value, bool strong)
 {
 	list_t **list = &map->list;

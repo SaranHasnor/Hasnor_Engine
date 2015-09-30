@@ -63,6 +63,7 @@
     <ClCompile Include="utils_array.c" />
     <ClCompile Include="utils_bytestream.c" />
     <ClCompile Include="utils_ctools.c" />
+    <ClCompile Include="utils_file.c" />
     <ClCompile Include="utils_list.c" />
     <ClCompile Include="utils_map.c" />
     <ClCompile Include="utils_matrix.c" />
@@ -77,6 +78,7 @@
     <ClInclude Include="utils_bytestream.h" />
     <ClInclude Include="utils_ctools.h" />
     <ClInclude Include="utils.h" />
+    <ClInclude Include="utils_file.h" />
     <ClInclude Include="utils_list.h" />
     <ClInclude Include="utils_map.h" />
     <ClInclude Include="utils_math.h" />

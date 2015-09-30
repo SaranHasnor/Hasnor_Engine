@@ -17,7 +17,7 @@ const char *_particleVertexShader =
 	void main(void)																		\
 	{																					\
 		texCoord = texPos;																\
-		gl_Position = vec4(origin, 1.0) * viewMatrix + vec4(pos, 1.0);					\
+		gl_Position = vec4(origin, 1.0) * viewMatrix + vec4(pos, 1.0) * scale;			\
 	}";
 
 const char *_particleFragmentShader =  
@@ -52,6 +52,8 @@ void particles_InitRenderer()
 {
 	_defaultParticleProgram = programWithShaders(shaderFromContent(SHADER_VERTEX, _particleVertexShader),
 												 shaderFromContent(SHADER_FRAGMENT, _particleFragmentShader));
+	
+	registerCustomUniformForProgram(_defaultParticleProgram, "scale");
 
 	glGenBuffers(1, &_defaultParticleVBO);
 	glBindBuffer(GL_ARRAY_BUFFER, _defaultParticleVBO);
@@ -106,7 +108,7 @@ void particles_Render(float viewMatrix[16])
 
 		glUniform4f(particle->model->program->colorLocation,
 			particle->currentData.red, particle->currentData.green, particle->currentData.blue, particle->currentData.alpha);
-		//glUniform1f(particle->model->program->scaleLocation, particle->currentData.scale); // TODO
+		glUniform1f(getCustomUniformLocationForProgram(particle->model->program, "scale"), particle->currentData.scale);
 
 		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_BYTE, NULL);
 
@@ -197,7 +199,7 @@ void particles_Update(timeStruct_t time)
 	}
 }
 
-particleModel_t *particles_newParticleModel(texture_t *texture, float r, float g, float b, float a, long life, bool useGravity)
+particleModel_t *particles_newParticleModel(texture_t *texture, float r, float g, float b, float a, float scale, long life, bool useGravity)
 {
 	particleModel_t *newModel = (particleModel_t*)mem_alloc(sizeof(particleModel_t));
 	newModel->texture = texture;
@@ -207,19 +209,21 @@ particleModel_t *particles_newParticleModel(texture_t *texture, float r, float g
 	newModel->startData->green = g;
 	newModel->startData->blue = b;
 	newModel->startData->alpha = a;
+	newModel->startData->scale = scale;
 	newModel->endData = NULL;
 	newModel->life = life;
 	newModel->useGravity = useGravity;
 	return newModel;
 }
 
-void particles_addFinalStateToParticleModel(particleModel_t *model, float r, float g, float b, float a)
+void particles_addFinalStateToParticleModel(particleModel_t *model, float r, float g, float b, float a, float scale)
 {
 	model->endData = (particleData_t*)mem_alloc(sizeof(particleData_t));
 	model->endData->red = r;
 	model->endData->green = g;
 	model->endData->blue = b;
 	model->endData->alpha = a;
+	model->endData->scale = scale;
 }
 
 emitterModel_t *particles_newEmitterModel()

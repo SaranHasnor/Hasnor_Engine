@@ -1,4 +1,5 @@
 #include "engine_texture.h"
+#include "utils_file.h"
 
 #include <GL/glew.h>
 
@@ -118,11 +119,15 @@ shader_t *shaderFromContent(shaderType_t type, const char *contents)
 }
 
 shader_t *shaderFromPath(shaderType_t type, const char *filePath)
-{ // TODO
+{
 	char *contents = NULL;
-	shader_t *newShader = shaderFromContent(type, contents);
-	newShader->filePath = quickString(filePath);
-	return newShader;
+	if (file_read(filePath, &contents))
+	{
+		shader_t *newShader = shaderFromContent(type, contents);
+		newShader->filePath = quickString(filePath);
+		return newShader;
+	}
+	return NULL;
 }
 
 void _printProgramLog(GLuint obj)
@@ -168,7 +173,26 @@ program_t *programWithShaders(shader_t *vertexShader, shader_t *fragmentShader)
 	newProgram->textureLocation = glGetUniformLocation(newProgram->programID, "tex");
 	newProgram->colorLocation = glGetUniformLocation(newProgram->programID, "customColor");
 
+	map_init(&newProgram->customLocations);
+
 	return newProgram;
+}
+
+void registerCustomUniformForProgram(program_t *program, const char *name)
+{
+	int *location = newObject(int);
+	*location = glGetUniformLocation(program->programID, name);
+	map_setValueForKey(&program->customLocations, name, location, true);
+}
+
+int getCustomUniformLocationForProgram(program_t *program, const char *name)
+{
+	int *location = (uint*)map_getValueForKey(&program->customLocations, name);
+	if (location)
+	{
+		return *location;
+	}
+	return -1;
 }
 
 program_t *defaultProgram(bool forTexture)

@@ -58,8 +58,8 @@ void particles_InitRenderer();
 void particles_Render(float viewMatrix[16]);
 void particles_Update(timeStruct_t time);
 
-particleModel_t *particles_newParticleModel(texture_t *texture, float r, float g, float b, float a, long life, bool useGravity);
-void particles_addFinalStateToParticleModel(particleModel_t *model, float r, float g, float b, float a);
+particleModel_t *particles_newParticleModel(texture_t *texture, float r, float g, float b, float a, float scale, long life, bool useGravity);
+void particles_addFinalStateToParticleModel(particleModel_t *model, float r, float g, float b, float a, float scale);
 emitterModel_t *particles_newEmitterModel();
 emitter_t *particles_CreateEmitterFromModel(emitterModel_t *model);
 
