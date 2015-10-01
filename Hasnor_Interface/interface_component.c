@@ -4,7 +4,7 @@ component_t *newComponent(componentType_t type, uint id)
 {
 	component_t *newComp;
 
-	newComp = (component_t*)mem_alloc(sizeof(component_t));
+	newComp = newObject(component_t);
 
 	newComp->gen_component.type = type;
 
@@ -38,7 +38,7 @@ component_t *newComponent(componentType_t type, uint id)
 
 	newComp->id = id;
 	
-	mem_set(&newComp->position, 0, sizeof(position_t));
+	Memory.set(&newComp->position, 0, sizeof(position_t));
 	
 	return newComp;
 }

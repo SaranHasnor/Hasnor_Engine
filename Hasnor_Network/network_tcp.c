@@ -117,20 +117,20 @@ bool TCP_acceptNewClient(SOCKET hostSocket, SOCKET *socket, SOCKADDR *addr, int 
 	return true;
 }
 
-bool TCP_sendMessage(SOCKET socket, bytestream message)
+bool TCP_sendMessage(SOCKET socket, bytestream_t message)
 {
 	return (send(socket, message.data, message.len, 0) != SOCKET_ERROR);
 }
 
-bool TCP_receiveMessages(SOCKET socket, bytestream *out)
+bool TCP_receiveMessages(SOCKET socket, bytestream_t *out)
 {
 	static char buffer[65536];
 	
 	int received = recv(socket, buffer, 65536, 0);
 	if (received > 0)
 	{
-		bytestream_init(out, received);
-		bytestream_write(out, buffer, received);
+		ByteStream.init(out, received);
+		ByteStream.write(out, buffer, received);
 		out->cursor = 0;
 
 		return true;

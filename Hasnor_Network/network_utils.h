@@ -42,7 +42,7 @@ typedef struct {
 	int						senderID;	// If -1, message was sent by the server
 	int						receiverID; // If -1, message is a broadcast
 	networkMessageType_t	type;
-	bytestream				content;
+	bytestream_t				content;
 	long					receiveTime;
 } networkMessage_t;
 

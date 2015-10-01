@@ -4,6 +4,7 @@
 #include <engine_render.h>
 #include <engine_particles.h>
 #include <network_server.h>
+#include <utils_init.h>
 
 #include <utils_matrix.h>
 
@@ -105,7 +106,7 @@ void updateFunc(timeStruct_t time, inputStruct_t input)
 	}
 
 	_testMesh->origin[2] += 0.1f * time.deltaTimeSeconds;
-	mat_rotation(_testMesh->rotation, _testMesh->origin[2], 0.0f, 0.0f, false);
+	Matrix.rotation(_testMesh->rotation, _testMesh->origin[2], 0.0f, 0.0f, false);
 
 	updateCamera(input);
 
@@ -135,6 +136,8 @@ int main(int argc, char **argv)
 	listener.mouseUpFunc = mouseUpFunc;
 	listener.renderFunc = renderFunc;
 	listener.updateFunc = updateFunc;
+
+	initHasnorUtils();
 
 	setupNetwork(3000, 10000);
 

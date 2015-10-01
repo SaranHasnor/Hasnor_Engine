@@ -51,6 +51,9 @@
     <ClCompile Include="utils_file.c">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
+    <ClCompile Include="utils_init.c">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="utils_bytestream.h">
@@ -96,6 +99,9 @@
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
     <ClInclude Include="utils_file.h">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
+    <ClInclude Include="utils_init.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
   </ItemGroup>

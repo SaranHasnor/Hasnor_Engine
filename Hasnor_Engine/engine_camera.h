@@ -10,6 +10,8 @@ engine_camera
 - Handles the camera's position
 */
 
+
+
 void initCamera();
 void setCameraSize(int width, int height);
 void updateGLCamera(timeStruct_t time, inputStruct_t input);

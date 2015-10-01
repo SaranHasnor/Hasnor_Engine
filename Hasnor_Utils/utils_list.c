@@ -2,71 +2,71 @@
 
 #include "utils.h"
 
-list_t *list_new(void *object)
+void list_add(list_t **list, void *object)
 {
-	list_t *newList = (list_t*)mem_alloc(sizeof(list_t));
-	newList->content = object;
-	newList->next = NULL;
-	return newList;
-}
-
-void list_add(list_t *list, void *object)
-{
-	while (list->next)
+	while (*list)
 	{
-		list = list->next;
+		list = &(*list)->next;
 	}
-	list->next = list_new(object);
+	*list = newObject(list_t);
+	(*list)->content = object;
+	(*list)->next = NULL;
 }
 
-void list_insert(list_t *list, void *object, uint pos)
+void list_insert(list_t **list, void *object, uint pos)
 {
-	list_t **curList = &list;
 	uint i = 0;
-	while (*curList && i < pos)
+	while (*list && i < pos)
 	{
-		curList = &(*curList)->next;
+		list = &(*list)->next;
 		i++;
 	}
 
 	if (i == pos)
 	{
-		list_t *next = *curList;
-		*curList = list_new(object);
-		(*curList)->next = *curList;
+		list_t *next = *list;
+		*list = newObject(list_t);
+		(*list)->content = object;
+		(*list)->next = next;
 	}
 }
 
-void list_remove(list_t *list, void *object)
+void list_remove(list_t **list, void *object)
 {
-	list_t **curList = &list;
-	while (*curList)
+	while (*list)
 	{
-		if ((*curList)->content == object)
+		if ((*list)->content == object)
 		{
-			list_t *current = *curList;
-			*curList = (*curList)->next;
-			mem_free(current);
+			list_t *current = *list;
+			*list = (*list)->next;
+			destroy(current);
 			return;
 		}
-		curList = &(*curList)->next;
+		list = &(*list)->next;
 	}
 }
 
-void list_removeAt(list_t *list, uint pos)
+void list_removeAt(list_t **list, uint pos)
 {
-	list_t **curList = &list;
 	uint i = 0;
-	while (*curList && i < pos)
+	while (*list && i < pos)
 	{
-		curList = &(*curList)->next;
+		list = &(*list)->next;
 		i++;
 	}
 
 	if (i == pos)
 	{
-		list_t *current = *curList;
-		*curList = (*curList)->next;
-		mem_free(current);
+		list_t *current = *list;
+		*list = (*list)->next;
+		destroy(current);
 	}
+}
+
+void initListFunctions()
+{
+	List.add = list_add;
+	List.insert = list_insert;
+	List.remove = list_remove;
+	List.removeAt = list_removeAt;
 }

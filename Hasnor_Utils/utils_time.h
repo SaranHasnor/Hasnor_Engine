@@ -7,9 +7,15 @@ utils_time
 - Simple clock system to keep track of the time elapsed since the beginning of the program
 */
 
-void time_init();
-void time_sync(long currentTime);
-double time_current_sec();
-long time_current_ms();
+typedef struct {
+	void (*init)();
+	void (*sync)(long currentTime);
+	double (*seconds)();
+	long (*milliseconds)();
+} _time_functions;
+
+_time_functions Time;
+
+void initTimeFunctions();
 
 #endif

@@ -11,21 +11,28 @@ utils_ctools
 #include <stdio.h>
 #include <assert.h>
 
-// TODO: Macros, memcpy/memset, leak detection
+// TODO: leak detection
 
-void *mem_alloc(size_t size);
-void *mem_realloc(void *mem, size_t size);
-void *mem_dupe(void *mem, size_t size);
-void *mem_dupe2(void *mem);
-void mem_free(void *mem);
-void mem_free_safe(void *mem);
-void mem_free_all();
-void mem_set(void *mem, int val, size_t size);
-void mem_cpy(void *mem, void *src, size_t size);
-size_t mem_size(void *mem);
-void mem_print();
+typedef struct {
+	void* (*alloc)(size_t size);
+	void* (*realloc)(void *mem, size_t size);
+	void* (*duplicate)(void *mem, size_t size);
+	void* (*safeDuplicate)(void *mem);
+	void (*free)(void *mem);
+	void (*safeFree)(void *mem);
+	void (*freeAll)();
+	void (*set)(void *mem, int val, size_t size);
+	void (*copy)(void *mem, void *src, size_t size);
+	size_t (*size)(void *mem);
+	void (*print)();
+} _memory_functions;
 
-#define newObject(x) (x*)mem_alloc(sizeof(x))
-#define newArray(x, n) (x*)mem_alloc(sizeof(x) * n)
+_memory_functions Memory;
+
+#define newObject(x) (x*)Memory.alloc(sizeof(x))
+#define newArray(x, n) (x*)Memory.alloc(sizeof(x) * n)
+#define destroy(x) Memory.free(x)
+
+void initMemoryFunctions();
 
 #endif

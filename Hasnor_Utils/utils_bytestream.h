@@ -13,14 +13,18 @@ typedef struct {
 	byte	*data;
 	uint	len;
 	uint	cursor;
-} bytestream;
+} bytestream_t;
 
-void bytestream_init(bytestream *stream, uint size);
-int bytestream_write(bytestream *stream, byte *data, uint size);
-int bytestream_read(bytestream *stream, byte *out, uint size);
-void bytestream_destroy(bytestream *stream);
-char *bytestream_toString(bytestream *stream);
+typedef struct {
+	void (*init)(bytestream_t *stream, uint size);
+	int (*write)(bytestream_t *stream, byte *data, uint size);
+	int (*read)(bytestream_t *stream, byte *out, uint size);
+	void (*free)(bytestream_t *stream);
+	char* (*toString)(bytestream_t *stream);
+} _bytestream_functions;
 
-//byte randomByte();
+_bytestream_functions ByteStream;
+
+void initByteStreamFunctions();
 
 #endif

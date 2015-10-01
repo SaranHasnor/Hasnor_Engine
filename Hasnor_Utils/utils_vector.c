@@ -4,13 +4,6 @@
 #include <math.h>
 
 
-float axis[3][3] = {{1.0f, 0.0f, 0.0f},
-					{0.0f, 1.0f, 0.0f},
-					{0.0f, 0.0f, 1.0f}};
-
-float nullVec[3] = {0.0f, 0.0f, 0.0f};
-
-
 void vectorSet(float v[3], float x, float y, float z)
 {
 	v[0] = x;
@@ -25,7 +18,7 @@ void vectorCopy(float dest[3], float src[3])
 
 void vectorClear(float v[3])
 {
-	vectorCopy(v, nullVec);
+	vectorSet(v, 0.0f, 0.0f, 0.0f);
 }
 
 void vectorNegate(float v[3])
@@ -192,4 +185,30 @@ void AngleVectors(float *angles, float *forward, float *right, float *up) {
 		up[1] = (float)(cr*sp*sy+-sr*cy);
 		up[2] = (float)(cr*cp);
 	}
+}
+
+void initVectorFunctions()
+{
+	vectorSet(Vector.axis[0], 1.0f, 0.0f, 0.0f);
+	vectorSet(Vector.axis[1], 0.0f, 1.0f, 0.0f);
+	vectorSet(Vector.axis[2], 0.0f, 0.0f, 1.0f);
+
+	vectorClear(Vector.zero);
+
+	Vector.add = vectorAdd;
+	Vector.axisFromAngles = AngleVectors;
+	Vector.clear = vectorClear;
+	Vector.copy = vectorCopy;
+	Vector.distance = vectorDistance;
+	Vector.dot = vectorDot;
+	Vector.length = vectorLength;
+	Vector.lerp = vectorTransition;
+	Vector.multiply = vectorMult;
+	Vector.multiplyAdd = vectorMA;
+	Vector.normalize = vectorNormalize;
+	Vector.rotate = vectorRotate;
+	Vector.scale = vectorScale;
+	Vector.set = vectorSet;
+	Vector.subtract = vectorSubtract;
+	Vector.toAngles = vectoangles;
 }

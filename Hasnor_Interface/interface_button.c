@@ -3,8 +3,8 @@
 
 button_t *newButton()
 {
-	button_t *button = (button_t*)mem_alloc(sizeof(button_t));
-	mem_set(button, 0, sizeof(button_t));
+	button_t *button = newObject(button_t);
+	Memory.set(button, 0, sizeof(button_t));
 	return button;
 }
 
@@ -12,9 +12,9 @@ void destroyButton(button_t *button)
 {
 	if (button->text)
 	{
-		mem_free(button->text);
+		destroy(button->text);
 	}
-	mem_free(button);
+	destroy(button);
 }
 
 void drawButton(button_t *button, staticPlacement_t placement)

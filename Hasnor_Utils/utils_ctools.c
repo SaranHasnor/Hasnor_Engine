@@ -248,3 +248,18 @@ void mem_print()
 
 	printf("Total: %i bytes\n", total);
 }
+
+void initMemoryFunctions()
+{
+	Memory.alloc = mem_alloc;
+	Memory.realloc = mem_realloc;
+	Memory.duplicate = mem_dupe;
+	Memory.safeDuplicate = mem_dupe2;
+	Memory.free = mem_free;
+	Memory.safeFree = mem_free_safe;
+	Memory.freeAll = mem_free_all;
+	Memory.set = mem_set;
+	Memory.copy = mem_cpy;
+	Memory.size = mem_size;
+	Memory.print = mem_print;
+}

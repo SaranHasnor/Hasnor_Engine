@@ -27,20 +27,20 @@ bool UDP_createSocket(const char *address, unsigned short port, SOCKET *outSocke
 	return true;
 }
 
-bool UDP_sendMessage(bytestream message, SOCKET socket, const SOCKADDR *address, int addrLen)
+bool UDP_sendMessage(bytestream_t message, SOCKET socket, const SOCKADDR *address, int addrLen)
 {
 	return (sendto(socket, message.data, message.len, 0, address, addrLen) != SOCKET_ERROR);
 }
 
-bool UDP_receiveMessages(bytestream *out, SOCKET socket, SOCKADDR *address, int *addrLen)
+bool UDP_receiveMessages(bytestream_t *out, SOCKET socket, SOCKADDR *address, int *addrLen)
 {
 	static char buffer[65536];
 	
 	int received = recvfrom(socket, buffer, 65536, 0, address, addrLen);
 	if (received > 0)
 	{
-		bytestream_init(out, received);
-		bytestream_write(out, buffer, received);
+		ByteStream.init(out, received);
+		ByteStream.write(out, buffer, received);
 		out->cursor = 0;
 
 		return true;

@@ -19,63 +19,63 @@ int _screenWidth, _screenHeight;
 
 void initCamera()
 {
-	vectorCopy(_camVelocity, nullVec);
-	vectorCopy(_camRotation, nullVec);
-	vectorSet(_camPosition, 0.0f, -10.0f, 0.0f);
-	vectorSet(_camAngles, 0.0f, 90.0f, 0.0f);
+	Vector.copy(_camVelocity, Vector.zero);
+	Vector.copy(_camRotation, Vector.zero);
+	Vector.set(_camPosition, 0.0f, -10.0f, 0.0f);
+	Vector.set(_camAngles, 0.0f, 90.0f, 0.0f);
 }
 
 void setCameraSize(int width, int height)
 {
-	mat_perspective(_renderProjectionMatrix, 60.0f, (float)width/(float)height, 0.1f, 200.0f);
-	mat_orthographic(_interfaceProjectionMatrix, width, height, -200.0f, 200.0f); // FIXME
+	Matrix.perspective(_renderProjectionMatrix, 60.0f, (float)width/(float)height, 0.1f, 200.0f);
+	Matrix.orthographic(_interfaceProjectionMatrix, width, height, -200.0f, 200.0f); // FIXME
 	_screenWidth = width;
 	_screenHeight = height;
 }
 
 void engine_setCameraPosition(float position[3])
 {
-	vectorCopy(_camPosition, position);
+	Vector.copy(_camPosition, position);
 }
 
 void engine_getCameraPosition(float out[3])
 {
-    vectorCopy(out, _camPosition);
+    Vector.copy(out, _camPosition);
 }
 
 void engine_moveCamera(float move[3])
 {
-	vectorAdd(_camPosition, _camPosition, move);
+	Vector.add(_camPosition, _camPosition, move);
 }
 
 void engine_setCameraVelocity(float velocity[3])
 { // NOTE: The velocity is calculated relatively to the camera's local axis
-	vectorCopy(_camVelocity, velocity);
+	Vector.copy(_camVelocity, velocity);
 }
 
 void engine_setCameraAngles(float angles[3])
 {
-	vectorCopy(_camAngles, angles);
+	Vector.copy(_camAngles, angles);
 }
 
 void engine_getCameraAngles(float out[3])
 {
-    vectorCopy(out, _camAngles);
+    Vector.copy(out, _camAngles);
 }
 
 void engine_rotateCamera(float rotation[3])
 {
-	vectorAdd(_camAngles, _camAngles, rotation);
+	Vector.add(_camAngles, _camAngles, rotation);
 }
 
 void engine_setCameraRotation(float rotation[3])
 {
-	vectorCopy(_camRotation, rotation);
+	Vector.copy(_camRotation, rotation);
 }
 
 void engine_getViewMatrix(float out[16])
 {
-	mat_multiply(out, _renderProjectionMatrix, _renderModelViewMatrix);
+	Matrix.multiply(out, _renderProjectionMatrix, _renderModelViewMatrix);
 }
 
 void _clampCameraAngles()
@@ -97,21 +97,21 @@ void updateGLCamera(timeStruct_t time, inputStruct_t input)
 	float movement[3];
 
 	// Apply rotation
-	vectorMA(_camAngles, _camAngles, time.deltaTimeSeconds, _camRotation);
+	Vector.multiplyAdd(_camAngles, _camAngles, time.deltaTimeSeconds, _camRotation);
 
 	_clampCameraAngles();
 
 	// Get the camera's local axis
-	AngleVectors(_camAngles, forward, right, NULL);
+	Vector.axisFromAngles(_camAngles, forward, right, NULL);
 
 	// Update the camera position (cheap method because math is hard)
-	vectorScale(movement, _camVelocity[2], axis[2]);
-	vectorMA(movement, movement, _camVelocity[1], forward);
-	vectorMA(movement, movement, _camVelocity[0], right);
+	Vector.scale(movement, _camVelocity[2], Vector.axis[2]);
+	Vector.multiplyAdd(movement, movement, _camVelocity[1], forward);
+	Vector.multiplyAdd(movement, movement, _camVelocity[0], right);
 	
-	vectorMA(_camPosition, _camPosition, time.deltaTimeSeconds, movement);
+	Vector.multiplyAdd(_camPosition, _camPosition, time.deltaTimeSeconds, movement);
 
-	mat_viewModel(_renderModelViewMatrix, _camPosition, _camAngles);
+	Matrix.viewModel(_renderModelViewMatrix, _camPosition, _camAngles);
 }
 
 void positionGLCameraForRender()

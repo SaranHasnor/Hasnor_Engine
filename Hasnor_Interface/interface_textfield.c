@@ -6,22 +6,22 @@
 
 textField_t *newTextField()
 {
-	textField_t *textField = (textField_t*)mem_alloc(sizeof(textField_t));
-	mem_set(textField, 0, sizeof(textField_t));
+	textField_t *textField = newObject(textField_t);
+	Memory.set(textField, 0, sizeof(textField_t));
 	return textField;
 }
 
 void destroyTextField(textField_t *textField)
 {
-	mem_free(textField->text);
-	mem_free(textField);
+	destroy(textField->text);
+	destroy(textField);
 }
 
 void updateFieldText(textField_t *field)
 { // value -> text (overwrite the value instead of reallocating it every time please :( )
 	if (field->text)
 	{
-		mem_free(field->text);
+		destroy(field->text);
 	}
 
 	if (field->type == FIELDTYPE_INT)
@@ -34,10 +34,10 @@ void updateFieldText(textField_t *field)
 	}
 	else if (field->type == FIELDTYPE_BINARY)
 	{ // NEEDS TESTING
-		bytestream bs;
-		bytestream_init(&bs, (uint)field->max);
-		field->text = bytestream_toString(&bs);
-		bytestream_destroy(&bs);
+		bytestream_t bs;
+		ByteStream.init(&bs, (uint)field->max);
+		field->text = ByteStream.toString(&bs);
+		ByteStream.free(&bs);
 	}
 	else
 	{
@@ -69,7 +69,7 @@ void updateFieldValue(textField_t *field)
 	{ // Compile the binary data (we expect that the size of the container did not change...)
 		uint i = 0;
 		byte counter = 0;
-		uint size = mem_size(*field->value);
+		uint size = Memory.size(*field->value);
 		if (!size) size = 1;
 		while (i < 9*size) // Make sure we don't go out of bounds
 		{

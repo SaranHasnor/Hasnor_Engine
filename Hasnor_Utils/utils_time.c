@@ -10,11 +10,6 @@ void time_init()
 	offset = 0;
 }
 
-void time_sync(long currentTime)
-{
-	offset = currentTime - time_current_ms();
-}
-
 double time_current_sec()
 {
 	clock_t current = clock();
@@ -25,4 +20,17 @@ double time_current_sec()
 long time_current_ms()
 {
 	return offset + (long)(time_current_sec() * 1000);
+}
+
+void time_sync(long currentTime)
+{
+	offset = currentTime - time_current_ms();
+}
+
+void initTimeFunctions()
+{
+	Time.init = time_init;
+	Time.sync = time_sync;
+	Time.seconds = time_current_sec;
+	Time.milliseconds = time_current_ms;
 }

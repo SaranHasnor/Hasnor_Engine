@@ -1,12 +1,12 @@
 #include "utils_bytestream.h"
 #include "utils_ctools.h"
 
-void bytestream_init(bytestream *stream, uint size)
+void bytestream_init(bytestream_t *stream, uint size)
 {
 	if (size)
 	{
-		stream->data = (byte*)mem_alloc(sizeof(byte) * size);
-		mem_set(stream->data, 0, sizeof(byte) * size);
+		stream->data = newArray(byte, size);
+		Memory.set(stream->data, 0, sizeof(byte) * size);
 	}
 	else
 	{
@@ -16,36 +16,36 @@ void bytestream_init(bytestream *stream, uint size)
 	stream->cursor = 0;
 }
 
-int bytestream_write(bytestream *stream, byte *data, uint size)
+int bytestream_write(bytestream_t *stream, byte *data, uint size)
 {
 	assert(stream->cursor + size <= stream->len);
 	if (size > 0)
 	{
-		mem_cpy(stream->data+stream->cursor, data, size);
+		Memory.copy(stream->data+stream->cursor, data, size);
 	}
 	stream->cursor += size;
 	return size;
 }
 
-int bytestream_read(bytestream *stream, byte *out, uint size)
+int bytestream_read(bytestream_t *stream, byte *out, uint size)
 {
 	assert(stream->cursor + size <= stream->len);
-	mem_cpy(out, stream->data+stream->cursor, size);
+	Memory.copy(out, stream->data+stream->cursor, size);
 	stream->cursor += size;
 	return size;
 }
 
-void bytestream_destroy(bytestream *stream)
+void bytestream_destroy(bytestream_t *stream)
 {
 	stream->len = 0;
 	stream->cursor = 0;
 	if (stream->data)
 	{
-		mem_free(stream->data);
+		destroy(stream->data);
 	}
 }
 
-char *bytestream_toString(bytestream *stream)
+char *bytestream_toString(bytestream_t *stream)
 {
 	char *res;
 	uint i;
@@ -53,7 +53,7 @@ char *bytestream_toString(bytestream *stream)
 
 	if (!len) len = 1;
 
-	res = (char*)mem_alloc(sizeof(byte)*(len*9)); // len * (8 digits + one space or \0)
+	res = newArray(char, len*9); // len * (8 digits + one space or \0)
 
 	for (i = 0; i < len; i++)
 	{
@@ -94,3 +94,12 @@ void fillWithRandom(void *dst, size_t size)
 		((byte*)dst)[i] = randomByte();
 	}
 }*/
+
+void initByteStreamFunctions()
+{
+	ByteStream.init = bytestream_init;
+	ByteStream.write = bytestream_write;
+	ByteStream.read = bytestream_read;
+	ByteStream.free = bytestream_destroy;
+	ByteStream.toString = bytestream_toString;
+}

@@ -26,7 +26,7 @@ void shutdownNetwork();
 bool createHostSocket(int maxConnections, unsigned short port, socketProtocol_t protocol, networkStatus_t *status);
 bool createSocket(const char *address, unsigned short port, socketProtocol_t protocol, networkStatus_t *status);
 
-bool tryToConnect(bytestream clientInfo, networkStatus_t *status);
+bool tryToConnect(bytestream_t clientInfo, networkStatus_t *status);
 bool getNewClient();
 
 void dropClient(int id);
@@ -34,7 +34,7 @@ void disconnect();
 
 void checkForTimeOuts();
 
-void sendMessage(networkMessageType_t type, int senderID, int receiverID, bytestream content);
+void sendMessage(networkMessageType_t type, int senderID, int receiverID, bytestream_t content);
 void receiveMessages(networkUpdate_t *update);
 
 #endif

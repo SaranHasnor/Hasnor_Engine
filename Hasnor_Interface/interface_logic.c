@@ -12,7 +12,7 @@ void interface_init()
 
 	_curObject = NULL;
 
-	_curBlockStack = (blockList_t*)mem_alloc(sizeof(blockList_t));
+	_curBlockStack = newObject(blockList_t);
 	_curBlockStack->block = &_interface.mainBlock;
 	_curBlockStack->next = NULL;
 
@@ -264,7 +264,7 @@ bool interface_keyPressed(unsigned char key, int x, int y)
 		if (len > 0)
 		{
 			(*renameString)[pos-1] = '\0';
-			*renameString = (char*)mem_realloc(*renameString, sizeof(char)*(pos));
+			*renameString = (char*)Memory.realloc(*renameString, sizeof(char)*(pos));
 		}
 	}
 	else if (key == 13)
@@ -346,7 +346,7 @@ bool interface_keyPressed(unsigned char key, int x, int y)
 			}
 		}
 		
-		*renameString = (char*)mem_realloc(*renameString, sizeof(char)*(pos+2));
+		*renameString = (char*)Memory.realloc(*renameString, sizeof(char)*(pos+2));
 		(*renameString)[pos] = key;
 		(*renameString)[pos+1] = '\0';
 	}

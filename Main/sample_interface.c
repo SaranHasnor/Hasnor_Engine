@@ -25,24 +25,24 @@ char *message;
 void send(void)
 {
 	uint len = strlen(message);
-	bytestream stream;
-	bytestream_init(&stream, len);
-	bytestream_write(&stream, (byte*)message, len);
+	bytestream_t stream;
+	ByteStream.init(&stream, len);
+	ByteStream.write(&stream, (byte*)message, len);
 	CL_sendMessage(-1, stream);
-	bytestream_destroy(&stream);
+	ByteStream.free(&stream);
 	message[0] = '\0';
 }
 
 void connect(void)
 {
 	networkStatus_t status;
-	bytestream clientInfo;
-	bytestream_init(&clientInfo, strlen(name));
-	bytestream_write(&clientInfo, (byte*)name, clientInfo.len);
+	bytestream_t clientInfo;
+	ByteStream.init(&clientInfo, strlen(name));
+	ByteStream.write(&clientInfo, (byte*)name, clientInfo.len);
 
 	CL_connectToServer(address, (unsigned short)*port, clientInfo, SOCKET_PROTOCOL_TCP, &status);
 
-	bytestream_destroy(&clientInfo);
+	ByteStream.free(&clientInfo);
 
 	if (status.error == NETWORK_ERROR_NONE)
 	{ // Success
@@ -65,18 +65,18 @@ void createInterface()
 {
 	int temp;
 
-	address = (char*)mem_alloc(sizeof(char) * 16);
+	address = newArray(char, 16);
 	strcpy(address, "127.0.0.1");
 	address[9] = '\0';
 
-	name = (char*)mem_alloc(sizeof(char) * 32);
+	name = newArray(char, 32);
 	strcpy(name, "Client");
 	name[6] = '\0';
 
-	message = (char*)mem_alloc(sizeof(char) * 1024);
+	message = newArray(char, 1024);
 	message[0] = '\0';
 
-	port = (int*)mem_alloc(sizeof(int));
+	port = newObject(int);
 	*port = 5875;
 	
 	// Menu 0: Connection

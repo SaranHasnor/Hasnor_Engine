@@ -14,3 +14,9 @@ void quaternion_identity(float out[4])
 {
 	quaternion_fromEuler(out, 0.0f, 0.0f, 0.0f);
 }
+
+void initQuaternionFunctions()
+{
+	Quaternion.fromEuler = quaternion_fromEuler;
+	Quaternion.identity = quaternion_identity;
+}

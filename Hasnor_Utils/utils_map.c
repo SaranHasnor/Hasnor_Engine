@@ -47,7 +47,7 @@ void map_setValueForKey(map_t *map, const char *key, void *value, bool strong)
 		{ // Already exists, replace the old value with the new value
 			if (entry->strong)
 			{
-				mem_free(entry->value);
+				destroy(entry->value);
 			}
 			entry->value = value;
 			entry->strong = strong;
@@ -57,12 +57,12 @@ void map_setValueForKey(map_t *map, const char *key, void *value, bool strong)
 	}
 
 	// Doesn't exist yet
-	newEntry = (mapEntry_t*)mem_alloc(sizeof(mapEntry_t));
+	newEntry = newObject(mapEntry_t);
 	newEntry->hash = hash;
 	newEntry->key = quickString(key);
 	newEntry->value = value;
 	newEntry->strong = strong;
-	*list = list_new(newEntry);
+	List.add(list, newEntry);
 }
 
 void map_removeValueForKey(map_t *map, const char *key)
@@ -78,13 +78,21 @@ void map_removeValueForKey(map_t *map, const char *key)
 			list_t *curObject = *list;
 			if (entry->strong)
 			{
-				mem_free(entry->value);
+				destroy(entry->value);
 			}
-			mem_free(entry->key);
+			destroy(entry->key);
 			*list = (*list)->next;
-			mem_free(curObject);
+			destroy(curObject);
 			return;
 		}
 		list = &(*list)->next;
 	}
+}
+
+void initMapFunctions()
+{
+	Map.init = map_init;
+	Map.getValueForKey = map_getValueForKey;
+	Map.setValueForKey = map_setValueForKey;
+	Map.removeValueForKey = map_removeValueForKey;
 }

@@ -15,7 +15,7 @@ bool file_read(const char *path, char **out)
 
 	fseek(file, 0, SEEK_END);
 	size = ftell(file);
-	*out = (char*)mem_alloc(sizeof(char) * size);
+	*out = newArray(char, size);
 
 	fseek(file, 0, SEEK_SET);
 	fread(*out, sizeof(char), size, file);
@@ -23,4 +23,9 @@ bool file_read(const char *path, char **out)
 	fclose(file);
 
 	return true;
+}
+
+void initFileFunctions()
+{
+	File.read = file_read;
 }

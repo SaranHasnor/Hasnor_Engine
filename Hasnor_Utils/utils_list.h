@@ -9,10 +9,15 @@ typedef struct list_s {
 	struct list_s	*next;
 } list_t;
 
-list_t *list_new(void *object);
-void list_add(list_t *list, void *object);
-void list_insert(list_t *list, void *object, uint pos);
-void list_remove(list_t *list, void *object);
-void list_removeAt(list_t *list, uint pos);
+typedef struct {
+	void (*add)(list_t **list, void *object);
+	void (*insert)(list_t **list, void *object, uint pos);
+	void (*remove)(list_t **list, void *object);
+	void (*removeAt)(list_t **list, uint pos);
+} _list_functions;
+
+_list_functions List;
+
+void initListFunctions();
 
 #endif

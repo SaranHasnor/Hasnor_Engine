@@ -1,4 +1,13 @@
+#ifndef HASNOR_QUATERNION_IMPORTED
+#define HASNOR_QUATERNION_IMPORTED
 
+typedef struct {
+	void (*fromEuler)(float out[4], float pitch, float yaw, float roll);
+	void (*identity)(float out[4]);
+} _quaternion_functions;
 
-void quaternion_fromEuler(float out[4], float pitch, float yaw, float roll);
-void quaternion_identity(float out[4]);
+_quaternion_functions Quaternion;
+
+void initQuaternionFunctions();
+
+#endif

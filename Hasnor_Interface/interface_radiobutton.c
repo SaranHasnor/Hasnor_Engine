@@ -3,14 +3,14 @@
 
 radioButton_t *newRadioButton()
 {
-	radioButton_t *radio = (radioButton_t*)mem_alloc(sizeof(radioButton_t));
-	mem_set(radio, 0, sizeof(radioButton_t));
+	radioButton_t *radio = newObject(radioButton_t);
+	Memory.set(radio, 0, sizeof(radioButton_t));
 	return radio;
 }
 
 void destroyRadioButton(radioButton_t *radioButton)
 {
-	mem_free(radioButton);
+	destroy(radioButton);
 }
 
 void drawRadioButton(radioButton_t *rButton, staticPlacement_t placement)

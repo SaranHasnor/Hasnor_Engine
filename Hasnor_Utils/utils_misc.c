@@ -60,7 +60,7 @@ unsigned int nbDigits(int n)
 char *quickString(const char *s)
 {
 	int length = strlen(s);
-	char *r = (char*)mem_alloc(sizeof(char)*(length+1));
+	char *r = newArray(char, length+1);
 	strncpy(r, s, length);
 	r[length] = '\0';
 	return r;
@@ -70,7 +70,7 @@ char *quickString2(const char *s, unsigned int len)
 {
 	unsigned int sLen = strlen(s);
 	int length = (sLen<len)?sLen:len;
-	char *r = (char*)mem_alloc(sizeof(char)*(len+1));
+	char *r = newArray(char, len+1);
 	strncpy(r, s, length);
 	r[length] = '\0';
 	return r;
@@ -79,7 +79,7 @@ char *quickString2(const char *s, unsigned int len)
 char *strFromInt(int n)
 {
 	uint len = nbDigits(n);
-	char *res = (char*)mem_alloc(sizeof(char)*len+1);
+	char *res = newArray(char, len+1);
 	sprintf(res, "%d", n);
 	return res;
 }
@@ -92,7 +92,7 @@ int parseInt(char *s)
 char *strFromFloat(float n)
 {
 	uint len = nbDigits((int)n) + 10;	// Something like that...
-	char *res = (char*)mem_alloc(sizeof(char)*len+1);
+	char *res = newArray(char, len+1);
 	sprintf(res, "%f", n);
 	return res;
 }
@@ -104,7 +104,7 @@ float parseFloat(char *s)
 
 char *strFromVec(float vec[3])
 {
-	char *res = (char*)mem_alloc(sizeof(char)*48); // Sounds about right
+	char *res = newArray(char, 48); // Sounds about right
 	sprintf(res, "%f %f %f", vec[0], vec[1], vec[2]);
 	return res;
 }
@@ -149,7 +149,7 @@ void vecFromStr(float vec[3], char *str)
 	vec[0] = (float)atof(temp);
 	vec[1] = (float)atof(pos+1);
 	vec[2] = (float)atof(pos2+1);
-	mem_free(temp);
+	destroy(temp);
 }
 
 float atLeastOne(float x)
@@ -164,7 +164,7 @@ float atLeastOne(float x)
 
 void strcpy_safe(char *dst, char *src)
 { // Copies string src to dst while respecting dst's memory size
-	size_t maxSize = mem_size(dst);
+	size_t maxSize = Memory.size(dst);
 	unsigned int i=0;
 
 	if (!maxSize) return;
@@ -194,6 +194,6 @@ bool charsEqualCaseInsensitive(char a, char b)
 
 void quit(void)
 { // Exit the program
-	mem_free_all();
+	Memory.freeAll();
 	exit(0);
 }

@@ -12,7 +12,7 @@ void mat_perspective(float mat[16], float fov, float aspect, float near, float f
 	float right = near * tanf(fov * (3.141592f / 360.0f));
 	float top = right/aspect;
 
-	mem_set(mat, 0, sizeof(float) * 16);
+	Memory.set(mat, 0, sizeof(float) * 16);
 	mat[0] = near / right;
 	mat[5] = near / top;
 	mat[10] = -(far + near) / depth;
@@ -25,7 +25,7 @@ void mat_viewModel(float mat[16], float position[3], float angle[3])
 	int i;
 	float fwd[3], right[3], up[3];
 
-	AngleVectors(angle, fwd, right, up);
+	Vector.axisFromAngles(angle, fwd, right, up);
 
 	for (i = 0; i < 3; i++)
 	{
@@ -35,9 +35,9 @@ void mat_viewModel(float mat[16], float position[3], float angle[3])
 		mat[4*i+3] = 0.0f;
 	}
 
-	mat[4*i+0] = -vectorDot(right, position);
-	mat[4*i+1] = -vectorDot(up, position);
-	mat[4*i+2] = vectorDot(fwd, position);
+	mat[4*i+0] = -Vector.dot(right, position);
+	mat[4*i+1] = -Vector.dot(up, position);
+	mat[4*i+2] = Vector.dot(fwd, position);
 	mat[4*i+3] = 1.0f;
 }
 
@@ -45,7 +45,7 @@ void mat_orthographic(float mat[16], float width, float height, float near, floa
 {
 	float depth = far - near;
 
-	mem_set(mat, 0, sizeof(float) * 16);
+	Memory.set(mat, 0, sizeof(float) * 16);
 	mat[0] = 2.0f / width;
 	mat[5] = 2.0f / height;
 	mat[10] = -2.0f / depth;
@@ -60,9 +60,9 @@ void mat_rotation(float out[16], float pitch, float yaw, float roll, bool degree
 	float cy = cosf(degrees ? yaw * M_PI / 180.0 : yaw), sy = sinf(degrees ? yaw * M_PI / 180.0f : yaw);
 	float cr = cosf(degrees ? roll * M_PI / 180.0f : roll), sr = sinf(degrees ? roll * M_PI / 180.0f : roll);
 
-	mem_set(pitchMat, 0, sizeof(float) * 16);
-	mem_set(yawMat, 0, sizeof(float) * 16);
-	mem_set(rollMat, 0, sizeof(float) * 16);
+	Memory.set(pitchMat, 0, sizeof(float) * 16);
+	Memory.set(yawMat, 0, sizeof(float) * 16);
+	Memory.set(rollMat, 0, sizeof(float) * 16);
 
 	pitchMat[0] = 1.0f;
 	pitchMat[5] = cp;
@@ -85,8 +85,8 @@ void mat_rotation(float out[16], float pitch, float yaw, float roll, bool degree
 	rollMat[10] = cr;
 	rollMat[15] = 1.0f;
 
-	mat_multiply(tempMat, yawMat, pitchMat);
-	mat_multiply(out, tempMat, rollMat);
+	Matrix.multiply(tempMat, yawMat, pitchMat);
+	Matrix.multiply(out, tempMat, rollMat);
 }
 
 void mat_identity(float mat[16])
@@ -121,4 +121,14 @@ void mat_multiply(float out[16], float a[16], float b[16])
 			out[i+j] = val;
 		}
 	}
+}
+
+void initMatrixFunctions()
+{
+	Matrix.identity = mat_identity;
+	Matrix.multiply = mat_multiply;
+	Matrix.orthographic = mat_orthographic;
+	Matrix.perspective = mat_perspective;
+	Matrix.rotation = mat_rotation;
+	Matrix.viewModel = mat_viewModel;
 }

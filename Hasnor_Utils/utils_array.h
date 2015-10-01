@@ -8,12 +8,18 @@ typedef struct {
 	uint		size;
 } array_t;
 
-void array_init(array_t *ar);
-void array_add(array_t *ar, void *object);
-void array_insert(array_t *ar, void *object, uint pos);
-void array_remove(array_t *ar, void *object);
-void array_removeAt(array_t *ar, uint pos);
-int array_indexOf(array_t *ar, void *object);
-int array_indexOfFirstMatch(array_t *ar, bool (*predicate)(void *object));
+typedef struct {
+	void (*init)(array_t *a);
+	void (*add)(array_t *a, void *object);
+	void (*insert)(array_t *a, void *object, uint pos);
+	void (*remove)(array_t *a, void *object);
+	void (*removeAt)(array_t *a, uint pos);
+	int (*indexOf)(array_t *a, void *object);
+	int (*indexOfFirstMatch)(array_t *a, bool (*predicate)(void *object));
+} _array_functions;
+
+_array_functions Array;
+
+void initArrayFunctions();
 
 #endif

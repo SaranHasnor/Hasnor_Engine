@@ -70,7 +70,7 @@ void updateTextureContents(texture_t *texture)
 
 texture_t *textureFromPath(const char *filePath)
 {
-	texture_t *newTexture = (texture_t*)mem_alloc(sizeof(texture_t));
+	texture_t *newTexture = newObject(texture_t);
 
 	newTexture->filePath = quickString(filePath);
 	newTexture->textureID = 0;
@@ -88,7 +88,7 @@ void _printShaderLog(GLuint obj)
 
 	glGetShaderiv(obj, GL_INFO_LOG_LENGTH, &maxLength);
 
-	infoLog = (char*)mem_alloc(sizeof(char)*maxLength);
+	infoLog = newArray(char, maxLength);
 
 	glGetShaderInfoLog(obj, maxLength, &infoLogLength, infoLog);
 
@@ -97,12 +97,12 @@ void _printShaderLog(GLuint obj)
 		printf("printShaderLog: %s\n", infoLog);
 	}
 
-	mem_free(infoLog);
+	destroy(infoLog);
 }
 
 shader_t *shaderFromContent(shaderType_t type, const char *contents)
 {
-	shader_t *newShader = (shader_t*)mem_alloc(sizeof(shader_t));
+	shader_t *newShader = newObject(shader_t);
 	newShader->filePath = NULL;
 	newShader->content = quickString(contents);
 	newShader->type = type;
@@ -121,7 +121,7 @@ shader_t *shaderFromContent(shaderType_t type, const char *contents)
 shader_t *shaderFromPath(shaderType_t type, const char *filePath)
 {
 	char *contents = NULL;
-	if (file_read(filePath, &contents))
+	if (File.read(filePath, &contents))
 	{
 		shader_t *newShader = shaderFromContent(type, contents);
 		newShader->filePath = quickString(filePath);
@@ -138,7 +138,7 @@ void _printProgramLog(GLuint obj)
 
 	glGetProgramiv(obj, GL_INFO_LOG_LENGTH, &maxLength);
 
-	infoLog = (char*)mem_alloc(sizeof(char)*maxLength);
+	infoLog = newArray(char, maxLength);
 
 	glGetProgramInfoLog(obj, maxLength, &infoLogLength, infoLog);
 
@@ -147,12 +147,12 @@ void _printProgramLog(GLuint obj)
 		printf("printProgramLog: %s\n", infoLog);
 	}
 
-	mem_free(infoLog);
+	destroy(infoLog);
 }
 
 program_t *programWithShaders(shader_t *vertexShader, shader_t *fragmentShader)
 {
-	program_t *newProgram = (program_t*)mem_alloc(sizeof(program_t));
+	program_t *newProgram = newObject(program_t);
 	newProgram->vertexShader = vertexShader;
 	newProgram->fragmentShader = fragmentShader;
 
@@ -173,7 +173,7 @@ program_t *programWithShaders(shader_t *vertexShader, shader_t *fragmentShader)
 	newProgram->textureLocation = glGetUniformLocation(newProgram->programID, "tex");
 	newProgram->colorLocation = glGetUniformLocation(newProgram->programID, "customColor");
 
-	map_init(&newProgram->customLocations);
+	Map.init(&newProgram->customLocations);
 
 	return newProgram;
 }
@@ -182,12 +182,12 @@ void registerCustomUniformForProgram(program_t *program, const char *name)
 {
 	int *location = newObject(int);
 	*location = glGetUniformLocation(program->programID, name);
-	map_setValueForKey(&program->customLocations, name, location, true);
+	Map.setValueForKey(&program->customLocations, name, location, true);
 }
 
 int getCustomUniformLocationForProgram(program_t *program, const char *name)
 {
-	int *location = (uint*)map_getValueForKey(&program->customLocations, name);
+	int *location = (uint*)Map.getValueForKey(&program->customLocations, name);
 	if (location)
 	{
 		return *location;

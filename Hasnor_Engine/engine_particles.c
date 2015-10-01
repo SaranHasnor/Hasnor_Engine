@@ -122,19 +122,19 @@ void particles_Render(float viewMatrix[16])
 
 particle_t *_newParticleFromEmitter(emitter_t *emitter, particleModel_t *model)
 {
-	particle_t *newParticle = (particle_t*)mem_alloc(sizeof(particle_t));
+	particle_t *newParticle = newObject(particle_t);
 	float axis[3][3];
 
 	newParticle->model = model;
 	newParticle->currentData = *model->startData;
 
 	newParticle->transform = emitter->model->particleTransform;
-	vectorAdd(newParticle->transform.position, emitter->model->particleTransform.position, emitter->transform.position);
+	Vector.add(newParticle->transform.position, emitter->model->particleTransform.position, emitter->transform.position);
 
-	AngleVectors(emitter->transform.angles, axis[0], axis[1], axis[2]);
-	vectorCopy(newParticle->transform.velocity, emitter->model->particleTransform.velocity);
-	vectorRotate(newParticle->transform.velocity, axis);
-	vectorAdd(newParticle->transform.velocity, newParticle->transform.velocity, emitter->transform.velocity);
+	Vector.axisFromAngles(emitter->transform.angles, axis[0], axis[1], axis[2]);
+	Vector.copy(newParticle->transform.velocity, emitter->model->particleTransform.velocity);
+	Vector.rotate(newParticle->transform.velocity, axis);
+	Vector.add(newParticle->transform.velocity, newParticle->transform.velocity, emitter->transform.velocity);
 	
 	return newParticle;
 }
@@ -156,7 +156,7 @@ void particles_Update(timeStruct_t time)
 				_lerpParticleData(particle->model->startData, particle->model->endData, (time.currentTime - particle->spawnTime) / (float)particle->model->life, &particle->currentData);
 			}
 
-			vectorMA(particle->transform.position, particle->transform.position, time.deltaTimeSeconds, particle->transform.velocity);
+			Vector.multiplyAdd(particle->transform.position, particle->transform.position, time.deltaTimeSeconds, particle->transform.velocity);
 			updateTransform(&particle->transform, time.deltaTimeSeconds, particle->model->useGravity);
 			particleListIterator = &(*particleListIterator)->next;
 		}
@@ -164,8 +164,8 @@ void particles_Update(timeStruct_t time)
 		{
 			list_t *curItem = *particleListIterator;
 			*particleListIterator = (*particleListIterator)->next;
-			mem_free(particle);
-			mem_free(curItem);
+			destroy(particle);
+			destroy(curItem);
 		}
 	}
 
@@ -187,7 +187,7 @@ void particles_Update(timeStruct_t time)
 				particle_t *newParticle = _newParticleFromEmitter(emitter, model);
 				newParticle->spawnTime = time.currentTime;
 
-				*particleListIterator = list_new(newParticle); // Add it right there since we have the pointer to the last node
+				List.add(particleListIterator, newParticle); // Add it right there since we have the pointer to the last node
 				particleListIterator = &(*particleListIterator)->next;
 			}
 
@@ -201,10 +201,10 @@ void particles_Update(timeStruct_t time)
 
 particleModel_t *particles_newParticleModel(texture_t *texture, float r, float g, float b, float a, float scale, long life, bool useGravity)
 {
-	particleModel_t *newModel = (particleModel_t*)mem_alloc(sizeof(particleModel_t));
+	particleModel_t *newModel = newObject(particleModel_t);
 	newModel->texture = texture;
 	newModel->program = _defaultParticleProgram;
-	newModel->startData = (particleData_t*)mem_alloc(sizeof(particleData_t));
+	newModel->startData = newObject(particleData_t);
 	newModel->startData->red = r;
 	newModel->startData->green = g;
 	newModel->startData->blue = b;
@@ -218,7 +218,7 @@ particleModel_t *particles_newParticleModel(texture_t *texture, float r, float g
 
 void particles_addFinalStateToParticleModel(particleModel_t *model, float r, float g, float b, float a, float scale)
 {
-	model->endData = (particleData_t*)mem_alloc(sizeof(particleData_t));
+	model->endData = newObject(particleData_t);
 	model->endData->red = r;
 	model->endData->green = g;
 	model->endData->blue = b;
@@ -228,8 +228,8 @@ void particles_addFinalStateToParticleModel(particleModel_t *model, float r, flo
 
 emitterModel_t *particles_newEmitterModel()
 {
-	emitterModel_t *newModel = (emitterModel_t*)mem_alloc(sizeof(emitterModel_t));
-	mem_set(&newModel->particleTransform, 0, sizeof(transform_t));
+	emitterModel_t *newModel = newObject(emitterModel_t);
+	Memory.set(&newModel->particleTransform, 0, sizeof(transform_t));
 	newModel->spawnDataModel.nextWave = NULL;
 	return newModel;
 }
@@ -245,10 +245,10 @@ void particles_CreateNewWaveForEmitter(emitterModel_t *emitter, long delay)
 			break;
 		}
 	}
-	*curWave = (spawnWave_t*)mem_alloc(sizeof(spawnWave_t));
+	*curWave = newObject(spawnWave_t);
 	(*curWave)->delay = delay;
 	(*curWave)->next = emitter->spawnDataModel.nextWave;
-	array_init(&(*curWave)->models);
+	Array.init(&(*curWave)->models);
 }
 
 void particles_AddNewParticleToEmitter(emitterModel_t *emitter, particleModel_t *model)
@@ -262,25 +262,18 @@ void particles_AddNewParticleToEmitter(emitterModel_t *emitter, particleModel_t 
 			break;
 		}
 	}
-	array_add(&(*curWave)->models, model);
+	Array.add(&(*curWave)->models, model);
 }
 
 emitter_t *particles_CreateEmitterFromModel(emitterModel_t *model)
 {
-	emitter_t *newEmitter = (emitter_t*)mem_alloc(sizeof(emitter_t));
+	emitter_t *newEmitter = newObject(emitter_t);
 	newEmitter->model = model;
 	newEmitter->spawnData = model->spawnDataModel;
 	newEmitter->lastSpawn = 0;
-	mem_set(&newEmitter->transform, 0, sizeof(transform_t));
+	Memory.set(&newEmitter->transform, 0, sizeof(transform_t));
 	
-	if (_emitterList)
-	{
-		list_add(_emitterList, newEmitter);
-	}
-	else
-	{
-		_emitterList = list_new(newEmitter);
-	}
+	List.add(&_emitterList, newEmitter);
 
 	return newEmitter;
 }

@@ -7,25 +7,40 @@ utils_vector
 - Functions and constants to work with vectors
 */
 
-extern float axis[3][3];
-extern float nullVec[3];
+typedef struct {
+	// Constants
+	float		axis[3][3];
+	float		zero[3];
 
-void vectorSet(float v[3], float x, float y, float z);
-void vectorCopy(float dest[3], float src[3]);
-void vectorClear(float v[3]);
-void vectorTransition(float v[3], float org[3], float dest[3], float percentage);
-void vectoangles( float *vec, float *angles );
+	// Setters
+	void (*set)(float v[3], float x, float y, float z);
+	void (*copy)(float dest[3], float src[3]);
+	void (*clear)(float v[3]);
 
-void vectorAdd(float dest[3], float a[3], float b[3]);
-void vectorSubtract(float dest[3], float a[3], float b[3]);
-float vectorLength(float v[3]);
-float vectorNormalize(float v[3]);
-void vectorMult(float dest[3], float a[3], float b[3]);
-void vectorScale(float dest[3], float s, float src[3]);
-void vectorMA(float out[3], float org[3], float s, float move[3]);
-void AngleVectors(float *angles, float *forward, float *right, float *up);
-float vectorDot(float a[3], float b[3]);
-void vectorRotate(float vec[3], float targetAxis[3][3]);
-float vectorDistance(float a[3], float b[3]);
+	// Unary operators
+	float (*length)(float v[3]);
+	float (*normalize)(float v[3]);
+
+	// Binary operators
+	void (*add)(float dest[3], float a[3], float b[3]);
+	void (*subtract)(float dest[3], float a[3], float b[3]);
+	void (*multiply)(float dest[3], float a[3], float b[3]);
+	float (*dot)(float a[3], float b[3]);
+	float (*distance)(float a[3], float b[3]);
+
+	// Rotation
+	void (*toAngles)(float v[3], float angles[3]);
+	void (*axisFromAngles)(float angles[3], float *forward, float *right, float *up);
+	void (*rotate)(float vec[3], float targetAxis[3][3]);
+
+	// Misc
+	void (*scale)(float dest[3], float s, float src[3]);
+	void (*lerp)(float v[3], float org[3], float dest[3], float percentage);
+	void (*multiplyAdd)(float out[3], float org[3], float s, float move[3]);
+} _vector_functions;
+
+_vector_functions Vector;
+
+void initVectorFunctions();
 
 #endif

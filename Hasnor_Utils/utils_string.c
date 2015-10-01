@@ -5,15 +5,16 @@
 
 #pragma warning (disable:4996)	// Allow use of deprecated/unsafe functions
 
-void string_initStr(string *str, char *value)
+void string_initStr(string *str, char *value, uint length)
 {
-	str->s = quickString(value);
-	str->len = strlen(str->s);
-}
-
-void string_initStrFixedSize(string *str, char *value, unsigned int length)
-{
-	str->s = quickString2(value, length);
+	if (length)
+	{
+		str->s = quickString2(value, length);
+	}
+	else
+	{
+		str->s = quickString(value);
+	}
 	str->len = strlen(str->s);
 }
 
@@ -44,7 +45,17 @@ void string_strip(string *str, char c)
 void string_appendStr(string *str, char *value)
 {
 	size_t newLen = str->len + strlen(value);
-	str->s = (char*)mem_realloc(str->s, sizeof(char) * newLen);
+	str->s = (char*)Memory.realloc(str->s, sizeof(char) * newLen);
 	strcpy(str->s + str->len, value);
 	str->len = newLen;
+}
+
+void initStringFunctions()
+{
+	String.init = string_initStr;
+	String.fromInt = string_initInt;
+	String.fromFloat = string_initFloat;
+	String.fromVector = string_initVector;
+	String.strip = string_strip;
+	String.append = string_appendStr;
 }

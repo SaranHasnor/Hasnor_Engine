@@ -35,22 +35,15 @@ void linkVertexToFace(face_t *face, vertex_t *vertex)
 	}
 #endif
 
-	if (face->nbVertices == 0)
-	{
-		face->vertices = (vertex_t**)mem_alloc(sizeof(vertex_t*));
-	}
-	else
-	{
-		face->vertices = (vertex_t**)mem_realloc(face->vertices, sizeof(vertex_t*) * (face->nbVertices+1));
-	}
+	face->vertices = (vertex_t**)Memory.realloc(face->vertices, sizeof(vertex_t*) * (face->nbVertices+1));
 
 	face->vertices[face->nbVertices++] = vertex;
 }
 
 vertex_t *_addVertexToFace(face_t *face, float pos[3], float u, float v)
 {
-	vertex_t *vertex = (vertex_t*)mem_alloc(sizeof(vertex_t));
-	vectorRotate(pos, _localAxis);
+	vertex_t *vertex = newObject(vertex_t);
+	Vector.rotate(pos, _localAxis);
 	vertex->coords.x = pos[0] + _cursorPos[0];
 	vertex->coords.y = pos[1] + _cursorPos[1];
 	vertex->coords.z = pos[2] + _cursorPos[2];
@@ -93,27 +86,20 @@ void linkFaceToMesh(mesh_t *mesh, face_t *face)
 	}
 #endif
 
-	if (mesh->nbFaces == 0)
-	{
-		mesh->faces = (face_t**)mem_alloc(sizeof(face_t*));
-	}
-	else
-	{
-		mesh->faces = (face_t**)mem_realloc(mesh->faces, sizeof(face_t*) * (mesh->nbFaces+1));
-	}
+	mesh->faces = (face_t**)Memory.realloc(mesh->faces, sizeof(face_t*) * (mesh->nbFaces+1));
 
 	mesh->faces[mesh->nbFaces++] = face;
 }
 
 face_t *addFaceToMesh(mesh_t *mesh)
 {
-	face_t *face = (face_t*)mem_alloc(sizeof(face_t));
-	mem_set(face, 0, sizeof(face_t));
+	face_t *face = newObject(face_t);
+	Memory.set(face, 0, sizeof(face_t));
 
 	glGenBuffers(1, &face->vboIndex);
 	glGenBuffers(1, &face->eboIndex);
 
-	vectorSet(face->color, 1.0f, 1.0f, 1.0f);
+	Vector.set(face->color, 1.0f, 1.0f, 1.0f);
 	face->color[3] = 1.0f;
 
 	linkFaceToMesh(mesh, face);
@@ -134,13 +120,13 @@ face_t *addFace()
 
 mesh_t *newMesh()
 {
-	mesh_t *mesh = (mesh_t*)mem_alloc(sizeof(mesh_t));
-	mem_set(mesh, 0, sizeof(mesh_t));
+	mesh_t *mesh = newObject(mesh_t);
+	Memory.set(mesh, 0, sizeof(mesh_t));
 
 	//glGenBuffers(1, &mesh->vboIndex);
 	//glGenBuffers(1, &mesh->eboIndex);
 
-	mat_identity(mesh->rotation);
+	Matrix.identity(mesh->rotation);
 
 	if (_autoSelect) _selectedMesh = mesh;
 
@@ -149,17 +135,17 @@ mesh_t *newMesh()
 
 vertex_t *duplicateVertex(vertex_t *vertex)
 {
-	vertex_t *newVertex = (vertex_t*)mem_dupe(vertex, sizeof(vertex_t));
+	vertex_t *newVertex = (vertex_t*)Memory.duplicate(vertex, sizeof(vertex_t));
 	return newVertex;
 }
 
 face_t *duplicateFace(face_t *face)
 {
-	face_t *newFace = (face_t*)mem_alloc(sizeof(face_t));
+	face_t *newFace = newObject(face_t);
 	uint i;
 
 	newFace->nbVertices = face->nbVertices;
-	newFace->vertices = (vertex_t**)mem_alloc(sizeof(vertex_t*)*newFace->nbVertices);
+	newFace->vertices = newArray(vertex_t*, newFace->nbVertices);
 
 	for (i=0; i<newFace->nbVertices; i++)
 	{
@@ -171,11 +157,11 @@ face_t *duplicateFace(face_t *face)
 
 mesh_t *duplicateMesh(mesh_t *mesh)
 {
-	mesh_t *newMesh = (mesh_t*)mem_alloc(sizeof(mesh_t));
+	mesh_t *newMesh = newObject(mesh_t);
 	uint i;
 
 	newMesh->nbFaces = mesh->nbFaces;
-	newMesh->faces = (face_t**)mem_alloc(sizeof(face_t*)*newMesh->nbFaces);
+	newMesh->faces = newArray(face_t*, newMesh->nbFaces);
 
 	for (i=0; i<newMesh->nbFaces; i++)
 	{
@@ -187,7 +173,7 @@ mesh_t *duplicateMesh(mesh_t *mesh)
 
 void destroyVertex(vertex_t *vertex)
 {
-	mem_free_safe(vertex);
+	Memory.safeFree(vertex);
 }
 
 void destroyFace(face_t *face)
@@ -203,18 +189,18 @@ void destroyFace(face_t *face)
 
 	if (face->vbo)
 	{
-		mem_free(face->vbo);
+		destroy(face->vbo);
 	}
 	if (face->ebo)
 	{
-		mem_free(face->ebo);
+		destroy(face->ebo);
 	}
 
 	if (face->vertices)
 	{
-		mem_free(face->vertices);
+		destroy(face->vertices);
 	}
-	mem_free(face);
+	destroy(face);
 }
 
 void destroyMesh(mesh_t *mesh)
@@ -226,9 +212,9 @@ void destroyMesh(mesh_t *mesh)
 	}
 	if (mesh->faces)
 	{
-		mem_free(mesh->faces);
+		destroy(mesh->faces);
 	}
-	mem_free(mesh);
+	destroy(mesh);
 }
 
 void setAutoSelect(bool active)
@@ -258,7 +244,7 @@ face_t *getSelectedFace()
 
 void _moveVertex(vertex_t *vertex, float vec[3])
 {
-	vectorRotate(vec, _localAxis);
+	Vector.rotate(vec, _localAxis);
 	vertex->coords.x += vec[0];
 	vertex->coords.y += vec[1];
 	vertex->coords.z += vec[2];
@@ -318,8 +304,8 @@ void moveCursorPos(float x, float y, float z)
 	pos[0] = x;
 	pos[1] = y;
 	pos[2] = z;
-	vectorRotate(pos, _localAxis);
-	vectorAdd(pos, _cursorPos, pos);
+	Vector.rotate(pos, _localAxis);
+	Vector.add(pos, _cursorPos, pos);
 	_setCursorPos(pos);
 }
 
@@ -338,8 +324,8 @@ void setLocalAxis(float forward[3])
 {
 	float angles[3];
 	float fwd[3], right[3], up[3];
-	vectoangles(forward, angles);
-	AngleVectors(angles, fwd, right, up);
+	Vector.toAngles(forward, angles);
+	Vector.axisFromAngles(angles, fwd, right, up);
 	_setLocalAxis(fwd, right, up);
 }
 
@@ -349,7 +335,7 @@ void setLocalAxisFromLine(float startX, float startY, float startZ, float endX, 
 	vec[0] = endX - startX;
 	vec[1] = endY - startY;
 	vec[2] = endZ - startZ;
-	vectorNormalize(vec);
+	Vector.normalize(vec);
 	setLocalAxis(vec);
 }
 
@@ -370,7 +356,7 @@ float getDistanceBetweenVertices(vertex_t *vert1, vertex_t *vert2)
 	pos2[1] = vert2->coords.y;
 	pos2[2] = vert2->coords.z;
 
-	return vectorDistance(pos1, pos2);
+	return Vector.distance(pos1, pos2);
 }
 
 void resetWorkSpace()
@@ -384,7 +370,7 @@ void resetWorkSpace()
 		_cursorPos[i] = 0.0;
 		for (j=0; j<3; j++)
 		{
-			_localAxis[i][j] = axis[i][j];
+			_localAxis[i][j] = Vector.axis[i][j];
 		}
 	}
 
@@ -399,8 +385,8 @@ void updateMeshGeometry(mesh_t *mesh)
 	{
 		face_t *face = mesh->faces[i];
 
-		face->vbo = (float*)mem_alloc(sizeof(float) * face->nbVertices * 5);
-		face->ebo = (ushort*)mem_alloc(sizeof(ushort) * face->nbVertices);
+		face->vbo = newArray(float, face->nbVertices * 5);
+		face->ebo = newArray(ushort, face->nbVertices);
 
 		for (j = 0; j < face->nbVertices; j++)
 		{

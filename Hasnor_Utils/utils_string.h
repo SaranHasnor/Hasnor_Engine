@@ -14,13 +14,18 @@ typedef struct {
 	unsigned int	len;
 } string;
 
-void string_initStr(string *str, char *value);
-void string_initStrFixedSize(string *str, char *value, unsigned int length);
-void string_initInt(string *str, int value);
-void string_initFloat(string *str, float value);
-void string_initVector(string *str, float *vec, uint size);
+typedef struct {
+	void (*init)(string *str, char *value, uint optionalSize);
+	void (*fromInt)(string *str, int value);
+	void (*fromFloat)(string *str, float value);
+	void (*fromVector)(string *str, float *vec, uint size);
 
-void string_strip(string *str, char c);
-void string_appendStr(string *str, char *value);
+	void (*strip)(string *str, char c);
+	void (*append)(string *str, char *value);
+} _string_functions;
+
+_string_functions String;
+
+void initStringFunctions();
 
 #endif

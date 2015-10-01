@@ -52,7 +52,7 @@ void appendHeldKey(unsigned char key, int currentTime, bool onInterface)
 		curKey = &(*curKey)->next;
 	}
 	
-	*curKey = (inputKey_t*)mem_alloc(sizeof(inputKey_t));
+	*curKey = newObject(inputKey_t);
 	(*curKey)->key = key;
 	(*curKey)->pressTime = currentTime;
 	(*curKey)->onInterface = onInterface;
@@ -69,7 +69,7 @@ bool deleteHeldKey(unsigned char key)
 			inputKey_t *temp = *curKey;
 			bool onScreen = !temp->onInterface;
 			*curKey = temp->next;
-			mem_free(temp);
+			destroy(temp);
 			return onScreen;
 		}
 		curKey = &(*curKey)->next;

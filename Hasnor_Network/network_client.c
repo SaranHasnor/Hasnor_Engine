@@ -1,7 +1,7 @@
 #include "network_client.h"
 #include "network.h"
 
-void CL_connectToServer(const char *address, unsigned short port, bytestream clientInfo, socketProtocol_t protocol, networkStatus_t *status)
+void CL_connectToServer(const char *address, unsigned short port, bytestream_t clientInfo, socketProtocol_t protocol, networkStatus_t *status)
 {
 	if (currentNetworkMode() != NETWORK_MODE_LOCAL)
 	{
@@ -51,7 +51,7 @@ bool CL_connected()
 	return currentNetworkMode() == NETWORK_MODE_CLIENT;
 }
 
-void CL_sendMessage(int targetID, bytestream message)
+void CL_sendMessage(int targetID, bytestream_t message)
 {
 	sendMessage(NETWORK_MESSAGE_CUSTOM, -1, targetID, message);
 }

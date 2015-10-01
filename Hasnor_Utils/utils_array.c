@@ -10,7 +10,7 @@ void array_init(array_t *ar)
 
 void array_add(array_t *ar, void *object)
 {
-	ar->content = (void**)mem_realloc(ar->content, sizeof(void*) * (ar->size+1));
+	ar->content = (void**)Memory.realloc(ar->content, sizeof(void*) * (ar->size+1));
 	ar->content[ar->size] = object;
 	ar->size++;
 }
@@ -18,7 +18,7 @@ void array_add(array_t *ar, void *object)
 void array_insert(array_t *ar, void *object, uint pos)
 {
 	uint i;
-	ar->content = (void**)mem_realloc(ar->content, sizeof(void*) * (ar->size+1));
+	ar->content = (void**)Memory.realloc(ar->content, sizeof(void*) * (ar->size+1));
 	for (i = ar->size; i > pos; i--)
 	{
 		ar->content[i] = ar->content[i-1];
@@ -51,7 +51,7 @@ void array_remove(array_t *ar, void *object)
 		}
 		else
 		{
-			ar->content = (void**)mem_realloc(ar->content, sizeof(void*) * (ar->size-1));
+			ar->content = (void**)Memory.realloc(ar->content, sizeof(void*) * (ar->size-1));
 		}
 		ar->size--;
 	}
@@ -72,7 +72,7 @@ void array_removeAt(array_t *ar, uint pos)
 		}
 		else
 		{
-			ar->content = (void**)mem_realloc(ar->content, sizeof(void*) * (ar->size-1));
+			ar->content = (void**)Memory.realloc(ar->content, sizeof(void*) * (ar->size-1));
 		}
 		ar->size--;
 	}
@@ -104,4 +104,15 @@ int array_indexOfFirstMatch(array_t *ar, bool (*predicate)(void *object))
 		i++;
 	}
 	return -1;
+}
+
+void initArrayFunctions()
+{
+	Array.init = array_init;
+	Array.add = array_add;
+	Array.insert = array_insert;
+	Array.remove = array_remove;
+	Array.removeAt = array_removeAt;
+	Array.indexOf = array_indexOf;
+	Array.indexOfFirstMatch = array_indexOfFirstMatch;
 }

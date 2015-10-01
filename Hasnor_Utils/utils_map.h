@@ -1,3 +1,5 @@
+#ifndef HASNOR_MAP_IMPORTED
+#define HASNOR_MAP_IMPORTED
 
 #include "utils.h"
 #include "utils_list.h"
@@ -13,7 +15,15 @@ typedef struct {
 	list_t		*list;
 } map_t;
 
-void map_init(map_t *map);
-void *map_getValueForKey(map_t *map, const char *key);
-void map_setValueForKey(map_t *map, const char *key, void *value, bool strong);
-void map_removeValueForKey(map_t *map, const char *key);
+typedef struct {
+	void (*init)(map_t *map);
+	void* (*getValueForKey)(map_t *map, const char *key);
+	void (*setValueForKey)(map_t *map, const char *key, void *value, bool strong);
+	void (*removeValueForKey)(map_t *map, const char *key);
+} _map_functions;
+
+_map_functions Map;
+
+void initMapFunctions();
+
+#endif

@@ -8,5 +8,5 @@ int SV_checkForNewClients();
 void SV_kickClient(int clientID);
 void SV_closeServer(networkStatus_t *status);
 
-void SV_sendMessage(int targetID, bytestream message);
+void SV_sendMessage(int targetID, bytestream_t message);
 void SV_update(networkUpdate_t *update);

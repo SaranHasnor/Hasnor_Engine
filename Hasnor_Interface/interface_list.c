@@ -5,8 +5,8 @@
 
 list_t *newList()
 {
-	list_t *list = (list_t*)mem_alloc(sizeof(list_t));
-	mem_set(list, 0, sizeof(list_t));
+	list_t *list = newObject(list_t);
+	Memory.set(list, 0, sizeof(list_t));
 	return list;
 }
 
@@ -20,14 +20,14 @@ void clearList(list_t *list)
 			listEntry_t *entry = &list->entries[i];
 			if (entry->dynValue)
 			{
-				mem_free(entry->dynValue);
+				destroy(entry->dynValue);
 			}
 			if (entry->value)
 			{
-				mem_free(entry->value);
+				destroy(entry->value);
 			}
 		}
-		mem_free(list->entries);
+		destroy(list->entries);
 		list->entries = NULL;
 		list->nbEntries = 0;
 	}
@@ -36,7 +36,7 @@ void clearList(list_t *list)
 void destroyList(list_t *list)
 {
 	clearList(list);
-	mem_free(list);
+	destroy(list);
 }
 
 void listSelect(list_t *list, uint index)

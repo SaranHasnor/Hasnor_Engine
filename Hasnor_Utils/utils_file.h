@@ -1,4 +1,14 @@
+#ifndef HASNOR_FILE_IMPORTED
+#define HASNOR_FILE_IMPORTED
 
 #include "utils_types.h"
 
-bool file_read(const char *path, char **out);
+typedef struct {
+	bool (*read)(const char *path, char **out);
+} _file_functions;
+
+_file_functions File;
+
+void initFileFunctions();
+
+#endif

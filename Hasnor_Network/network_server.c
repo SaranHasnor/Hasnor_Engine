@@ -55,7 +55,7 @@ void SV_kickClient(int clientID)
 	dropClient(clientID);
 }
 
-void SV_sendMessage(int targetID, bytestream message)
+void SV_sendMessage(int targetID, bytestream_t message)
 {
 	sendMessage(NETWORK_MESSAGE_CUSTOM, -1, targetID, message);
 }

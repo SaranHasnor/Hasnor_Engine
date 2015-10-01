@@ -68,7 +68,7 @@ int _checkSocketReadable(SOCKET socket)
 	fd_set set;
 	TIMEVAL timeout;
 
-	mem_set(&set, 0, sizeof(fd_set));
+	Memory.set(&set, 0, sizeof(fd_set));
 
 	FD_SET(socket, &set);
 
@@ -96,7 +96,7 @@ bool _addNewSocket(SOCKET socket, socketType_t type, socketProtocol_t protocol, 
 			_connections[i].type = type;
 			_connections[i].protocol = protocol;
 			_connections[i].address = address;
-			_connections[i].lastInActivity = _connections[i].lastOutActivity = time_current_ms();
+			_connections[i].lastInActivity = _connections[i].lastOutActivity = Time.milliseconds();
 			return true;
 		}
 		i++;
@@ -134,8 +134,8 @@ void _setupMaxConnections(uint maxConnections)
 {
 	uint i;
 	_maxConnections = maxConnections;
-	_connections = (networkConnection_t*)mem_alloc(sizeof(networkConnection_t) * _maxConnections);
-	mem_set(_connections, 0, sizeof(networkConnection_t) * _maxConnections);
+	_connections = newArray(networkConnection_t, _maxConnections);
+	Memory.set(_connections, 0, sizeof(networkConnection_t) * _maxConnections);
 	for (i = 0; i < _maxConnections; i++)
 	{
 		_connections[i].id = i;
@@ -207,7 +207,7 @@ bool createSocket(const char *address, unsigned short port, socketProtocol_t pro
 	return true;
 }
 
-bool tryToConnect(bytestream clientInfo, networkStatus_t *status)
+bool tryToConnect(bytestream_t clientInfo, networkStatus_t *status)
 {
 	if (_connections[0].protocol == SOCKET_PROTOCOL_TCP)
 	{
@@ -250,8 +250,8 @@ bool getNewClient()
 
 void _closeConnection(networkConnection_t *connection, bool broadcast)
 {
-	bytestream temp;
-	bytestream_init(&temp, 0);
+	bytestream_t temp;
+	ByteStream.init(&temp, 0);
 	sendMessage(NETWORK_MESSAGE_EXIT, -1, broadcast ? -1 : connection->id, temp);
 
 	connection->id = 0;
@@ -269,8 +269,8 @@ void dropClient(int id)
 void disconnect()
 { // Close all active connections
 	uint i;
-	bytestream temp;
-	bytestream_init(&temp, 0);
+	bytestream_t temp;
+	ByteStream.init(&temp, 0);
 
 	for (i = 0; i < _maxConnections; i++)
 	{
@@ -287,7 +287,7 @@ void disconnect()
 
 void checkForTimeOuts()
 {
-	long curTime = time_current_ms();
+	long curTime = Time.milliseconds();
 
 	if (_networkMode == NETWORK_MODE_CLIENT)
 	{
@@ -300,8 +300,8 @@ void checkForTimeOuts()
 		}
 		else if ((curTime - connection->lastOutActivity) > _worry)
 		{ // Are we still connected?
-			bytestream temp;
-			bytestream_init(&temp, 0);
+			bytestream_t temp;
+			ByteStream.init(&temp, 0);
 			sendMessage(NETWORK_MESSAGE_HEARTBEAT, -1, connection->id, temp);
 		}
 	}
@@ -320,8 +320,8 @@ void checkForTimeOuts()
 				}
 				else if ((curTime - connection->lastOutActivity) > _worry)
 				{ // Can you hear meeeee
-					bytestream temp;
-					bytestream_init(&temp, 0);
+					bytestream_t temp;
+					ByteStream.init(&temp, 0);
 					sendMessage(NETWORK_MESSAGE_HEARTBEAT, -1, connection->id, temp);
 				}
 			}
@@ -334,19 +334,19 @@ uint _sizeForNetworkMessage(networkMessage_t message)
 	return sizeof(uint) + sizeof(message.type) + sizeof(message.senderID) + sizeof(message.receiverID) + sizeof(byte) * message.content.len;
 }
 
-void _serializeNetworkMessage(networkMessage_t in, bytestream *out)
+void _serializeNetworkMessage(networkMessage_t in, bytestream_t *out)
 {
 	uint size = _sizeForNetworkMessage(in);
-	bytestream_init(out, size);
-	bytestream_write(out, (byte*)&size, sizeof(uint));
-	bytestream_write(out, (byte*)&in.type, sizeof(in.type));
-	bytestream_write(out, (byte*)&in.senderID, sizeof(in.senderID));
-	bytestream_write(out, (byte*)&in.receiverID, sizeof(in.receiverID));
-	bytestream_write(out, in.content.data, in.content.len);
+	ByteStream.init(out, size);
+	ByteStream.write(out, (byte*)&size, sizeof(uint));
+	ByteStream.write(out, (byte*)&in.type, sizeof(in.type));
+	ByteStream.write(out, (byte*)&in.senderID, sizeof(in.senderID));
+	ByteStream.write(out, (byte*)&in.receiverID, sizeof(in.receiverID));
+	ByteStream.write(out, in.content.data, in.content.len);
 	out->len = size;
 }
 
-bool _doSend(networkConnection_t *connection, bytestream serializedMessage)
+bool _doSend(networkConnection_t *connection, bytestream_t serializedMessage)
 {
 	if (connection->protocol == SOCKET_PROTOCOL_TCP)
 	{
@@ -362,23 +362,23 @@ bool _doSend(networkConnection_t *connection, bytestream serializedMessage)
 			return false;
 		}
 	}
-	connection->lastOutActivity = time_current_ms();
+	connection->lastOutActivity = Time.milliseconds();
 
 	return true;
 }
 
-void sendMessage(networkMessageType_t type, int senderID, int receiverID, bytestream content)
+void sendMessage(networkMessageType_t type, int senderID, int receiverID, bytestream_t content)
 {
 	networkConnection_t *target = NULL;
 	networkMessage_t message;
-	bytestream serializedMessage;
+	bytestream_t serializedMessage;
 
 	message.type = type;
 	message.senderID = senderID;
 	message.receiverID = receiverID;
 
-	bytestream_init(&message.content, content.len);
-	bytestream_write(&message.content, content.data, content.len);
+	ByteStream.init(&message.content, content.len);
+	ByteStream.write(&message.content, content.data, content.len);
 	message.content.cursor = 0;
 
 	if (_networkMode == NETWORK_MODE_HOST)
@@ -424,26 +424,26 @@ void sendMessage(networkMessageType_t type, int senderID, int receiverID, bytest
 			}
 		}
 
-		bytestream_destroy(&serializedMessage);
+		ByteStream.free(&serializedMessage);
 	}
 	else
 	{
 		printf("Socket error while sending\n");
 	}
 
-	bytestream_destroy(&message.content);
+	ByteStream.free(&message.content);
 }
 
-uint _decodeMessage(bytestream *in, networkMessage_t *out)
+uint _decodeMessage(bytestream_t *in, networkMessage_t *out)
 { // Returns the size of the decoded message
 	uint cursor = 0;
 	uint size;
-	cursor += bytestream_read(in, (byte*)&size, sizeof(uint));
-	cursor += bytestream_read(in, (byte*)&out->type, sizeof(out->type));
-	cursor += bytestream_read(in, (byte*)&out->senderID, sizeof(out->senderID));
-	cursor += bytestream_read(in, (byte*)&out->receiverID, sizeof(out->receiverID));
-	bytestream_init(&out->content, size - cursor);
-	bytestream_read(in, out->content.data, out->content.len);
+	cursor += ByteStream.read(in, (byte*)&size, sizeof(uint));
+	cursor += ByteStream.read(in, (byte*)&out->type, sizeof(out->type));
+	cursor += ByteStream.read(in, (byte*)&out->senderID, sizeof(out->senderID));
+	cursor += ByteStream.read(in, (byte*)&out->receiverID, sizeof(out->receiverID));
+	ByteStream.init(&out->content, size - cursor);
+	ByteStream.read(in, out->content.data, out->content.len);
 	return size;
 }
 
@@ -459,7 +459,7 @@ void receiveMessages(networkUpdate_t *update)
 		if (_connections[i].socket != INVALID_SOCKET)
 		{
 			bool gotMessage = false;
-			bytestream inMessage;
+			bytestream_t inMessage;
 			if (_connections[i].protocol == SOCKET_PROTOCOL_TCP)
 			{
 				gotMessage = TCP_receiveMessages(_connections[i].socket, &inMessage);
@@ -477,7 +477,7 @@ void receiveMessages(networkUpdate_t *update)
 
 				do {
 					update->count++;
-					update->messages = (networkMessage_t*)mem_realloc(update->messages, sizeof(networkMessage_t) * update->count);
+					update->messages = (networkMessage_t*)Memory.realloc(update->messages, sizeof(networkMessage_t) * update->count);
 
 					out = &update->messages[update->count-1];
 
@@ -488,10 +488,10 @@ void receiveMessages(networkUpdate_t *update)
 						out->senderID = _connections[i].id;
 					}
 
-					out->receiveTime = time_current_ms();
+					out->receiveTime = Time.milliseconds();
 				} while (decoded < inMessage.len);
 
-				bytestream_destroy(&inMessage);
+				ByteStream.free(&inMessage);
 
 				_connections[i].lastInActivity = out->receiveTime;
 			}
