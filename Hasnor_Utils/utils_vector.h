@@ -27,6 +27,7 @@ typedef struct {
 	void (*multiply)(float dest[3], float a[3], float b[3]);
 	float (*dot)(float a[3], float b[3]);
 	float (*distance)(float a[3], float b[3]);
+	float (*squareDistance)(float a[3], float b[3]);
 
 	// Rotation
 	void (*toAngles)(float v[3], float angles[3]);

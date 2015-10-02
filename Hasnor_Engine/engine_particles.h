@@ -25,9 +25,11 @@ typedef struct {
 
 typedef struct {
 	transform_t			transform;
+	float				squaredDistanceToCamera;
+	particleData_t		currentData;
+
 	long				spawnTime;
 	particleModel_t		*model;
-	particleData_t		currentData;
 } particle_t;
 
 typedef struct spawnWave_s {

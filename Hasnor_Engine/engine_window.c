@@ -15,8 +15,6 @@ void initRendering()
 
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
-
-	glDepthMask(GL_FALSE);
 }
 
 void reshape(int w, int h)

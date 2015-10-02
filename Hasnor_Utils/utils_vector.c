@@ -114,6 +114,13 @@ float vectorDistance(float a[3], float b[3])
 	return vectorLength(vec);
 }
 
+float vectorSquareDistance(float a[3], float b[3])
+{
+	return (b[0] - a[0]) * (b[0] - a[0]) +
+		(b[1] - a[1]) * (b[1] - a[1]) +
+		(b[2] - a[2]) * (b[2] - a[2]);
+}
+
 void vectoangles( float *vec, float *angles ) {
 	double	forward;
 	double	yaw, pitch;
@@ -200,6 +207,7 @@ void initVectorFunctions()
 	Vector.clear = vectorClear;
 	Vector.copy = vectorCopy;
 	Vector.distance = vectorDistance;
+	Vector.squareDistance = vectorSquareDistance;
 	Vector.dot = vectorDot;
 	Vector.length = vectorLength;
 	Vector.lerp = vectorTransition;

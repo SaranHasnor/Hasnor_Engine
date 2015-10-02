@@ -1,5 +1,6 @@
 #include "engine_particles.h"
 #include "engine_render.h"
+#include "engine_camera.h"
 
 #include <GL/glew.h>
 #include <GL/glut.h>
@@ -46,6 +47,7 @@ static const byte _defaultParticleElements[] = {
 static GLuint _defaultParticleVBO, _defaultParticleEBO;
 
 list_t *_particleList;
+uint _particleCount;
 list_t *_emitterList;
 
 void particles_InitRenderer()
@@ -64,6 +66,7 @@ void particles_InitRenderer()
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, 6 * sizeof(byte), _defaultParticleElements, GL_STATIC_DRAW);
 
 	_particleList = NULL;
+	_particleCount = 0;
 	_emitterList = NULL;
 }
 
@@ -82,6 +85,9 @@ void _lerpParticleData(particleData_t *from, particleData_t *to, float percentag
 void particles_Render(float viewMatrix[16])
 {
 	list_t **particleListIterator = &_particleList;
+
+	// Disable writing to the depth buffer to avoid transparency issues
+	glDepthMask(GL_FALSE);
 
 	while (*particleListIterator)
 	{
@@ -118,6 +124,7 @@ void particles_Render(float viewMatrix[16])
 	glUseProgram(0);
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, 0);
+	glDepthMask(GL_TRUE);
 }
 
 particle_t *_newParticleFromEmitter(emitter_t *emitter, particleModel_t *model)
@@ -139,64 +146,176 @@ particle_t *_newParticleFromEmitter(emitter_t *emitter, particleModel_t *model)
 	return newParticle;
 }
 
-void particles_Update(timeStruct_t time)
+void _sortMerge(list_t **list, uint count, uint middle)
 {
-	list_t **particleListIterator = &_particleList;
-	list_t **emitterListIterator = &_emitterList;
+	uint i0 = 0, i1 = middle;
+	uint i;
+	list_t **list0 = list;
+	list_t **list1 = list;
+	particle_t *particle0;
+	particle_t *particle1;
 
-	// Update particles
-	while (*particleListIterator)
+	for (i = 0; i < middle; i++)
 	{
-		particle_t *particle = (particle_t*)(*particleListIterator)->content;
+		list1 = &(*list1)->next;
+	}
 
-		if (time.currentTime < particle->spawnTime + particle->model->life)
+	particle0 = (particle_t*)(*list0)->content;
+	particle1 = (particle_t*)(*list1)->content;
+
+	for (i = 0; i < count; i++)
+	{
+		if (i0 < middle &&
+			(i1 >= count || particle0->squaredDistanceToCamera >= particle1->squaredDistanceToCamera))
 		{
-			if (particle->model->startData && particle->model->endData)
+			if (list == list0)
 			{
-				_lerpParticleData(particle->model->startData, particle->model->endData, (time.currentTime - particle->spawnTime) / (float)particle->model->life, &particle->currentData);
+				list0 = &(*list0)->next;
+			}
+			else
+			{
+				list_t *curPos = *list;
+				*list = *list0;
+				*list0 = (*list0)->next;
+				(*list)->next = curPos;
 			}
 
-			Vector.multiplyAdd(particle->transform.position, particle->transform.position, time.deltaTimeSeconds, particle->transform.velocity);
-			updateTransform(&particle->transform, time.deltaTimeSeconds, particle->model->useGravity);
-			particleListIterator = &(*particleListIterator)->next;
+			particle0 = *list0 ? (particle_t*)(*list0)->content : NULL;
+			i0++;
 		}
 		else
 		{
-			list_t *curItem = *particleListIterator;
-			*particleListIterator = (*particleListIterator)->next;
-			destroy(particle);
-			destroy(curItem);
-		}
-	}
-
-	// Update emitters
-	while (*emitterListIterator)
-	{
-		emitter_t *emitter = (emitter_t*)(*emitterListIterator)->content;
-
-		updateTransform(&emitter->transform, time.deltaTimeSeconds, false);
-
-		if (time.currentTime - emitter->lastSpawn >= emitter->spawnData.nextWave->delay)
-		{ // Time to create a new particle
-			array_t *particlesToSpawn = &emitter->spawnData.nextWave->models;
-			uint i;
-
-			for (i = 0; i < particlesToSpawn->size; i++)
+			if (list == list1)
 			{
-				particleModel_t *model = (particleModel_t*)particlesToSpawn->content[i];
-				particle_t *newParticle = _newParticleFromEmitter(emitter, model);
-				newParticle->spawnTime = time.currentTime;
-
-				List.add(particleListIterator, newParticle); // Add it right there since we have the pointer to the last node
-				particleListIterator = &(*particleListIterator)->next;
+				list1 = &(*list1)->next;
+			}
+			else
+			{
+				list_t *curPos = *list;
+				*list = *list1;
+				*list1 = (*list1)->next;
+				(*list)->next = curPos;
 			}
 
-			emitter->lastSpawn = time.currentTime; // Consider using += emitter->spawnData.nextWave->delay instead to avoid delaying further waves
-			emitter->spawnData.nextWave = emitter->spawnData.nextWave->next;
+			if (list0 == list)
+			{ // We just offset the pointer he was targeting so move him
+				list0 = &(*list0)->next;
+				particle0 = *list0 ? (particle_t*)(*list0)->content : NULL;
+			}
+			particle1 = *list1 ? (particle_t*)(*list1)->content : NULL;
+			i1++;
+		}
+		list = &(*list)->next;
+	}
+}
+
+void _sortSplitMerge(list_t **list, uint count, uint startIndex) // startIndex is only used for debugging
+{
+	if (count > 1)
+	{
+		uint i;
+		uint middle = count / 2;
+		list_t **middleList;
+
+		_sortSplitMerge(list, middle, startIndex);
+
+		middleList = list;
+		for (i = 0; i < middle; i++)
+		{
+			middleList = &(*middleList)->next;
+		}
+		_sortSplitMerge(middleList, count - middle, startIndex + middle);
+
+		_sortMerge(list, count, middle);
+	}
+}
+
+void _particlesMergeSort(list_t **list, uint count)
+{
+	_sortSplitMerge(list, count, 0);
+}
+
+void particles_Update(timeStruct_t time)
+{
+	const bool pause = false;
+	list_t **particleListIterator = &_particleList;
+	list_t **emitterListIterator = &_emitterList;
+	float camPos[3];
+
+	engine_getCameraPosition(camPos);
+
+	if (pause)
+	{
+		while (*particleListIterator)
+		{
+			particle_t *particle = (particle_t*)(*particleListIterator)->content;
+			particle->squaredDistanceToCamera = Vector.squareDistance(particle->transform.position, camPos);
+			particleListIterator = &(*particleListIterator)->next;
+		}
+	}
+	else
+	{
+		// Update particles
+		while (*particleListIterator)
+		{
+			particle_t *particle = (particle_t*)(*particleListIterator)->content;
+
+			if (time.currentTime < particle->spawnTime + particle->model->life)
+			{
+				if (particle->model->startData && particle->model->endData)
+				{
+					_lerpParticleData(particle->model->startData, particle->model->endData, (time.currentTime - particle->spawnTime) / (float)particle->model->life, &particle->currentData);
+				}
+
+				Vector.multiplyAdd(particle->transform.position, particle->transform.position, time.deltaTimeSeconds, particle->transform.velocity);
+				updateTransform(&particle->transform, time.deltaTimeSeconds, particle->model->useGravity);
+				particle->squaredDistanceToCamera = Vector.squareDistance(particle->transform.position, camPos);
+				particleListIterator = &(*particleListIterator)->next;
+			}
+			else
+			{
+				list_t *curItem = *particleListIterator;
+				*particleListIterator = (*particleListIterator)->next;
+				destroy(particle);
+				destroy(curItem);
+				_particleCount--;
+			}
 		}
 
-		emitterListIterator = &(*emitterListIterator)->next;
+		// Update emitters
+		while (*emitterListIterator)
+		{
+			emitter_t *emitter = (emitter_t*)(*emitterListIterator)->content;
+
+			updateTransform(&emitter->transform, time.deltaTimeSeconds, false);
+
+			if (time.currentTime - emitter->lastSpawn >= emitter->spawnData.nextWave->delay)
+			{ // Time to create a new particle
+				array_t *particlesToSpawn = &emitter->spawnData.nextWave->models;
+				uint i;
+
+				for (i = 0; i < particlesToSpawn->size; i++)
+				{
+					particleModel_t *model = (particleModel_t*)particlesToSpawn->content[i];
+					particle_t *newParticle = _newParticleFromEmitter(emitter, model);
+					newParticle->spawnTime = time.currentTime;
+					newParticle->squaredDistanceToCamera = Vector.squareDistance(emitter->transform.position, camPos);
+
+					List.add(particleListIterator, newParticle); // Add it right there since we have the pointer to the last node
+					particleListIterator = &(*particleListIterator)->next;
+					_particleCount++;
+				}
+
+				emitter->lastSpawn = time.currentTime; // Consider using += emitter->spawnData.nextWave->delay instead to avoid delaying further waves
+				emitter->spawnData.nextWave = emitter->spawnData.nextWave->next;
+			}
+
+			emitterListIterator = &(*emitterListIterator)->next;
+		}
 	}
+
+	// Sort particles (temporarily disabled)
+	//_particlesMergeSort(&_particleList, _particleCount);
 }
 
 particleModel_t *particles_newParticleModel(texture_t *texture, float r, float g, float b, float a, float scale, long life, bool useGravity)
