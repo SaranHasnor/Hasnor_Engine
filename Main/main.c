@@ -8,8 +8,6 @@
 
 #include <utils_matrix.h>
 
-mesh_t *_testMesh;
-
 void keyDownFunc(uchar key)
 {
 	if (key == 27)
@@ -81,38 +79,29 @@ void updateCamera(inputStruct_t input)
 	engine_setCameraVelocity(velocity);
 }
 
-extern void createInterface();
+extern void initSampleInterface();
 extern void initSampleParticles();
+extern void initSampleMesh();
+extern void updateSampleMesh(timeStruct_t time, inputStruct_t input);
 void updateFunc(timeStruct_t time, inputStruct_t input)
 {
 	if (time.currentTime == time.deltaTime)
 	{
-		createInterface();
-
-		_testMesh = newMesh();
-		addFace();
-		addVertex(0.0f, 1.0f, 0.0f, 0.0f, 1.0f);
-		addVertex(0.0f, 0.0f, 0.0f, 0.0f, 0.0f);
-		addVertex(1.0f, 0.0f, 0.0f, 1.0f, 0.0f);
-		
-		addFace();
-		addVertex(0.0f, 1.0f, 0.0f, 0.0f, 1.0f);
-		addVertex(1.0f, 0.0f, 0.0f, 1.0f, 0.0f);
-		addVertex(1.0f, 1.0f, 0.0f, 1.0f, 1.0f);
-
-		updateMeshGeometry(_testMesh);
+		initSampleInterface();
 
 		initSampleParticles();
+
+		initSampleMesh();
 	}
 
-	_testMesh->origin[2] += 0.1f * time.deltaTimeSeconds;
-	Matrix.rotation(_testMesh->rotation, _testMesh->origin[2], 0.0f, 0.0f, false);
+	updateSampleMesh(time, input);
 
 	updateCamera(input);
 
 	particles_Update(time);
 }
 
+extern void drawSampleMesh(float viewMatrix[16]);
 void renderFunc(void)
 {
 	float viewMatrix[16];
@@ -121,7 +110,7 @@ void renderFunc(void)
 
 	engine_getViewMatrix(viewMatrix);
 
-	renderMesh(_testMesh, viewMatrix);
+	drawSampleMesh(viewMatrix);
 
 	particles_Render(viewMatrix);
 }

@@ -8,6 +8,7 @@
 engine_render
 
 - 3D mesh generation and manipulation functions
+- TODO: Primitives, index saving when rendering
 */
 
 mesh_t *_selectedMesh = NULL;

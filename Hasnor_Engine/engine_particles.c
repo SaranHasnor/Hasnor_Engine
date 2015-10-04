@@ -18,7 +18,7 @@ const char *_particleVertexShader =
 	void main(void)																		\
 	{																					\
 		texCoord = texPos;																\
-		gl_Position = vec4(origin, 1.0) * viewMatrix + vec4(pos, 1.0) * scale;			\
+		gl_Position = vec4(origin, 1.0) * viewMatrix + vec4(pos, 0.0) * scale;			\
 	}";
 
 const char *_particleFragmentShader =  
@@ -289,7 +289,7 @@ void particles_Update(timeStruct_t time)
 
 			updateTransform(&emitter->transform, time.deltaTimeSeconds, false);
 
-			if (time.currentTime - emitter->lastSpawn >= emitter->spawnData.nextWave->delay)
+			while (time.currentTime - emitter->lastSpawn >= emitter->spawnData.nextWave->delay)
 			{ // Time to create a new particle
 				array_t *particlesToSpawn = &emitter->spawnData.nextWave->models;
 				uint i;
@@ -301,7 +301,7 @@ void particles_Update(timeStruct_t time)
 					newParticle->spawnTime = time.currentTime;
 					newParticle->squaredDistanceToCamera = Vector.squareDistance(emitter->transform.position, camPos);
 
-					List.add(particleListIterator, newParticle); // Add it right there since we have the pointer to the last node
+					List.add(particleListIterator, newParticle); // Add it right there since this is the pointer to the last node
 					particleListIterator = &(*particleListIterator)->next;
 					_particleCount++;
 				}
@@ -314,8 +314,8 @@ void particles_Update(timeStruct_t time)
 		}
 	}
 
-	// Sort particles (temporarily disabled)
-	//_particlesMergeSort(&_particleList, _particleCount);
+	// Sort particles
+	_particlesMergeSort(&_particleList, _particleCount);
 }
 
 particleModel_t *particles_newParticleModel(texture_t *texture, float r, float g, float b, float a, float scale, long life, bool useGravity)

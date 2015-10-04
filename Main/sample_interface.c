@@ -61,7 +61,7 @@ void leave(void)
 }
 
 
-void createInterface()
+void initSampleInterface()
 {
 	int temp;
 
