@@ -254,9 +254,9 @@ void initMemoryFunctions()
 	Memory.alloc = mem_alloc;
 	Memory.realloc = mem_realloc;
 	Memory.duplicate = mem_dupe;
-	Memory.safeDuplicate = mem_dupe2;
+	Memory.duplicateSafe = mem_dupe2;
 	Memory.free = mem_free;
-	Memory.safeFree = mem_free_safe;
+	Memory.freeSafe = mem_free_safe;
 	Memory.freeAll = mem_free_all;
 	Memory.set = mem_set;
 	Memory.copy = mem_cpy;

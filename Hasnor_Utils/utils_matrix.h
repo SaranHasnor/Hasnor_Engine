@@ -9,8 +9,11 @@ typedef struct {
 	void (*orthographic)(float mat[16], float width, float height, float near, float far);
 	void (*rotation)(float out[16], float pitch, float yaw, float roll, bool degrees);
 	void (*identity)(float mat[16]);
+	void (*fromQuaternion)(float out[16], float src[4]);
 	
 	void (*multiply)(float out[16], float a[16], float b[16]);
+	void (*transpose)(float out[16], float src[16]);
+	bool (*inverse)(float out[16], float src[16]);
 } _matrix_functions;
 
 _matrix_functions Matrix;

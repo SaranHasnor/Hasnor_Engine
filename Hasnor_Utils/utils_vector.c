@@ -1,8 +1,6 @@
-#include "utils_vector.h"
+#include "utils_math.h"
 
-#define _USE_MATH_DEFINES
-#include <math.h>
-
+static float _workVec[3];
 
 void vectorSet(float v[3], float x, float y, float z)
 {
@@ -92,6 +90,17 @@ float vectorDot(float a[3], float b[3])
 		res += a[i] * b[i];
 	}
 	return res;
+}
+
+void vectorCross(float out[3], float a[3], float b[3])
+{
+	_workVec[0] = a[1] * b[2] - a[2] * b[1];
+	_workVec[1] = a[2] * b[0] - a[0] * b[2];
+	_workVec[2] = a[0] * b[1] - a[1] * b[0];
+
+	out[0] = _workVec[0];
+	out[1] = _workVec[1];
+	out[2] = _workVec[2];
 }
 
 void vectorRotate(float vec[3], float targetAxis[3][3])
@@ -208,7 +217,8 @@ void initVectorFunctions()
 	Vector.copy = vectorCopy;
 	Vector.distance = vectorDistance;
 	Vector.squareDistance = vectorSquareDistance;
-	Vector.dot = vectorDot;
+	Vector.dotProduct = vectorDot;
+	Vector.crossProduct = vectorCross;
 	Vector.length = vectorLength;
 	Vector.lerp = vectorTransition;
 	Vector.multiply = vectorMult;

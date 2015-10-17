@@ -25,7 +25,8 @@ typedef struct {
 	void (*add)(float dest[3], float a[3], float b[3]);
 	void (*subtract)(float dest[3], float a[3], float b[3]);
 	void (*multiply)(float dest[3], float a[3], float b[3]);
-	float (*dot)(float a[3], float b[3]);
+	float (*dotProduct)(float a[3], float b[3]);
+	void (*crossProduct)(float out[3], float a[3], float b[3]);
 	float (*distance)(float a[3], float b[3]);
 	float (*squareDistance)(float a[3], float b[3]);
 

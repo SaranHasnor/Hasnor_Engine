@@ -4,9 +4,6 @@
 #include <stdlib.h>
 #include <string.h>
 
-#define _USE_MATH_DEFINES
-#include <math.h>
-
 #pragma warning (disable:4996)	// Allow use of deprecated/unsafe functions
 
 int randomIntBetween(int min, int max)

@@ -17,9 +17,9 @@ typedef struct {
 	void* (*alloc)(size_t size);
 	void* (*realloc)(void *mem, size_t size);
 	void* (*duplicate)(void *mem, size_t size);
-	void* (*safeDuplicate)(void *mem);
+	void* (*duplicateSafe)(void *mem);
 	void (*free)(void *mem);
-	void (*safeFree)(void *mem);
+	void (*freeSafe)(void *mem);
 	void (*freeAll)();
 	void (*set)(void *mem, int val, size_t size);
 	void (*copy)(void *mem, void *src, size_t size);

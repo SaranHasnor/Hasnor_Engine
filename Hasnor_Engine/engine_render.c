@@ -174,7 +174,7 @@ mesh_t *duplicateMesh(mesh_t *mesh)
 
 void destroyVertex(vertex_t *vertex)
 {
-	Memory.safeFree(vertex);
+	Memory.freeSafe(vertex);
 }
 
 void destroyFace(face_t *face)
