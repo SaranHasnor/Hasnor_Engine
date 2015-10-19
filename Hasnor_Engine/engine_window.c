@@ -1,3 +1,5 @@
+#define HASNOR_ENGINE_INTERNAL
+
 #include "engine_window.h"
 #include <GL/glut.h>
 #include <utils.h>
@@ -41,3 +43,5 @@ void createWindow(window_t *window)
 
 	glutReshapeFunc(reshape);
 }
+
+#undef HASNOR_ENGINE_INTERNAL

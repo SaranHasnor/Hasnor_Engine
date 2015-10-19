@@ -1,3 +1,5 @@
+#define HASNOR_ENGINE_INTERNAL
+
 #include <GL/glut.h>
 #include "engine_camera.h"
 #include <utils.h>
@@ -133,3 +135,20 @@ void positionGLCameraForInterface()
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
 }
+
+void initCameraFunctions(_camera_functions *Camera)
+{
+	CameraInternal = Camera;
+
+	Camera->getAngles = engine_getCameraAngles;
+	Camera->getPosition = engine_getCameraPosition;
+	Camera->getViewMatrix = engine_getViewMatrix;
+	Camera->move = engine_moveCamera;
+	Camera->rotate = engine_rotateCamera;
+	Camera->setAngles = engine_setCameraAngles;
+	Camera->setPosition = engine_setCameraPosition;
+	Camera->setRotation = engine_setCameraRotation;
+	Camera->setVelocity = engine_setCameraVelocity;
+}
+
+#undef HASNOR_ENGINE_INTERNAL

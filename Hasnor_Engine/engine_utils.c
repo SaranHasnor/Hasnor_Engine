@@ -1,3 +1,5 @@
+#define HASNOR_ENGINE_INTERNAL
+
 #include <GL/glut.h>
 #include <utils.h>
 #include <utils_vector.h>
@@ -75,3 +77,5 @@ void drawAxis()
 	glColor3fv(Vector.axis[2]);
 	makeLine(Vector.zero, Vector.axis[2]);
 }
+
+#undef HASNOR_ENGINE_INTERNAL

@@ -4,10 +4,21 @@ static float _workQuat[4];
 
 void quaternion_fromEuler(float out[4], float pitch, float yaw, float roll)
 {
-	out[0] = cosf(pitch/2.0f) * cosf(yaw/2.0f) * cosf(roll/2.0f) + sinf(pitch/2.0f) * sinf(yaw/2.0f) * sinf(roll/2.0f);
-	out[1] = sinf(pitch/2.0f) * cosf(yaw/2.0f) * cosf(roll/2.0f) - cosf(pitch/2.0f) * sinf(yaw/2.0f) * sinf(roll/2.0f);
-	out[2] = cosf(pitch/2.0f) * sinf(yaw/2.0f) * cosf(roll/2.0f) + sinf(pitch/2.0f) * cosf(yaw/2.0f) * sinf(roll/2.0f);
-	out[3] = cosf(pitch/2.0f) * cosf(yaw/2.0f) * sinf(roll/2.0f) - sinf(pitch/2.0f) * sinf(yaw/2.0f) * cosf(roll/2.0f);
+	float cp, cy, cr;
+	float sp, sy, sr;
+
+	cp = cosf(pitch/2.0f);
+	cy = cosf(yaw/2.0f);
+	cr = cosf(roll/2.0f);
+
+	sp = sinf(pitch/2.0f);
+	sy = sinf(yaw/2.0f);
+	sr = sinf(roll/2.0f);
+
+	out[0] = cp * cy * cr + sp * sy * sr;
+	out[1] = sp * cy * cr - cp * sy * sr;
+	out[2] = cp * sy * cr + sp * cy * sr;
+	out[3] = cp * cy * sr - sp * sy * cr;
 }
 
 void quaternion_identity(float out[4])

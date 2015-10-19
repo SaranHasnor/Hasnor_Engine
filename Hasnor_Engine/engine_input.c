@@ -1,3 +1,5 @@
+#define HASNOR_ENGINE_INTERNAL
+
 #include <GL/glut.h>
 #include "engine_input.h"
 #include "engine_interface.h"
@@ -214,3 +216,5 @@ void updateInput(inputStruct_t *input)
 
 	input->key_timeHeld = keyTimeHeld; // Not really necessary to do that every frame...
 }
+
+#undef HASNOR_ENGINE_INTERNAL

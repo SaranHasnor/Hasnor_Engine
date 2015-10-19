@@ -1,3 +1,5 @@
+#define HASNOR_ENGINE_INTERNAL
+
 #include "engine.h"
 #include "engine_window.h"
 #include "engine_input.h"
@@ -87,3 +89,11 @@ void engine_shutdown()
 	// Force the engine to shutdown
 	quit(); // temp
 }
+
+void initEngineFunctions()
+{
+	Engine.run = engine_run;
+	Engine.shutdown = engine_shutdown;
+}
+
+#undef HASNOR_ENGINE_INTERNAL

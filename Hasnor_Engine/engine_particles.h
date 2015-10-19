@@ -55,17 +55,23 @@ typedef struct {
 	long				lastSpawn;
 } emitter_t;
 
+typedef struct {
+	particleModel_t*	(*newParticle)(texture_t *texture, float r, float g, float b, float a, float scale, long life, bool useGravity);
+	void				(*setParticleTransition)(particleModel_t *model, float r, float g, float b, float a, float scale);
+	emitterModel_t*		(*newEmitter)();
+	emitter_t*			(*instantiateEmitter)(emitterModel_t *model);
+	
+	void				(*createNewWaveForEmitter)(emitterModel_t *emitter, long delay);
+	void				(*addNewParticleToEmitter)(emitterModel_t *emitter, particleModel_t *model);
+} _particle_functions;
+
+#ifdef HASNOR_INIT
+void initParticleFunctions(_particle_functions *Particles);
+#endif
+
 
 void particles_InitRenderer();
 void particles_Render(float viewMatrix[16]);
 void particles_Update(timeStruct_t time);
-
-particleModel_t *particles_newParticleModel(texture_t *texture, float r, float g, float b, float a, float scale, long life, bool useGravity);
-void particles_addFinalStateToParticleModel(particleModel_t *model, float r, float g, float b, float a, float scale);
-emitterModel_t *particles_newEmitterModel();
-emitter_t *particles_CreateEmitterFromModel(emitterModel_t *model);
-
-void particles_AddNewParticleToEmitter(emitterModel_t *emitter, particleModel_t *model);
-void particles_CreateNewWaveForEmitter(emitterModel_t *emitter, long delay);
 
 #endif

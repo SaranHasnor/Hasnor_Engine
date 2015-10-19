@@ -1,6 +1,10 @@
+#define HASNOR_ENGINE_INTERNAL
+
 #include "engine_particles.h"
-#include "engine_render.h"
+#include "engine_texture.h"
 #include "engine_camera.h"
+
+#include "utils_vector.h"
 
 #include <GL/glew.h>
 #include <GL/glut.h>
@@ -52,10 +56,10 @@ list_t *_emitterList;
 
 void particles_InitRenderer()
 {
-	_defaultParticleProgram = programWithShaders(shaderFromContent(SHADER_VERTEX, _particleVertexShader),
-												 shaderFromContent(SHADER_FRAGMENT, _particleFragmentShader));
+	_defaultParticleProgram = ProgramInternal->withShaders(ShaderInternal->fromContent(SHADER_VERTEX, _particleVertexShader),
+														   ShaderInternal->fromContent(SHADER_FRAGMENT, _particleFragmentShader));
 	
-	registerCustomUniformForProgram(_defaultParticleProgram, "scale");
+	ProgramInternal->registerCustomUniform(_defaultParticleProgram, "scale");
 
 	glGenBuffers(1, &_defaultParticleVBO);
 	glBindBuffer(GL_ARRAY_BUFFER, _defaultParticleVBO);
@@ -114,7 +118,7 @@ void particles_Render(float viewMatrix[16])
 
 		glUniform4f(particle->model->program->colorLocation,
 			particle->currentData.red, particle->currentData.green, particle->currentData.blue, particle->currentData.alpha);
-		glUniform1f(getCustomUniformLocationForProgram(particle->model->program, "scale"), particle->currentData.scale);
+		glUniform1f(ProgramInternal->getCustomUniformLocation(particle->model->program, "scale"), particle->currentData.scale);
 
 		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_BYTE, NULL);
 
@@ -242,7 +246,7 @@ void particles_Update(timeStruct_t time)
 	list_t **emitterListIterator = &_emitterList;
 	float camPos[3];
 
-	engine_getCameraPosition(camPos);
+	CameraInternal->getPosition(camPos);
 
 	if (pause)
 	{
@@ -396,3 +400,15 @@ emitter_t *particles_CreateEmitterFromModel(emitterModel_t *model)
 
 	return newEmitter;
 }
+
+void initParticleFunctions(_particle_functions *Particles)
+{
+	Particles->addNewParticleToEmitter = particles_AddNewParticleToEmitter;
+	Particles->createNewWaveForEmitter = particles_CreateNewWaveForEmitter;
+	Particles->instantiateEmitter = particles_CreateEmitterFromModel;
+	Particles->newEmitter = particles_newEmitterModel;
+	Particles->newParticle = particles_newParticleModel;
+	Particles->setParticleTransition = particles_addFinalStateToParticleModel;
+}
+
+#undef HASNOR_ENGINE_INTERNAL

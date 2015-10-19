@@ -48,16 +48,35 @@ typedef struct {
 	map_t		customLocations;
 } program_t;
 
-void updateTextureContents(texture_t *texture);
-texture_t *textureFromPath(const char *filePath);
+typedef struct {
+	texture_t*	(*fromPath)(const char *filePath);
+	void		(*update)(texture_t *texture);
+} _texture_functions;
 
-shader_t *shaderFromContent(shaderType_t type, const char *contents);
-shader_t *shaderFromPath(shaderType_t type, const char *filePath);
-program_t *programWithShaders(shader_t *vertexShader, shader_t *fragmentShader);
+typedef struct {
+	shader_t*	(*fromContent)(shaderType_t type, const char *contents);
+	shader_t*	(*fromPath)(shaderType_t type, const char *filePath);
+} _shader_functions;
 
-void registerCustomUniformForProgram(program_t *program, const char *name);
-int getCustomUniformLocationForProgram(program_t *program, const char *name);
+typedef struct {
+	program_t*	(*withShaders)(shader_t *vertexShader, shader_t *fragmentShader);
 
-program_t *defaultProgram(bool forTexture);
+	void		(*registerCustomUniform)(program_t *program, const char *name);
+	int			(*getCustomUniformLocation)(program_t *program, const char *name);
+
+	program_t*	(*getDefault)(bool forTexture);
+} _program_functions;
+
+#ifdef HASNOR_ENGINE_INTERNAL
+_texture_functions *TextureInternal;
+_shader_functions *ShaderInternal;
+_program_functions *ProgramInternal;
+#endif
+
+#ifdef HASNOR_INIT
+void initTextureFunctions(_texture_functions *Texture);
+void initShaderFunctions(_shader_functions *Shader);
+void initProgramFunctions(_program_functions *Program);
+#endif
 
 #endif

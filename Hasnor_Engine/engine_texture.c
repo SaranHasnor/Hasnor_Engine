@@ -1,3 +1,5 @@
+#define HASNOR_ENGINE_INTERNAL
+
 #include "engine_texture.h"
 #include "utils_file.h"
 
@@ -223,3 +225,31 @@ program_t *defaultProgram(bool forTexture)
 		return _defaultProgram;
 	}
 }
+
+void initTextureFunctions(_texture_functions *Texture)
+{
+	TextureInternal = Texture;
+
+	Texture->fromPath = textureFromPath;
+	Texture->update = updateTextureContents;
+}
+
+void initShaderFunctions(_shader_functions *Shader)
+{
+	ShaderInternal = Shader;
+
+	Shader->fromContent = shaderFromContent;
+	Shader->fromPath = shaderFromPath;
+}
+
+void initProgramFunctions(_program_functions *Program)
+{
+	ProgramInternal = Program;
+
+	Program->getDefault = defaultProgram;
+	Program->getCustomUniformLocation = getCustomUniformLocationForProgram;
+	Program->withShaders = programWithShaders;
+	Program->registerCustomUniform = registerCustomUniformForProgram;
+}
+
+#undef HASNOR_ENGINE_INTERNAL

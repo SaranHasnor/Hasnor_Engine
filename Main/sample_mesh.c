@@ -1,7 +1,6 @@
 
 
-#include <engine_callbacks.h>
-#include <engine_render.h>
+#include <engine.h>
 #include <utils_math.h>
 
 mesh_t *_texturedMesh;
@@ -10,36 +9,36 @@ mesh_t *_sky;
 
 void initSampleMesh()
 {
-	texture_t *texture = textureFromPath("textures/Lotus.jpg");
+	texture_t *texture = Engine.Render.Texture.fromPath("textures/Lotus.jpg");
 
-	_texturedMesh = newMesh();
-	addFace()->texture = texture;
-	addVertex(0.0f, 1.0f, 0.0f, 0.0f, 1.0f);
-	addVertex(0.0f, 0.0f, 0.0f, 0.0f, 0.0f);
-	addVertex(1.0f, 0.0f, 0.0f, 1.0f, 0.0f);
+	_texturedMesh = Engine.Render.Geometry.newMesh();
+	Engine.Render.Geometry.addFace()->texture = texture;
+	Engine.Render.Geometry.addVertex(0.0f, 1.0f, 0.0f, 0.0f, 1.0f);
+	Engine.Render.Geometry.addVertex(0.0f, 0.0f, 0.0f, 0.0f, 0.0f);
+	Engine.Render.Geometry.addVertex(1.0f, 0.0f, 0.0f, 1.0f, 0.0f);
 		
-	addFace()->texture = texture;
-	addVertex(0.0f, 1.0f, 0.0f, 0.0f, 1.0f);
-	addVertex(1.0f, 0.0f, 0.0f, 1.0f, 0.0f);
-	addVertex(1.0f, 1.0f, 0.0f, 1.0f, 1.0f);
+	Engine.Render.Geometry.addFace()->texture = texture;
+	Engine.Render.Geometry.addVertex(0.0f, 1.0f, 0.0f, 0.0f, 1.0f);
+	Engine.Render.Geometry.addVertex(1.0f, 0.0f, 0.0f, 1.0f, 0.0f);
+	Engine.Render.Geometry.addVertex(1.0f, 1.0f, 0.0f, 1.0f, 1.0f);
 
-	updateMeshGeometry(_texturedMesh);
+	Engine.Render.Geometry.updateMeshGeometry(_texturedMesh);
 
 	Vector.set(_texturedMesh->origin, -2.0f, -1.5f, 0.0f);
 	Matrix.rotation(_texturedMesh->rotation, -90.0f, 45.0f, 0.0f, true);
 
-	_animatedMesh = newMesh();
-	addFace();
-	addVertex(0.0f, 0.0f, 1.0f, 0.0f, 1.0f);
-	addVertex(0.0f, 0.0f, 0.0f, 0.0f, 0.0f);
-	addVertex(1.0f, 0.0f, 0.0f, 1.0f, 0.0f);
+	_animatedMesh = Engine.Render.Geometry.newMesh();
+	Engine.Render.Geometry.addFace();
+	Engine.Render.Geometry.addVertex(0.0f, 0.0f, 1.0f, 0.0f, 1.0f);
+	Engine.Render.Geometry.addVertex(0.0f, 0.0f, 0.0f, 0.0f, 0.0f);
+	Engine.Render.Geometry.addVertex(1.0f, 0.0f, 0.0f, 1.0f, 0.0f);
 		
-	addFace();
-	addVertex(0.0f, 0.0f, 1.0f, 0.0f, 1.0f);
-	addVertex(1.0f, 0.0f, 0.0f, 1.0f, 0.0f);
-	addVertex(1.0f, 0.0f, 1.0f, 1.0f, 1.0f);
+	Engine.Render.Geometry.addFace();
+	Engine.Render.Geometry.addVertex(0.0f, 0.0f, 1.0f, 0.0f, 1.0f);
+	Engine.Render.Geometry.addVertex(1.0f, 0.0f, 0.0f, 1.0f, 0.0f);
+	Engine.Render.Geometry.addVertex(1.0f, 0.0f, 1.0f, 1.0f, 1.0f);
 
-	updateMeshGeometry(_animatedMesh);
+	Engine.Render.Geometry.updateMeshGeometry(_animatedMesh);
 
 	_sky = NULL; // TODO
 }
@@ -69,7 +68,7 @@ void updateSampleMesh(timeStruct_t time, inputStruct_t input)
 
 void drawSampleMesh(float viewMatrix[16])
 {
-	//renderMesh(_sky, viewMatrix);
-	renderMesh(_texturedMesh, viewMatrix);
-	renderMesh(_animatedMesh, viewMatrix);
+	//Engine.Render.Geometry.renderMesh(_sky, viewMatrix);
+	Engine.Render.Geometry.renderMesh(_texturedMesh, viewMatrix);
+	Engine.Render.Geometry.renderMesh(_animatedMesh, viewMatrix);
 }

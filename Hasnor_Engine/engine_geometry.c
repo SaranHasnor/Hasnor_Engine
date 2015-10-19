@@ -1,11 +1,13 @@
-#include "engine_render.h"
+#define HASNOR_ENGINE_INTERNAL
+
+#include "engine_geometry.h"
 #include <utils_matrix.h>
 #include <utils_quaternion.h>
 
 #include <GL/glew.h>
 
 /*
-engine_render
+engine_geometry
 
 - 3D mesh generation and manipulation functions
 - TODO: Primitives, index saving when rendering
@@ -447,7 +449,7 @@ void renderMesh(const mesh_t *mesh, float viewMatrix[16])
 
 		if (!program)
 		{
-			program = defaultProgram(gotTexture);
+			program = ProgramInternal->getDefault(gotTexture);
 		}
 
 		glUseProgram(program->programID);
@@ -483,3 +485,40 @@ void renderMesh(const mesh_t *mesh, float viewMatrix[16])
 	}
 	glUseProgram(0);
 }
+
+void initGeometryFunctions(_geometry_functions *Geometry)
+{
+	Geometry->addFace = addFace;
+	Geometry->addFaceToMesh = addFaceToMesh;
+	Geometry->addVertex = addVertex;
+	Geometry->addVertexToFace = addVertexToFace;
+	Geometry->destroyFace = destroyFace;
+	Geometry->destroyMesh = destroyMesh;
+	Geometry->destroyVertex = destroyVertex;
+	Geometry->duplicateFace = duplicateFace;
+	Geometry->duplicateMesh = duplicateMesh;
+	Geometry->duplicateVertex = duplicateVertex;
+	Geometry->getDistanceBetweenVertices = getDistanceBetweenVertices;
+	Geometry->getSelectedFace = getSelectedFace;
+	Geometry->getSelectedMesh = getSelectedMesh;
+	Geometry->linkFaceToMesh = linkFaceToMesh;
+	Geometry->linkVertexToFace = linkVertexToFace;
+	Geometry->moveCursorPos = moveCursorPos;
+	Geometry->moveFace = moveFace;
+	Geometry->moveMesh = moveMesh;
+	Geometry->moveVertex = moveVertex;
+	Geometry->newMesh = newMesh;
+	Geometry->renderMesh = renderMesh;
+	Geometry->resetWorkSpace = resetWorkSpace;
+	Geometry->selectFace = selectFace;
+	Geometry->selectMesh = selectMesh;
+	Geometry->setAutoSelect = setAutoSelect;
+	Geometry->setCursorCoords = setCursorCoords;
+	Geometry->setCursorPos = setCursorPos;
+	Geometry->setLocalAxis = setLocalAxis;
+	Geometry->setLocalAxisFromCoords = setLocalAxisFromCoords;
+	Geometry->setLocalAxisFromLine = setLocalAxisFromLine;
+	Geometry->updateMeshGeometry = updateMeshGeometry;
+}
+
+#undef HASNOR_ENGINE_INTERNAL

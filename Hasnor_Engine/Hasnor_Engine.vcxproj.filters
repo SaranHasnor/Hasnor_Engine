@@ -36,9 +36,6 @@
     <ClInclude Include="engine_utils.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
-    <ClInclude Include="engine_render.h">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
     <ClInclude Include="engine_physics.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
@@ -46,6 +43,12 @@
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
     <ClInclude Include="engine_particles.h">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
+    <ClInclude Include="engine_init.h">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
+    <ClInclude Include="engine_geometry.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
   </ItemGroup>
@@ -68,12 +71,6 @@
     <ClCompile Include="engine_utils.c">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
-    <ClCompile Include="engine_callbacks.c">
-      <Filter>Fichiers sources</Filter>
-    </ClCompile>
-    <ClCompile Include="engine_render.c">
-      <Filter>Fichiers sources</Filter>
-    </ClCompile>
     <ClCompile Include="engine_physics.c">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
@@ -81,6 +78,12 @@
       <Filter>Fichiers sources</Filter>
     </ClCompile>
     <ClCompile Include="engine_particles.c">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
+    <ClCompile Include="engine_init.c">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
+    <ClCompile Include="engine_geometry.c">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
   </ItemGroup>

@@ -1,3 +1,5 @@
+#define HASNOR_ENGINE_INTERNAL
+
 #include "engine_physics.h"
 #include <utils_vector.h>
 
@@ -12,3 +14,5 @@ void updateTransform(transform_t *transform, float deltaTime, bool useGravity)
 		Vector.multiplyAdd(transform->velocity, transform->velocity, deltaTime, _gravity);
 	}
 }
+
+#undef HASNOR_ENGINE_INTERNAL

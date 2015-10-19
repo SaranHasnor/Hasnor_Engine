@@ -9,4 +9,6 @@ typedef struct {
 	float		rotation[3];
 } transform_t;
 
+#ifdef HASNOR_ENGINE_INTERNAL
 void updateTransform(transform_t *transform, float deltaTime, bool useGravity);
+#endif

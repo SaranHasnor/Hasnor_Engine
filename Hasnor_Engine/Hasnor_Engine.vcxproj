@@ -66,24 +66,25 @@
   <ItemGroup>
     <ClInclude Include="engine.h" />
     <ClInclude Include="engine_callbacks.h" />
+    <ClInclude Include="engine_init.h" />
     <ClInclude Include="engine_input.h" />
     <ClInclude Include="engine_interface.h" />
     <ClInclude Include="engine_camera.h" />
     <ClInclude Include="engine_particles.h" />
     <ClInclude Include="engine_physics.h" />
-    <ClInclude Include="engine_render.h" />
+    <ClInclude Include="engine_geometry.h" />
     <ClInclude Include="engine_texture.h" />
     <ClInclude Include="engine_utils.h" />
     <ClInclude Include="engine_window.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="engine.c" />
-    <ClCompile Include="engine_callbacks.c" />
+    <ClCompile Include="engine_init.c" />
     <ClCompile Include="engine_input.c" />
     <ClCompile Include="engine_interface.c" />
     <ClCompile Include="engine_particles.c" />
     <ClCompile Include="engine_physics.c" />
-    <ClCompile Include="engine_render.c" />
+    <ClCompile Include="engine_geometry.c" />
     <ClCompile Include="engine_texture.c" />
     <ClCompile Include="engine_utils.c" />
     <ClCompile Include="engine_camera.c" />
