@@ -357,3 +357,33 @@ void interface_updateLayout()
 {
 	updateBlockLayout(&_interface.mainBlock);
 }
+
+void initInterfaceFunctions(_interface_functions *UI)
+{
+	UI->checkBox = interface_checkBox;
+	UI->clearList = interface_clearList;
+	UI->clearSideMenu = interface_clearSideMenu;
+	UI->closeSideMenu = interface_closeSideMenu;
+	UI->deleteAllObjects = interface_deleteAllObjects;
+	UI->deleteObject = interface_deleteObject;
+	UI->dynamicLabel = interface_dynamicLabel;
+	UI->getListSelectedIndex = interface_getListSelectedIndex;
+	UI->list = interface_list;
+	UI->loadListSelectedIndex = interface_loadListSelectedIndex;
+	UI->newSideMenu = interface_newSideMenu;
+	UI->popBlock = interface_popBlock;
+	UI->pushBlock = interface_pushBlock;
+	UI->radioButton = interface_radioButton;
+	UI->saveListSelectedIndex = interface_saveListSelectedIndex;
+	UI->setCheckBoxValue = interface_setCheckBoxValue;
+	UI->setRadioButtonValue = interface_setRadioButtonValue;
+	UI->setRadioGroupSelectionCallback = interface_setRadioGroupSelectionCallback;
+	UI->setSliderValue = interface_setSliderValue;
+	UI->setTextFieldValue = interface_setTextFieldValue;
+	UI->slider = interface_slider;
+	UI->staticButton = interface_staticButton;
+	UI->staticLabel = interface_staticLabel;
+	UI->staticListEntry = interface_staticListEntry;
+	UI->textField = interface_textField;
+	UI->updateLayout = interface_updateLayout;
+}

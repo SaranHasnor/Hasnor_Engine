@@ -5,6 +5,7 @@
 #include "engine_camera.h"
 #include "engine_geometry.h"
 #include "engine_particles.h"
+#include "engine_interface.h"
 
 typedef struct {
 	_texture_functions	Texture;
@@ -20,6 +21,7 @@ typedef struct {
 
 	_camera_functions Camera;
 	_render_functions Render;
+	_interface_functions UI;
 } _engine_functions;
 
 _engine_functions Engine;

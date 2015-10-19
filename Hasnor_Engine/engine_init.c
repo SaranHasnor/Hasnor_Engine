@@ -6,6 +6,7 @@
 #include "engine_texture.h"
 #include "engine_geometry.h"
 #include "engine_particles.h"
+#include "engine_interface.h"
 #undef HASNOR_INIT
 
 void initHasnorEngine()
@@ -18,4 +19,5 @@ void initHasnorEngine()
 	initProgramFunctions(&Engine.Render.Program);
 	initGeometryFunctions(&Engine.Render.Geometry);
 	initParticleFunctions(&Engine.Render.Particles);
+	initInterfaceFunctions(&Engine.UI);
 }
