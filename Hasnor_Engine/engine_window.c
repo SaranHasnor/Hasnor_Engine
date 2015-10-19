@@ -23,7 +23,7 @@ void reshape(int w, int h)
 {
 	glViewport(0, 0, (GLsizei)w, (GLsizei)h);
 
-	setCameraSize(w, h);
+	setCameraSize((float)w, (float)h);
 	interface_reshapeWindow(w, h);
 }
 
@@ -39,7 +39,7 @@ void createWindow(window_t *window)
 	initRendering();
 
 	initCamera();
-	setCameraSize(window->width, window->height);
+	setCameraSize((float)window->width, (float)window->height);
 
 	glutReshapeFunc(reshape);
 }

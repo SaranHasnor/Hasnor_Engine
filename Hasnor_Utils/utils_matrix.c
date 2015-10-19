@@ -39,15 +39,24 @@ void mat_viewModel(float mat[16], float position[3], float angle[3])
 	mat[4*i+3] = 1.0f;
 }
 
-void mat_orthographic(float mat[16], float width, float height, float near, float far)
+void mat_orthographic(float mat[16], float left, float right, float bottom, float top, float near, float far)
 {
+	float width = right - left;
+	float height = top - bottom;
 	float depth = far - near;
 
 	Memory.set(mat, 0, sizeof(float) * 16);
+
 	mat[0] = 2.0f / width;
+
 	mat[5] = 2.0f / height;
+
 	mat[10] = -2.0f / depth;
+
+	mat[12] = -(right + left) / width;
+	mat[13] = -(top + bottom) / height;
 	mat[14] = -(far + near) / depth;
+
 	mat[15] = 1.0f;
 }
 

@@ -6,7 +6,7 @@
 typedef struct {
 	void (*perspective)(float mat[16], float fov, float aspect, float near, float far);
 	void (*viewModel)(float mat[16], float position[3], float angle[3]);
-	void (*orthographic)(float mat[16], float width, float height, float near, float far);
+	void (*orthographic)(float mat[16], float left, float right, float bottom, float top, float near, float far);
 	void (*rotation)(float out[16], float pitch, float yaw, float roll, bool degrees);
 	void (*identity)(float mat[16]);
 	void (*fromQuaternion)(float out[16], float src[4]);
