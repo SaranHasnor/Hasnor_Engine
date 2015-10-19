@@ -36,8 +36,6 @@ typedef struct {
 	void (*updateLayout)();
 } _interface_functions;
 
-_interface_functions UI;
-
 #ifdef HASNOR_INIT
 void initInterfaceFunctions(_interface_functions *UI);
 #endif
