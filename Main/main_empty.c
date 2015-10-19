@@ -1,13 +1,16 @@
 #include <stdio.h>
 #include <engine.h>
 #include <engine_utils.h>
+
 #include <utils_init.h>
+#include <engine_init.h>
+
 
 void keyDownFunc(uchar key)
 {
 	if (key == 27)
 	{
-		engine_shutdown();
+		Engine.shutdown();
 	}
 }
 
@@ -38,7 +41,7 @@ void updateCamera(inputStruct_t input)
 		angle[1] = -(float)input.mouseDelta[0];
 		angle[2] = 0;
 
-		engine_rotateCamera(angle);
+		Engine.Camera.rotate(angle);
 	}
 
 	if (input.key_timeHeld('z') > 0)
@@ -71,14 +74,14 @@ void updateCamera(inputStruct_t input)
 		velocity[2] -= 1.0f;
 	}
 
-	engine_setCameraVelocity(velocity);
+	Engine.Camera.setVelocity(velocity);
 }
 
 void updateFunc(timeStruct_t time, inputStruct_t input)
 {
 	if (time.currentTime == time.deltaTime)
 	{
-		
+
 	}
 
 	updateCamera(input);
@@ -90,7 +93,7 @@ void renderFunc(void)
 
 	drawAxis();
 
-	engine_getViewMatrix(viewMatrix);
+	Engine.Camera.getViewMatrix(viewMatrix);
 
 	// Render
 }
@@ -107,8 +110,9 @@ int main(int argc, char **argv)
 	listener.updateFunc = updateFunc;
 
 	initHasnorUtils();
+	initHasnorEngine();
 
-	engine_run(argc, argv, 1200, 600, "Test", listener);
+	Engine.run(argc, argv, 1200, 600, "Test", listener);
 
 	return 0;
 }
