@@ -25,6 +25,8 @@ typedef struct {
 
 _bytestream_functions ByteStream;
 
+#ifdef HASNOR_INIT
 void initByteStreamFunctions();
+#endif
 
 #endif

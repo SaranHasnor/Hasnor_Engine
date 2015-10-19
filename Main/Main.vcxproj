@@ -82,7 +82,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="sample_interface.c" />
-    <ClCompile Include="main.c" />
+    <ClCompile Include="sample_main.c" />
     <ClCompile Include="sample_mesh.c" />
     <ClCompile Include="sample_particles.c" />
   </ItemGroup>

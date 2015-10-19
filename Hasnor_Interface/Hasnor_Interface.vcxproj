@@ -41,7 +41,7 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>$(SolutionDir)Hasnor_Utils;$(SolutionDir)Hasnor_Engine\Libraries\glut\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(HASNOR_LIBS_PATH)\Hasnor_Utils;$(HASNOR_LIBS_PATH)\Hasnor_Engine\Libraries\glut\include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -53,7 +53,7 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <AdditionalIncludeDirectories>$(SolutionDir)Hasnor_Utils;$(SolutionDir)Hasnor_Engine\Libraries\glut\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(HASNOR_LIBS_PATH)\Hasnor_Utils;$(HASNOR_LIBS_PATH)\Hasnor_Engine\Libraries\glut\include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>

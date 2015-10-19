@@ -33,6 +33,8 @@ _memory_functions Memory;
 #define newArray(x, n) (x*)Memory.alloc(sizeof(x) * n)
 #define destroy(x) Memory.free(x)
 
+#ifdef HASNOR_INIT
 void initMemoryFunctions();
+#endif
 
 #endif

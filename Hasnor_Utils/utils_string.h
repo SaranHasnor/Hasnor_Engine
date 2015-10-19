@@ -26,6 +26,8 @@ typedef struct {
 
 _string_functions String;
 
+#ifdef HASNOR_INIT
 void initStringFunctions();
+#endif
 
 #endif

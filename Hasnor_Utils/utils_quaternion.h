@@ -11,6 +11,8 @@ typedef struct {
 
 _quaternion_functions Quaternion;
 
+#ifdef HASNOR_INIT
 void initQuaternionFunctions();
+#endif
 
 #endif

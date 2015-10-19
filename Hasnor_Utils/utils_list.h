@@ -18,6 +18,8 @@ typedef struct {
 
 _list_functions List;
 
+#ifdef HASNOR_INIT
 void initListFunctions();
+#endif
 
 #endif

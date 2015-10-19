@@ -41,7 +41,7 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>$(SolutionDir)Hasnor_Interface;$(SolutionDir)Hasnor_Utils;$(ProjectDir)Libraries\glut\include;$(ProjectDir)Libraries\glew-1.12.0\include;$(ProjectDir)Libraries\stb</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(HASNOR_LIBS_PATH)\Hasnor_Interface;$(HASNOR_LIBS_PATH)\Hasnor_Utils;$(ProjectDir)Libraries\glut\include;$(ProjectDir)Libraries\glew-1.12.0\include;$(ProjectDir)Libraries\stb</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -54,7 +54,7 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <AdditionalIncludeDirectories>$(SolutionDir)Hasnor_Interface;$(SolutionDir)Hasnor_Utils;$(ProjectDir)Libraries\glut\include;$(ProjectDir)Libraries\glew-1.12.0\include;$(ProjectDir)Libraries\stb</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(HASNOR_LIBS_PATH)\Hasnor_Interface;$(HASNOR_LIBS_PATH)\Hasnor_Utils;$(ProjectDir)Libraries\glut\include;$(ProjectDir)Libraries\glew-1.12.0\include;$(ProjectDir)Libraries\stb</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>

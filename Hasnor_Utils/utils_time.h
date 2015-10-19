@@ -16,6 +16,8 @@ typedef struct {
 
 _time_functions Time;
 
+#ifdef HASNOR_INIT
 void initTimeFunctions();
+#endif
 
 #endif

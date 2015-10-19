@@ -9,6 +9,8 @@ typedef struct {
 
 _file_functions File;
 
+#ifdef HASNOR_INIT
 void initFileFunctions();
+#endif
 
 #endif

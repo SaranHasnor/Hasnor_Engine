@@ -43,6 +43,8 @@ typedef struct {
 
 _vector_functions Vector;
 
+#ifdef HASNOR_INIT
 void initVectorFunctions();
+#endif
 
 #endif
