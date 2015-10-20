@@ -1,7 +1,7 @@
 #include "interface_radiobutton.h"
 #include "interface_render.h"
 
-radioButton_t *newRadioButton()
+radioButton_t *newRadioButton(void)
 {
 	radioButton_t *radio = newObject(radioButton_t);
 	Memory.set(radio, 0, sizeof(radioButton_t));

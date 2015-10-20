@@ -1,7 +1,7 @@
 #include "interface_checkbox.h"
 #include "interface_render.h"
 
-checkBox_t *newCheckBox()
+checkBox_t *newCheckBox(void)
 {
 	checkBox_t *checkbox = newObject(checkBox_t);
 	Memory.set(checkbox , 0, sizeof(checkBox_t));

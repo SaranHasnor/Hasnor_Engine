@@ -305,7 +305,7 @@ bool mat_inverse(float out[16], float src[16])
 	return true;
 }
 
-void initMatrixFunctions()
+void initMatrixFunctions(void)
 {
 	Matrix.identity = mat_identity;
 	Matrix.multiply = mat_multiply;

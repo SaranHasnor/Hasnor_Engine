@@ -6,7 +6,7 @@
 #include <string.h>
 #include <stdlib.h>
 
-void interface_init()
+void interface_init(void)
 {
 	renameString = NULL;
 
@@ -57,7 +57,7 @@ void _unselectRadioGroup(radioGroup_t *group)
 	}
 }
 
-void _dropFocus()
+void _dropFocus(void)
 { // Drop the focus of the current object
 	renameString = NULL;
 	renameStringCursor = 0;
@@ -359,7 +359,7 @@ void interface_update(float deltaTime)
 	// :D
 }
 
-void interface_render()
+void interface_render(void)
 {
 	drawBlock(&_interface.mainBlock);
 

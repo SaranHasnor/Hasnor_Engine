@@ -1,7 +1,7 @@
 #include "interface_button.h"
 #include "interface_render.h"
 
-button_t *newButton()
+button_t *newButton(void)
 {
 	button_t *button = newObject(button_t);
 	Memory.set(button, 0, sizeof(button_t));

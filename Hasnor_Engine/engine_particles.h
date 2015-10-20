@@ -58,7 +58,7 @@ typedef struct {
 typedef struct {
 	particleModel_t*	(*newParticle)(texture_t *texture, float r, float g, float b, float a, float scale, long life, bool useGravity);
 	void				(*setParticleTransition)(particleModel_t *model, float r, float g, float b, float a, float scale);
-	emitterModel_t*		(*newEmitter)();
+	emitterModel_t*		(*newEmitter)(void);
 	emitter_t*			(*instantiateEmitter)(emitterModel_t *model);
 	
 	void				(*createNewWaveForEmitter)(emitterModel_t *emitter, long delay);
@@ -70,7 +70,7 @@ void initParticleFunctions(_particle_functions *Particles);
 #endif
 
 
-void particles_InitRenderer();
+void particles_InitRenderer(void);
 void particles_Render(float viewMatrix[16]);
 void particles_Update(timeStruct_t time);
 

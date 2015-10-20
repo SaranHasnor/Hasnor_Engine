@@ -18,7 +18,7 @@ typedef struct {
 	void			(*onDeselected)(bool cancelled);
 } textField_t;
 
-textField_t *newTextField();
+textField_t *newTextField(void);
 void destroyTextField(textField_t *textField);
 void updateFieldText(textField_t *field);
 void updateFieldValue(textField_t *field);

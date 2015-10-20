@@ -1,2 +1,2 @@
 
-void initHasnorUtils();
+void initHasnorUtils(void);

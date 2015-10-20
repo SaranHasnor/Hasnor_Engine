@@ -8,8 +8,8 @@ engine_window
 */
 
 typedef struct {
-	int	(*getWidth)();
-	int	(*getHeight)();
+	int	(*getWidth)(void);
+	int	(*getHeight)(void);
 } _window_functions;
 
 #ifdef HASNOR_ENGINE_INTERNAL

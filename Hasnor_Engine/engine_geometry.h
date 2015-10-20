@@ -57,7 +57,7 @@ typedef struct {
 	// Construction functions
 	vertex_t*	(*addVertexToFace)(face_t *face, float x, float y, float z, float u, float v);
 	face_t*		(*addFaceToMesh)(mesh_t *mesh);
-	mesh_t*		(*newMesh)();
+	mesh_t*		(*newMesh)(void);
 
 	// Linking function
 	void		(*linkVertexToFace)(face_t *face, vertex_t *vertex);
@@ -65,7 +65,7 @@ typedef struct {
 
 	// Quick construction functions (using selected objects)
 	vertex_t*	(*addVertex)(float x, float y, float z, float u, float v);
-	face_t*		(*addFace)();
+	face_t*		(*addFace)(void);
 
 	// Destruction functions
 	void		(*destroyVertex)(vertex_t *vertex);
@@ -92,8 +92,8 @@ typedef struct {
 	void		(*setAutoSelect)(bool active);
 	void		(*selectFace)(face_t *face);
 	void		(*selectMesh)(mesh_t *mesh);
-	face_t*		(*getSelectedFace)();
-	mesh_t*		(*getSelectedMesh)();
+	face_t*		(*getSelectedFace)(void);
+	mesh_t*		(*getSelectedMesh)(void);
 
 	// Cursor management functions
 	void		(*setCursorPos)(float x, float y, float z);
@@ -107,7 +107,7 @@ typedef struct {
 
 	// Utility functions
 	float		(*getDistanceBetweenVertices)(vertex_t *vert1, vertex_t *vert2);
-	void		(*resetWorkSpace)();
+	void		(*resetWorkSpace)(void);
 
 	// Rendering functions
 	void		(*updateMeshGeometry)(mesh_t *mesh);

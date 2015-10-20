@@ -113,7 +113,7 @@ int list_count(list_t **list)
 	return count;
 }
 
-void initListFunctions()
+void initListFunctions(void)
 {
 	List.add = list_add;
 	List.insert = list_insert;

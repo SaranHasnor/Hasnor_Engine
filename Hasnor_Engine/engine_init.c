@@ -10,7 +10,7 @@
 #include "engine_window.h"
 #undef HASNOR_INIT
 
-void initHasnorEngine()
+void initHasnorEngine(void)
 {
 	initEngineFunctions();
 	

@@ -11,6 +11,6 @@ void scale(float vec[3]);
 void makeLine(float pos1[3], float pos2[3]);
 void makeLineFromVec2(float x, float y, float z, float length);
 void makeLineFromVec(float vec[3], float length);
-void drawAxis();
+void drawAxis(void);
 
 #endif

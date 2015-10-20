@@ -79,9 +79,9 @@ void updateCamera(inputStruct_t input)
 	Engine.Camera.setVelocity(velocity);
 }
 
-extern void initSampleInterface();
-extern void initSampleParticles();
-extern void initSampleMesh();
+extern void initSampleInterface(void);
+extern void initSampleParticles(void);
+extern void initSampleMesh(void);
 extern void updateSampleMesh(timeStruct_t time, inputStruct_t input);
 void updateFunc(timeStruct_t time, inputStruct_t input)
 {

@@ -14,7 +14,7 @@
 #include "utils_vector.h"
 #undef HASNOR_INIT
 
-void initHasnorUtils()
+void initHasnorUtils(void)
 {
 	initArrayFunctions();
 	initByteStreamFunctions();

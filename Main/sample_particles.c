@@ -2,7 +2,7 @@
 #include <engine.h>
 #include <utils_vector.h>
 
-void initSampleParticles()
+void initSampleParticles(void)
 {
 	texture_t *texture = Engine.Render.Texture.fromPath("textures/flare_white.jpg");
 	emitterModel_t *emitterModel;

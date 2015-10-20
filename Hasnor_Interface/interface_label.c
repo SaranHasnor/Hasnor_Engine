@@ -1,7 +1,7 @@
 #include "interface_label.h"
 #include "interface_render.h"
 
-label_t *newLabel()
+label_t *newLabel(void)
 {
 	label_t *label = newObject(label_t);
 	Memory.set(label, 0, sizeof(label_t));

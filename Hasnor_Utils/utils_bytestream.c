@@ -75,7 +75,7 @@ char *bytestream_toString(bytestream_t *stream)
 	return res;
 }
 
-/*byte randomByte()
+/*byte randomByte(void)
 {
 	byte res = 0;
 	int i;
@@ -95,7 +95,7 @@ void fillWithRandom(void *dst, size_t size)
 	}
 }*/
 
-void initByteStreamFunctions()
+void initByteStreamFunctions(void)
 {
 	ByteStream.init = bytestream_init;
 	ByteStream.write = bytestream_write;

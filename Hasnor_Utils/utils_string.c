@@ -50,7 +50,7 @@ void string_appendStr(string *str, char *value)
 	str->len = newLen;
 }
 
-void initStringFunctions()
+void initStringFunctions(void)
 {
 	String.init = string_initStr;
 	String.fromInt = string_initInt;

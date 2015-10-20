@@ -1,7 +1,7 @@
 #include "interface_slider.h"
 #include "interface_render.h"
 
-slider_t *newSlider()
+slider_t *newSlider(void)
 {
 	slider_t *slider = newObject(slider_t);
 	Memory.set(slider, 0, sizeof(slider_t));

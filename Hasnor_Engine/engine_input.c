@@ -129,7 +129,7 @@ void mouse(int button, int state, int x, int y)
 	else
 	{ // ???
 		assert(0);
-		actualButton = -1;
+		actualButton = (ushort)-1;
 	}
 
 	if (state == GLUT_DOWN)

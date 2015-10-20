@@ -179,7 +179,7 @@ void mem_free_safe(void *mem)
 	}
 }
 
-void mem_free_all()
+void mem_free_all(void)
 {
 	mem_t *mem = alloc;
 
@@ -227,7 +227,7 @@ size_t mem_size(void *mem)
 	}
 }
 
-void mem_print()
+void mem_print(void)
 {
 	mem_t *mem = alloc;
 	size_t total = 0;
@@ -249,7 +249,7 @@ void mem_print()
 	printf("Total: %i bytes\n", total);
 }
 
-void initMemoryFunctions()
+void initMemoryFunctions(void)
 {
 	Memory.alloc = mem_alloc;
 	Memory.realloc = mem_realloc;

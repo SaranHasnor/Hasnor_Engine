@@ -245,7 +245,7 @@ float vectorOrientedAngleBetween(float a[3], float b[3], float normal[3])
 	return angle;
 }
 
-void initVectorFunctions()
+void initVectorFunctions(void)
 {
 	vectorSet(Vector.axis[0], 1.0f, 0.0f, 0.0f);
 	vectorSet(Vector.axis[1], 0.0f, 1.0f, 0.0f);

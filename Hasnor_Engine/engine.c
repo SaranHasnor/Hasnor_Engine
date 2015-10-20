@@ -78,13 +78,13 @@ void engine_run(int argc, char **argv, int windowWidth, int windowHeight, char *
 	glutMainLoop();
 }
 
-void engine_shutdown()
+void engine_shutdown(void)
 {
 	// Force the engine to shutdown
 	quit(); // temp
 }
 
-void initEngineFunctions()
+void initEngineFunctions(void)
 {
 	Engine.run = engine_run;
 	Engine.shutdown = engine_shutdown;

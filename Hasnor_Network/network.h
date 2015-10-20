@@ -17,22 +17,22 @@ typedef enum {
 	SOCKET_TYPE_HOST
 } socketType_t;
 
-networkMode_t currentNetworkMode();
-uint maxConnections();
+networkMode_t currentNetworkMode(void);
+uint maxConnections(void);
 
 void setupNetwork(long worryTime, long timeoutTime);
-void shutdownNetwork();
+void shutdownNetwork(void);
 
 bool createHostSocket(int maxConnections, unsigned short port, socketProtocol_t protocol, networkStatus_t *status);
 bool createSocket(const char *address, unsigned short port, socketProtocol_t protocol, networkStatus_t *status);
 
 bool tryToConnect(bytestream_t clientInfo, networkStatus_t *status);
-bool getNewClient();
+bool getNewClient(void);
 
 void dropClient(int id);
-void disconnect();
+void disconnect(void);
 
-void checkForTimeOuts();
+void checkForTimeOuts(void);
 
 void sendMessage(networkMessageType_t type, int senderID, int receiverID, bytestream_t content);
 void receiveMessages(networkUpdate_t *update);

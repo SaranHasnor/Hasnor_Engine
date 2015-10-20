@@ -22,7 +22,7 @@ float _renderProjectionMatrix[16];
 float _interfaceProjectionMatrix[16];
 float _renderModelViewMatrix[16];
 
-void _updateProjectionMatrix()
+void _updateProjectionMatrix(void)
 {
 	// Render
 	if (_mainCamera.isOrthographic)
@@ -38,7 +38,7 @@ void _updateProjectionMatrix()
 	Matrix.orthographic(_interfaceProjectionMatrix, 0.0f, _mainCamera.viewportSize[0], _mainCamera.viewportSize[1], 0.0f, -1.0f, 1.0f);
 }
 
-void initCamera()
+void initCamera(void)
 {
 	Vector.copy(_mainCamera.transform.velocity, Vector.zero);
 	Vector.copy(_mainCamera.transform.rotation, Vector.zero);
@@ -68,7 +68,7 @@ void setCameraFOV(float fov)
 	_updateProjectionMatrix();
 }
 
-void makeCameraPerspective()
+void makeCameraPerspective(void)
 {
 	if (_mainCamera.isOrthographic)
 	{
@@ -78,7 +78,7 @@ void makeCameraPerspective()
 	}
 }
 
-void makeCameraOrthographic()
+void makeCameraOrthographic(void)
 {
 	if (!_mainCamera.isOrthographic)
 	{
@@ -133,7 +133,7 @@ void engine_getViewMatrix(float out[16])
 	Matrix.multiply(out, _renderProjectionMatrix, _renderModelViewMatrix);
 }
 
-void _clampCameraAngles()
+void _clampCameraAngles(void)
 {
 	if (_mainCamera.transform.angles[0] < -85)
 		_mainCamera.transform.angles[0] = -85;
@@ -169,7 +169,7 @@ void updateGLCamera(timeStruct_t time, inputStruct_t input)
 	Matrix.viewModel(_renderModelViewMatrix, _mainCamera.transform.position, _mainCamera.transform.angles);
 }
 
-void positionGLCameraForRender()
+void positionGLCameraForRender(void)
 {
 	glMatrixMode(GL_PROJECTION);
 	glLoadMatrixf(_renderProjectionMatrix);
@@ -178,7 +178,7 @@ void positionGLCameraForRender()
 	glLoadMatrixf(_renderModelViewMatrix);
 }
 
-void positionGLCameraForInterface()
+void positionGLCameraForInterface(void)
 {
 	glMatrixMode(GL_PROJECTION);
 	glLoadMatrixf(_interfaceProjectionMatrix);

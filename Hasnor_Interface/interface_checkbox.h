@@ -8,7 +8,7 @@ typedef struct {
 	void			(*onToggle)(bool newValue);
 } checkBox_t;
 
-checkBox_t *newCheckBox();
+checkBox_t *newCheckBox(void);
 void destroyCheckBox(checkBox_t *checkbox);
 
 void drawCheckBox(checkBox_t *checkBox, staticPlacement_t placement);

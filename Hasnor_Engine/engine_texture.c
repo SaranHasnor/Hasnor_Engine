@@ -189,7 +189,7 @@ void registerCustomUniformForProgram(program_t *program, const char *name)
 
 int getCustomUniformLocationForProgram(program_t *program, const char *name)
 {
-	int *location = (uint*)Map.getValueForKey(&program->customLocations, name);
+	int *location = (int*)Map.getValueForKey(&program->customLocations, name);
 	if (location)
 	{
 		return *location;

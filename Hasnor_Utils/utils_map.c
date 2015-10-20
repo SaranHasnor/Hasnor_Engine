@@ -89,7 +89,7 @@ void map_removeValueForKey(map_t *map, const char *key)
 	}
 }
 
-void initMapFunctions()
+void initMapFunctions(void)
 {
 	Map.init = map_init;
 	Map.getValueForKey = map_getValueForKey;

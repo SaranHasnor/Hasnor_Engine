@@ -46,7 +46,7 @@ void CL_disconnectFromServer(networkStatus_t *status)
 	disconnect();
 }
 
-bool CL_connected()
+bool CL_connected(void)
 {
 	return currentNetworkMode() == NETWORK_MODE_CLIENT;
 }

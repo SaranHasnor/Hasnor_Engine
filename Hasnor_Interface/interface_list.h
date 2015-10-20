@@ -21,7 +21,7 @@ typedef struct {
 	void			(*onSelect)(uint index);
 } list_t;
 
-list_t *newList();
+list_t *newList(void);
 void clearList(list_t *list);
 void destroyList(list_t *list);
 

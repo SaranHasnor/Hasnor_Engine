@@ -3,7 +3,7 @@
 
 #include <string.h>
 
-list_t *newList()
+list_t *newList(void)
 {
 	list_t *list = newObject(list_t);
 	Memory.set(list, 0, sizeof(list_t));

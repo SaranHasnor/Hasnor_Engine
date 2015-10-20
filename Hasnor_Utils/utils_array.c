@@ -106,7 +106,7 @@ int array_indexOfFirstMatch(array_t *ar, bool (*predicate)(void *object))
 	return -1;
 }
 
-void initArrayFunctions()
+void initArrayFunctions(void)
 {
 	Array.init = array_init;
 	Array.add = array_add;

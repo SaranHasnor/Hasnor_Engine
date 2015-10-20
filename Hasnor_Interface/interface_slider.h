@@ -11,7 +11,7 @@ typedef struct {
 	void			(*onSelect)(uint index);
 } slider_t;
 
-slider_t *newSlider();
+slider_t *newSlider(void);
 void destroySlider(slider_t *slider);
 void updateSliderValue(slider_t *slider);
 

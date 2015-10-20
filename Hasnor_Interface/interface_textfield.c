@@ -4,7 +4,7 @@
 #include <utils_bytestream.h>
 #include <string.h>
 
-textField_t *newTextField()
+textField_t *newTextField(void)
 {
 	textField_t *textField = newObject(textField_t);
 	Memory.set(textField, 0, sizeof(textField_t));

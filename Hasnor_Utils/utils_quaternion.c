@@ -44,7 +44,7 @@ void quaternion_inverse(float out[4], float src[4])
 	// TODO
 }
 
-void initQuaternionFunctions()
+void initQuaternionFunctions(void)
 {
 	Quaternion.fromEuler = quaternion_fromEuler;
 	Quaternion.identity = quaternion_identity;

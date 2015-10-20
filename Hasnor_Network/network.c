@@ -26,12 +26,12 @@ uint _maxConnections = 0;
 long _worry = 10000;		// Seconds before sending a heartbeat
 long _timeout = 30000;		// Seconds before dropping a connection
 
-networkMode_t currentNetworkMode()
+networkMode_t currentNetworkMode(void)
 {
 	return _networkMode;
 }
 
-uint maxConnections()
+uint maxConnections(void)
 {
 	return _maxConnections;
 }
@@ -45,7 +45,7 @@ void setupNetwork(long worryTime, long timeoutTime)
 	_timeout = timeoutTime;
 }
 
-void shutdownNetwork()
+void shutdownNetwork(void)
 {
 	WSACleanup();
 }
@@ -228,7 +228,7 @@ bool tryToConnect(bytestream_t clientInfo, networkStatus_t *status)
 	return true;
 }
 
-bool getNewClient()
+bool getNewClient(void)
 {
 	SOCKADDR inAddr;
 	int addrLen = sizeof(inAddr);
@@ -266,7 +266,7 @@ void dropClient(int id)
 	_closeConnection(_connectionWithID(id), true);
 }
 
-void disconnect()
+void disconnect(void)
 { // Close all active connections
 	uint i;
 	bytestream_t temp;
@@ -285,7 +285,7 @@ void disconnect()
 	_maxConnections = 0;
 }
 
-void checkForTimeOuts()
+void checkForTimeOuts(void)
 {
 	long curTime = Time.milliseconds();
 

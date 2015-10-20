@@ -112,7 +112,7 @@ face_t *addFaceToMesh(mesh_t *mesh)
 	return face;
 }
 
-face_t *addFace()
+face_t *addFace(void)
 { // Adds a face to the currently selected mesh
 	if (_selectedMesh)
 	{
@@ -121,7 +121,7 @@ face_t *addFace()
 	return NULL;
 }
 
-mesh_t *newMesh()
+mesh_t *newMesh(void)
 {
 	mesh_t *mesh = newObject(mesh_t);
 	Memory.set(mesh, 0, sizeof(mesh_t));
@@ -235,12 +235,12 @@ void selectFace(face_t *face)
 	_selectedFace = face;
 }
 
-mesh_t *getSelectedMesh()
+mesh_t *getSelectedMesh(void)
 {
 	return _selectedMesh;
 }
 
-face_t *getSelectedFace()
+face_t *getSelectedFace(void)
 {
 	return _selectedFace;
 }
@@ -362,7 +362,7 @@ float getDistanceBetweenVertices(vertex_t *vert1, vertex_t *vert2)
 	return Vector.distance(pos1, pos2);
 }
 
-void resetWorkSpace()
+void resetWorkSpace(void)
 {
 	int i,j;
 	_selectedMesh = NULL;

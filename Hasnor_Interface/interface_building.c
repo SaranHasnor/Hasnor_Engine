@@ -25,7 +25,7 @@ void interface_pushBlock(placement_t placement)
 	_pushBlock(newBlock);
 }
 
-void interface_popBlock()
+void interface_popBlock(void)
 { // Exits a block's context without destroying it
 	blockList_t *curBlockEntry = _curBlockStack;
 
@@ -62,7 +62,7 @@ int interface_newSideMenu(int x, int y, void (*onEnter)(uint), void (*onExit)(ui
 	return _interface.sidePanel.nbMenus++;
 }
 
-void interface_closeSideMenu()
+void interface_closeSideMenu(void)
 { // :|
 	interface_popBlock();
 }
@@ -240,7 +240,7 @@ void interface_deleteObject(uint objectID)
 	destroyComponent(_interface.allComponents[objectID]);
 }
 
-void interface_deleteAllObjects()
+void interface_deleteAllObjects(void)
 {
 	uint i;
 
@@ -267,9 +267,9 @@ void interface_clearSideMenu(uint menuID)
 	if (menu->content.nbComponents > 0)
 	{
 		uint i;
-		for (i = menu->content.nbComponents-1; i >= 0; i--)
+		for (i = 0; i < menu->content.nbComponents; i--)
 		{
-			destroyComponent(menu->content.components[i]);
+			destroyComponent(menu->content.components[menu->content.nbComponents - i - 1]);
 		}
 	}
 }
@@ -353,7 +353,7 @@ void interface_loadListSelectedIndex(uint id)
 	_listID = 0;
 }
 
-void interface_updateLayout()
+void interface_updateLayout(void)
 {
 	updateBlockLayout(&_interface.mainBlock);
 }

@@ -68,7 +68,7 @@ void makeLineFromVec(float vec[3], float length)
 	makeLineFromVec2(vec[0], vec[1], vec[2], length);
 }
 
-void drawAxis()
+void drawAxis(void)
 { // Draws the local axis, X being drawn red, Y green and Z blue
 	glColor3fv(Vector.axis[0]);
 	makeLine(Vector.zero, Vector.axis[0]);

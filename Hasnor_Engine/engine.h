@@ -18,7 +18,7 @@ typedef struct {
 
 typedef struct {
 	void (*run)(int argc, char **argv, int windowWidth, int windowHeight, char *windowName, engineListener_t listener);
-	void (*shutdown)();
+	void (*shutdown)(void);
 
 	_camera_functions Camera;
 	_render_functions Render;
@@ -29,7 +29,7 @@ typedef struct {
 _engine_functions Engine;
 
 #ifdef HASNOR_INIT
-void initEngineFunctions();
+void initEngineFunctions(void);
 #endif
 
 #endif

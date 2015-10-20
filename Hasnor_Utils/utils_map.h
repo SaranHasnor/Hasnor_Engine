@@ -25,7 +25,7 @@ typedef struct {
 _map_functions Map;
 
 #ifdef HASNOR_INIT
-void initMapFunctions();
+void initMapFunctions(void);
 #endif
 
 #endif

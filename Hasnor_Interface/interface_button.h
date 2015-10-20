@@ -8,7 +8,7 @@ typedef struct {
 	void			(*onClick)(void);
 } button_t;
 
-button_t *newButton();
+button_t *newButton(void);
 void destroyButton(button_t *button);
 
 void drawButton(button_t *button, staticPlacement_t placement);

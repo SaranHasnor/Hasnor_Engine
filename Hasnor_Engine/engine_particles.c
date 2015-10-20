@@ -54,7 +54,7 @@ list_t *_particleList;
 uint _particleCount;
 list_t *_emitterList;
 
-void particles_InitRenderer()
+void particles_InitRenderer(void)
 {
 	_defaultParticleProgram = ProgramInternal->withShaders(ShaderInternal->fromContent(SHADER_VERTEX, _particleVertexShader),
 														   ShaderInternal->fromContent(SHADER_FRAGMENT, _particleFragmentShader));
@@ -349,7 +349,7 @@ void particles_addFinalStateToParticleModel(particleModel_t *model, float r, flo
 	model->endData->scale = scale;
 }
 
-emitterModel_t *particles_newEmitterModel()
+emitterModel_t *particles_newEmitterModel(void)
 {
 	emitterModel_t *newModel = newObject(emitterModel_t);
 	Memory.set(&newModel->particleTransform, 0, sizeof(transform_t));

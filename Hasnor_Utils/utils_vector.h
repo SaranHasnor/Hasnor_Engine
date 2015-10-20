@@ -47,7 +47,7 @@ typedef struct {
 _vector_functions Vector;
 
 #ifdef HASNOR_INIT
-void initVectorFunctions();
+void initVectorFunctions(void);
 #endif
 
 #endif

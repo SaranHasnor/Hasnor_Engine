@@ -7,7 +7,7 @@ mesh_t *_texturedMesh;
 mesh_t *_animatedMesh;
 mesh_t *_sky;
 
-void initSampleMesh()
+void initSampleMesh(void)
 {
 	texture_t *texture = Engine.Render.Texture.fromPath("textures/Lotus.jpg");
 

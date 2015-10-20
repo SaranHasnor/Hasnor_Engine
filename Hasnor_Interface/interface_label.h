@@ -7,7 +7,7 @@ typedef struct {
 	anchor_t		textAlignment;
 } label_t;
 
-label_t *newLabel();
+label_t *newLabel(void);
 void destroyLabel(label_t *label);
 
 void drawLabel(label_t *label, staticPlacement_t placement);

@@ -20,11 +20,11 @@ typedef struct {
 	void* (*duplicateSafe)(void *mem);
 	void (*free)(void *mem);
 	void (*freeSafe)(void *mem);
-	void (*freeAll)();
+	void (*freeAll)(void);
 	void (*set)(void *mem, int val, size_t size);
 	void (*copy)(void *mem, void *src, size_t size);
 	size_t (*size)(void *mem);
-	void (*print)();
+	void (*print)(void);
 } _memory_functions;
 
 _memory_functions Memory;
@@ -34,7 +34,7 @@ _memory_functions Memory;
 #define destroy(x) Memory.free(x)
 
 #ifdef HASNOR_INIT
-void initMemoryFunctions();
+void initMemoryFunctions(void);
 #endif
 
 #endif

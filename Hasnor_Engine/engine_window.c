@@ -14,7 +14,7 @@ typedef struct {
 
 window_t _window;
 
-void initRendering()
+void initRendering(void)
 {
     glEnable(GL_DEPTH_TEST);
 	glEnable(GL_COLOR_MATERIAL);
@@ -56,12 +56,12 @@ void createWindow(const char *name, int width, int height)
 	glutReshapeFunc(reshape);
 }
 
-int getWindowWidth()
+int getWindowWidth(void)
 {
 	return _window.width;
 }
 
-int getWindowHeight()
+int getWindowHeight(void)
 {
 	return _window.height;
 }

@@ -19,7 +19,7 @@ typedef struct {
 _matrix_functions Matrix;
 
 #ifdef HASNOR_INIT
-void initMatrixFunctions();
+void initMatrixFunctions(void);
 #endif
 
 #endif

@@ -25,7 +25,7 @@ bool file_read(const char *path, char **out)
 	return true;
 }
 
-void initFileFunctions()
+void initFileFunctions(void)
 {
 	File.read = file_read;
 }

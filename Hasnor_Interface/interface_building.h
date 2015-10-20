@@ -2,10 +2,10 @@
 
 typedef struct {
 	void (*pushBlock)(placement_t placement);
-	void (*popBlock)();
+	void (*popBlock)(void);
 
 	int (*newSideMenu)(int x, int y, void (*onEnter)(uint), void (*onExit)(uint));
-	void (*closeSideMenu)();
+	void (*closeSideMenu)(void);
 
 	int (*staticLabel)(char *text, placement_t placement, anchor_t anchor);
 	int (*dynamicLabel)(char **text, placement_t placement, anchor_t anchor);
@@ -28,12 +28,12 @@ typedef struct {
 	void (*loadListSelectedIndex)(uint id);
 
 	void (*deleteObject)(uint objectID);
-	void (*deleteAllObjects)();
+	void (*deleteAllObjects)(void);
 	void (*clearSideMenu)(uint menuID);
 
 	void (*setRadioGroupSelectionCallback)(uint groupID, void (*onSelectionChanged)(uint index));
 
-	void (*updateLayout)();
+	void (*updateLayout)(void);
 } _interface_functions;
 
 #ifdef HASNOR_INIT

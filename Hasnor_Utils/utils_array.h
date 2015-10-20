@@ -21,7 +21,7 @@ typedef struct {
 _array_functions Array;
 
 #ifdef HASNOR_INIT
-void initArrayFunctions();
+void initArrayFunctions(void);
 #endif
 
 #endif

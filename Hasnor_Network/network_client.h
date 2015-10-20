@@ -1,12 +1,12 @@
 #include "network_utils.h"
 
 extern void setupNetwork(long worryTime, long timeoutTime);
-extern void shutdownNetwork();
+extern void shutdownNetwork(void);
 
 void CL_connectToServer(const char *address, unsigned short port, bytestream_t clientInfo, socketProtocol_t protocol, networkStatus_t *status);
 void CL_disconnectFromServer(networkStatus_t *status);
 
-bool CL_connected();
+bool CL_connected(void);
 
 void CL_sendMessage(int targetID, bytestream_t message);
 void CL_update(networkUpdate_t *update);

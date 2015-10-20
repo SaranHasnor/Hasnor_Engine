@@ -21,18 +21,18 @@ typedef struct {
 	void (*setRotation)(float rotation[3]);
 	void (*getViewMatrix)(float out[16]);
 	void (*setFOV)(float fov);
-	void (*makeOrtho)();
-	void (*makePerspective)();
+	void (*makeOrtho)(void);
+	void (*makePerspective)(void);
 } _camera_functions;
 
 #ifdef HASNOR_ENGINE_INTERNAL
 _camera_functions *CameraInternal;
 
-void initCamera();
+void initCamera(void);
 void setCameraSize(float width, float height);
 void updateGLCamera(timeStruct_t time, inputStruct_t input);
-void positionGLCameraForRender();
-void positionGLCameraForInterface();
+void positionGLCameraForRender(void);
+void positionGLCameraForInterface(void);
 #endif
 
 #ifdef HASNOR_INIT

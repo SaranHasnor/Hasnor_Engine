@@ -14,7 +14,7 @@ typedef struct {
 	radioGroup_t	*group;
 } radioButton_t;
 
-radioButton_t *newRadioButton();
+radioButton_t *newRadioButton(void);
 void destroyRadioButton(radioButton_t *radioButton);
 
 void drawRadioButton(radioButton_t *rButton, staticPlacement_t placement);

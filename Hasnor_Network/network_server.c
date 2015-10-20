@@ -25,7 +25,7 @@ void SV_initServer(int maxConnections, unsigned short port, socketProtocol_t pro
 	}
 }
 
-int SV_checkForNewClients()
+int SV_checkForNewClients(void)
 { // Returns the amount of new clients
 	int count = 0;
 	while (getNewClient())

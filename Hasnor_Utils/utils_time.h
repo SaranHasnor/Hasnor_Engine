@@ -8,16 +8,16 @@ utils_time
 */
 
 typedef struct {
-	void (*init)();
+	void (*init)(void);
 	void (*sync)(long currentTime);
-	double (*seconds)();
-	long (*milliseconds)();
+	double (*seconds)(void);
+	long (*milliseconds)(void);
 } _time_functions;
 
 _time_functions Time;
 
 #ifdef HASNOR_INIT
-void initTimeFunctions();
+void initTimeFunctions(void);
 #endif
 
 #endif
