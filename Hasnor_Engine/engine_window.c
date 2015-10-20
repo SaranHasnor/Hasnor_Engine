@@ -6,6 +6,14 @@
 #include "engine_interface.h"
 #include "engine_camera.h"
 
+typedef struct {
+	int			id;
+	const char	*name;
+	int			width, height;
+} window_t;
+
+window_t _window;
+
 void initRendering()
 {
     glEnable(GL_DEPTH_TEST);
@@ -27,21 +35,41 @@ void reshape(int w, int h)
 	interface_reshapeWindow(w, h);
 }
 
-void createWindow(window_t *window)
+void createWindow(const char *name, int width, int height)
 {
 	const int screenX = glutGet(GLUT_SCREEN_WIDTH);
 	const int screenY = glutGet(GLUT_SCREEN_HEIGHT);
 
-	glutInitWindowSize(window->width, window->height);
-	glutInitWindowPosition((screenX-window->width)/2, (screenY-window->height)/2);
-	window->id = glutCreateWindow(window->name);
+	_window.width = width;
+	_window.height = height;
+	_window.name = name;
+
+	glutInitWindowSize(width, height);
+	glutInitWindowPosition((screenX-width)/2, (screenY-height)/2);
+	_window.id = glutCreateWindow(name);
 
 	initRendering();
 
 	initCamera();
-	setCameraSize((float)window->width, (float)window->height);
+	setCameraSize((float)width, (float)height);
 
 	glutReshapeFunc(reshape);
+}
+
+int getWindowWidth()
+{
+	return _window.width;
+}
+
+int getWindowHeight()
+{
+	return _window.height;
+}
+
+void initWindowFunctions(_window_functions *Window)
+{
+	Window->getWidth = getWindowWidth;
+	Window->getHeight = getWindowHeight;
 }
 
 #undef HASNOR_ENGINE_INTERNAL

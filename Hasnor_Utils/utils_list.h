@@ -14,6 +14,10 @@ typedef struct {
 	void (*insert)(list_t **list, void *object, uint pos);
 	void (*remove)(list_t **list, void *object);
 	void (*removeAt)(list_t **list, uint pos);
+	void (*clear)(list_t **list);
+	bool (*contains)(list_t **list, void *object);
+	list_t* (*copy)(list_t **list);
+	int (*count)(list_t **list);
 } _list_functions;
 
 _list_functions List;

@@ -1,3 +1,5 @@
+#ifndef HASNOR_WINDOW_IMPORTED
+#define HASNOR_WINDOW_IMPORTED
 
 /*
 engine_window
@@ -6,11 +8,16 @@ engine_window
 */
 
 typedef struct {
-	int		id;
-	char	*name;
-	int		width, height;
-} window_t;
+	int	(*getWidth)();
+	int	(*getHeight)();
+} _window_functions;
 
 #ifdef HASNOR_ENGINE_INTERNAL
-void createWindow(window_t *window);
+void createWindow(const char *name, int width, int height);
+#endif
+
+#ifdef HASNOR_INIT
+void initWindowFunctions(_window_functions *Window);
+#endif
+
 #endif

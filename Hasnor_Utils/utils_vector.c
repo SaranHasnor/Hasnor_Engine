@@ -29,6 +29,11 @@ float vectorLength(float v[3])
 	return sqrtf(v[0]*v[0]+v[1]*v[1]+v[2]*v[2]);
 }
 
+float vectorSquareLength(float v[3])
+{
+	return v[0]*v[0]+v[1]*v[1]+v[2]*v[2];
+}
+
 float vectorNormalize(float v[3])
 {
 	float length = vectorLength(v);
@@ -203,6 +208,43 @@ void AngleVectors(float *angles, float *forward, float *right, float *up) {
 	}
 }
 
+float vectorAngleBetween_norm(float normA[3], float normB[3])
+{
+	return 90.0f - 90.0f * vectorDot(normA, normB);
+}
+
+float vectorAngleBetween(float a[3], float b[3])
+{
+	float normA[3], normB[3];
+	vectorCopy(normA, a);
+	vectorNormalize(normA);
+	vectorCopy(normB, b);
+	vectorNormalize(normB);
+	return vectorAngleBetween_norm(normA, normB);
+}
+
+float vectorOrientedAngleBetween(float a[3], float b[3], float normal[3])
+{
+	float normA[3], normB[3];
+	float angle;
+	float cross[3];
+
+	vectorCopy(normA, a);
+	vectorNormalize(normA);
+	vectorCopy(normB, b);
+	vectorNormalize(normB);
+
+	angle = vectorAngleBetween_norm(normA, normB);
+
+	vectorCross(cross, normA, normB);
+	if (vectorDot(normal, cross) < 0.0f)
+	{
+		angle = -angle;
+	}
+
+	return angle;
+}
+
 void initVectorFunctions()
 {
 	vectorSet(Vector.axis[0], 1.0f, 0.0f, 0.0f);
@@ -219,6 +261,7 @@ void initVectorFunctions()
 	Vector.squareDistance = vectorSquareDistance;
 	Vector.dotProduct = vectorDot;
 	Vector.crossProduct = vectorCross;
+	Vector.squareLength = vectorSquareLength;
 	Vector.length = vectorLength;
 	Vector.lerp = vectorTransition;
 	Vector.multiply = vectorMult;
@@ -229,4 +272,6 @@ void initVectorFunctions()
 	Vector.set = vectorSet;
 	Vector.subtract = vectorSubtract;
 	Vector.toAngles = vectoangles;
+	Vector.angleBetween = vectorAngleBetween;
+	Vector.orientedAngleBetween = vectorOrientedAngleBetween;
 }

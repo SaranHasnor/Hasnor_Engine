@@ -11,6 +11,7 @@ typedef struct {
 	transform_t		transform;
 
 	float			viewportSize[2];
+	float			near, far;
 	float			fov;
 	bool			isOrthographic;
 } camera_t;
@@ -26,7 +27,7 @@ void _updateProjectionMatrix()
 	// Render
 	if (_mainCamera.isOrthographic)
 	{
-		Matrix.orthographic(_renderProjectionMatrix, 0.0f, _mainCamera.viewportSize[0], _mainCamera.viewportSize[1], 0.0f, 0.1f, 50.0f);
+		Matrix.orthographic(_renderProjectionMatrix, 0.0f, _mainCamera.viewportSize[0], 0.0f, _mainCamera.viewportSize[1], -1.0f, 50.0f);
 	}
 	else
 	{

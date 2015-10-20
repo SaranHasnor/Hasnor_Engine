@@ -11,7 +11,6 @@
 #include <GL\glew.h>
 #include <GL\glut.h>
 
-window_t window;
 engineListener_t _listener;
 
 void update(int prevTime)
@@ -30,7 +29,6 @@ void update(int prevTime)
 
 	updateInput(&input);
 	
-	glutSetWindow(window.id);
 	updateGLCamera(time, input);
 	_listener.updateFunc(time, input);
 
@@ -63,11 +61,7 @@ void engine_run(int argc, char **argv, int windowWidth, int windowHeight, char *
     glutInit(&argc, argv);
 	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGBA | GLUT_DEPTH);
 
-	window.width = windowWidth;
-	window.height = windowHeight;
-	window.name = quickString(windowName);
-
-	createWindow(&window);
+	createWindow(windowName, windowWidth, windowHeight);
 
 	glewInit();
 

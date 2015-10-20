@@ -63,10 +63,64 @@ void list_removeAt(list_t **list, uint pos)
 	}
 }
 
+void list_clear(list_t **list)
+{
+	if (*list)
+	{
+		list_clear(&(*list)->next);
+		destroy(*list);
+		*list = NULL;
+	}
+}
+
+bool list_contains(list_t **list, void *object)
+{
+	while (*list)
+	{
+		if ((*list)->content == object)
+		{
+			return true;
+		}
+		list = &(*list)->next;
+	}
+	return false;
+}
+
+list_t *list_copy(list_t **list)
+{
+	list_t *res = NULL;
+	list_t **cursor = &res;
+	while (*list)
+	{
+		*cursor = newObject(list_t);
+		(*cursor)->content = (*list)->content;
+		(*cursor)->next = NULL;
+
+		cursor = &(*cursor)->next;
+		list = &(*list)->next;
+	}
+	return res;
+}
+
+int list_count(list_t **list)
+{
+	int count = 0;
+	while (*list)
+	{
+		count++;
+		list = &(*list)->next;
+	}
+	return count;
+}
+
 void initListFunctions()
 {
 	List.add = list_add;
 	List.insert = list_insert;
 	List.remove = list_remove;
 	List.removeAt = list_removeAt;
+	List.clear = list_clear;
+	List.contains = list_contains;
+	List.copy = list_copy;
+	List.count = list_count;
 }

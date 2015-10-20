@@ -18,6 +18,7 @@ typedef struct {
 	void (*clear)(float v[3]);
 
 	// Unary operators
+	float (*squareLength)(float v[3]);
 	float (*length)(float v[3]);
 	float (*normalize)(float v[3]);
 
@@ -29,6 +30,8 @@ typedef struct {
 	void (*crossProduct)(float out[3], float a[3], float b[3]);
 	float (*distance)(float a[3], float b[3]);
 	float (*squareDistance)(float a[3], float b[3]);
+	float (*angleBetween)(float a[3], float b[3]);
+	float (*orientedAngleBetween)(float a[3], float b[3], float normal[3]);
 
 	// Rotation
 	void (*toAngles)(float v[3], float angles[3]);
