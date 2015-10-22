@@ -39,6 +39,7 @@ typedef struct {
 	void	(*mouseDownFunc)(ushort button, int x, int y);
 	void	(*mouseUpFunc)(ushort button, int x, int y);
 
+	void	(*initFunc)(void);
 	void	(*updateFunc)(timeStruct_t time, inputStruct_t input);
 	void	(*renderFunc)(void);
 } engineListener_t;

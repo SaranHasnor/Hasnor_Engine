@@ -73,6 +73,8 @@ void engine_run(int argc, char **argv, int windowWidth, int windowHeight, char *
 
 	_listener = listener;
 
+	_listener.initFunc();
+
 	update(0);
 
 	glutMainLoop();

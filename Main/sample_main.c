@@ -82,18 +82,18 @@ void updateCamera(inputStruct_t input)
 extern void initSampleInterface(void);
 extern void initSampleParticles(void);
 extern void initSampleMesh(void);
+void initFunc(void)
+{
+	initSampleInterface();
+
+	initSampleParticles();
+
+	initSampleMesh();
+}
+
 extern void updateSampleMesh(timeStruct_t time, inputStruct_t input);
 void updateFunc(timeStruct_t time, inputStruct_t input)
 {
-	if (time.currentTime == time.deltaTime)
-	{
-		initSampleInterface();
-
-		initSampleParticles();
-
-		initSampleMesh();
-	}
-
 	updateSampleMesh(time, input);
 
 	updateCamera(input);
@@ -125,6 +125,7 @@ int main(int argc, char **argv)
 	listener.mouseUpFunc = mouseUpFunc;
 	listener.renderFunc = renderFunc;
 	listener.updateFunc = updateFunc;
+	listener.initFunc = initFunc;
 
 	initHasnorUtils();
 	initHasnorEngine();

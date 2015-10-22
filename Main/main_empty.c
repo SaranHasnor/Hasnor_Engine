@@ -77,12 +77,14 @@ void updateCamera(inputStruct_t input)
 	Engine.Camera.setVelocity(velocity);
 }
 
+void initFunc(void)
+{
+	// Init
+}
+
 void updateFunc(timeStruct_t time, inputStruct_t input)
 {
-	if (time.currentTime == time.deltaTime)
-	{
-
-	}
+	// Update
 
 	updateCamera(input);
 }
@@ -108,6 +110,7 @@ int main(int argc, char **argv)
 	listener.mouseUpFunc = mouseUpFunc;
 	listener.renderFunc = renderFunc;
 	listener.updateFunc = updateFunc;
+	listener.initFunc = initFunc;
 
 	initHasnorUtils();
 	initHasnorEngine();
