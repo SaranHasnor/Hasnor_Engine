@@ -47,6 +47,11 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(ProjectDir)Libraries\glut\lib;</AdditionalLibraryDirectories>
     </Link>
+    <PostBuildEvent>
+      <Command>copy "$(HASNOR_LIBS_PATH)\Hasnor_Engine\Libraries\glut\glut32.dll" "$(OutputPath)glut32.dll"
+copy "$(HASNOR_LIBS_PATH)\Hasnor_Engine\Libraries\glew-1.12.0\bin\Release\$(Platform)\glew32.dll" "$(OutputPath)glew32.dll"</Command>
+      <Message>Copying DLLs to output directory</Message>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -62,6 +67,11 @@
       <OptimizeReferences>true</OptimizeReferences>
       <AdditionalLibraryDirectories>$(ProjectDir)Libraries\glut\lib;</AdditionalLibraryDirectories>
     </Link>
+    <PostBuildEvent>
+      <Command>copy "$(HASNOR_LIBS_PATH)\Hasnor_Engine\Libraries\glut\glut32.dll" "$(OutputPath)glut32.dll"
+copy "$(HASNOR_LIBS_PATH)\Hasnor_Engine\Libraries\glew-1.12.0\bin\Release\$(Platform)\glew32.dll" "$(OutputPath)glew32.dll"</Command>
+      <Message>Copying DLLs to output directory</Message>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="engine.h" />
