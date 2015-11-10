@@ -89,13 +89,9 @@ void updateFunc(timeStruct_t time, inputStruct_t input)
 	updateCamera(input);
 }
 
-void renderFunc(void)
+void renderFunc(float viewMatrix[16])
 {
-	float viewMatrix[16];
-
 	drawAxis();
-
-	Engine.Camera.getViewMatrix(viewMatrix);
 
 	// Render
 }

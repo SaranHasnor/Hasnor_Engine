@@ -5,6 +5,7 @@
 #include "engine_input.h"
 #include "engine_interface.h"
 #include "engine_camera.h"
+#include "engine_particles.h"
 
 #include <utils.h>
 
@@ -31,6 +32,7 @@ void update(int prevTime)
 	
 	updateGLCamera(time, input);
 	_listener.updateFunc(time, input);
+	particles_Update(time);
 
 	glutTimerFunc(10, update, curTime);
 	glutPostRedisplay();
@@ -38,13 +40,17 @@ void update(int prevTime)
 
 void display(void)
 {
+	float viewMatrix[16];
+
 	// Frame initialization
 	glDepthMask(GL_TRUE);
 	glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
 
 	// Rendering
 	positionGLCameraForRender();
-	_listener.renderFunc();
+	CameraInternal->getViewMatrix(viewMatrix);
+	particles_Render(viewMatrix);
+	_listener.renderFunc(viewMatrix);
 
 	// Interface
 	glDepthMask(GL_FALSE);
@@ -66,6 +72,8 @@ void engine_run(int argc, char **argv, int windowWidth, int windowHeight, char *
 	glewInit();
 
 	interface_init();
+
+	particles_InitRenderer();
 
 	glutDisplayFunc(display);
 	

@@ -97,22 +97,14 @@ void updateFunc(timeStruct_t time, inputStruct_t input)
 	updateSampleMesh(time, input);
 
 	updateCamera(input);
-
-	particles_Update(time);
 }
 
 extern void drawSampleMesh(float viewMatrix[16]);
-void renderFunc(void)
+void renderFunc(float viewMatrix[16])
 {
-	float viewMatrix[16];
-
 	drawAxis();
 
-	Engine.Camera.getViewMatrix(viewMatrix);
-
 	drawSampleMesh(viewMatrix);
-
-	particles_Render(viewMatrix);
 }
 
 int main(int argc, char **argv)

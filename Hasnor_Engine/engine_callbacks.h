@@ -41,7 +41,7 @@ typedef struct {
 
 	void	(*initFunc)(void);
 	void	(*updateFunc)(timeStruct_t time, inputStruct_t input);
-	void	(*renderFunc)(void);
+	void	(*renderFunc)(float viewMatrix[16]);
 } engineListener_t;
 
 #endif

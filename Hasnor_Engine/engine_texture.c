@@ -102,6 +102,21 @@ void _printShaderLog(GLuint obj)
 	destroy(infoLog);
 }
 
+GLenum _translateShaderType(shaderType_t type)
+{
+	switch (type)
+	{
+	case SHADER_FRAGMENT:
+		return GL_FRAGMENT_SHADER;
+	case SHADER_VERTEX:
+		return GL_VERTEX_SHADER;
+	case SHADER_GEOMETRY:
+		return GL_GEOMETRY_SHADER;
+	default:
+		return 0;
+	}
+}
+
 shader_t *shaderFromContent(shaderType_t type, const char *contents)
 {
 	shader_t *newShader = newObject(shader_t);
@@ -109,7 +124,7 @@ shader_t *shaderFromContent(shaderType_t type, const char *contents)
 	newShader->content = quickString(contents);
 	newShader->type = type;
 
-	newShader->shaderID = glCreateShader(type == SHADER_VERTEX ? GL_VERTEX_SHADER : GL_FRAGMENT_SHADER);
+	newShader->shaderID = glCreateShader(_translateShaderType(type));
 	glShaderSource(newShader->shaderID, 1, &newShader->content, NULL);
 	glCompileShader(newShader->shaderID);
 
@@ -152,15 +167,20 @@ void _printProgramLog(GLuint obj)
 	destroy(infoLog);
 }
 
-program_t *programWithShaders(shader_t *vertexShader, shader_t *fragmentShader)
+program_t *programWithShaders(shader_t *vertexShader, shader_t *fragmentShader, shader_t *geometryShader)
 {
 	program_t *newProgram = newObject(program_t);
 	newProgram->vertexShader = vertexShader;
 	newProgram->fragmentShader = fragmentShader;
+	newProgram->geometryShader = geometryShader;
 
 	newProgram->programID = glCreateProgram();
 	glAttachShader(newProgram->programID, vertexShader->shaderID);
 	glAttachShader(newProgram->programID, fragmentShader->shaderID);
+	if (geometryShader)
+	{
+		glAttachShader(newProgram->programID, geometryShader->shaderID);
+	}
 	glLinkProgram(newProgram->programID);
 
 #ifdef _DEBUG
@@ -208,7 +228,7 @@ program_t *defaultProgram(bool forTexture)
 		{
 			shader_t *vShader = shaderFromContent(SHADER_VERTEX, defaultVertexShader);
 			shader_t *fShader = shaderFromContent(SHADER_FRAGMENT, defaultFragmentShader_texture);
-			_defaultTextureProgram = programWithShaders(vShader, fShader);
+			_defaultTextureProgram = programWithShaders(vShader, fShader, NULL);
 		}
 
 		return _defaultTextureProgram;
@@ -219,7 +239,7 @@ program_t *defaultProgram(bool forTexture)
 		{
 			shader_t *vShader = shaderFromContent(SHADER_VERTEX, defaultVertexShader);
 			shader_t *fShader = shaderFromContent(SHADER_FRAGMENT, defaultFragmentShader);
-			_defaultProgram = programWithShaders(vShader, fShader);
+			_defaultProgram = programWithShaders(vShader, fShader, NULL);
 		}
 
 		return _defaultProgram;

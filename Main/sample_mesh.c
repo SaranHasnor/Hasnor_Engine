@@ -1,46 +1,79 @@
-
-
 #include <engine.h>
 #include <utils_math.h>
 
 mesh_t *_texturedMesh;
 mesh_t *_animatedMesh;
+mesh_t *_geometryShaderMesh;
 mesh_t *_sky;
 
+const char *_geomShaderTest =
+	"#version 330\n	layout(triangles) in;			\
+	layout(triangle_strip, max_vertices=6) out;			\
+	void main(void)									\
+	{												\
+		gl_Position = gl_in[0].gl_Position;			\
+		EmitVertex();								\
+		gl_Position = gl_in[1].gl_Position;			\
+		EmitVertex();								\
+		gl_Position = gl_in[2].gl_Position;			\
+		EmitVertex();								\
+		EndPrimitive();								\
+		gl_Position = gl_in[0].gl_Position;			\
+		EmitVertex();								\
+		gl_Position = gl_in[1].gl_Position;			\
+		EmitVertex();								\
+		gl_Position = gl_in[2].gl_Position - vec4(0.0, 5.0, 0.0, 0.0);			\
+		EmitVertex();								\
+		EndPrimitive();								\
+	}";
+
+#define Geom Engine.Render.Geometry
+#define Prog Engine.Render.Program
 void initSampleMesh(void)
 {
 	texture_t *texture = Engine.Render.Texture.fromPath("textures/Lotus.jpg");
 
-	_texturedMesh = Engine.Render.Geometry.newMesh();
-	Engine.Render.Geometry.addFace()->texture = texture;
-	Engine.Render.Geometry.addVertex(0.0f, 1.0f, 0.0f, 0.0f, 1.0f);
-	Engine.Render.Geometry.addVertex(0.0f, 0.0f, 0.0f, 0.0f, 0.0f);
-	Engine.Render.Geometry.addVertex(1.0f, 0.0f, 0.0f, 1.0f, 0.0f);
+	_texturedMesh = Geom.newMesh();
+	Geom.addFace()->texture = texture;
+	Geom.addVertex(0.0f, 1.0f, 0.0f, 0.0f, 1.0f);
+	Geom.addVertex(0.0f, 0.0f, 0.0f, 0.0f, 0.0f);
+	Geom.addVertex(1.0f, 0.0f, 0.0f, 1.0f, 0.0f);
 		
-	Engine.Render.Geometry.addFace()->texture = texture;
-	Engine.Render.Geometry.addVertex(0.0f, 1.0f, 0.0f, 0.0f, 1.0f);
-	Engine.Render.Geometry.addVertex(1.0f, 0.0f, 0.0f, 1.0f, 0.0f);
-	Engine.Render.Geometry.addVertex(1.0f, 1.0f, 0.0f, 1.0f, 1.0f);
+	Geom.addFace()->texture = texture;
+	Geom.addVertex(0.0f, 1.0f, 0.0f, 0.0f, 1.0f);
+	Geom.addVertex(1.0f, 0.0f, 0.0f, 1.0f, 0.0f);
+	Geom.addVertex(1.0f, 1.0f, 0.0f, 1.0f, 1.0f);
 
-	Engine.Render.Geometry.updateMeshGeometry(_texturedMesh);
+	Geom.updateMeshGeometry(_texturedMesh);
 
 	Vector.set(_texturedMesh->origin, -2.0f, -1.5f, 0.0f);
 	Matrix.rotation(_texturedMesh->rotation, -90.0f, 45.0f, 0.0f, true);
 
-	_animatedMesh = Engine.Render.Geometry.newMesh();
-	Engine.Render.Geometry.addFace();
-	Engine.Render.Geometry.addVertex(0.0f, 0.0f, 1.0f, 0.0f, 1.0f);
-	Engine.Render.Geometry.addVertex(0.0f, 0.0f, 0.0f, 0.0f, 0.0f);
-	Engine.Render.Geometry.addVertex(1.0f, 0.0f, 0.0f, 1.0f, 0.0f);
+	_animatedMesh = Geom.newMesh();
+	Geom.addFace();
+	Geom.addVertex(0.0f, 0.0f, 1.0f, 0.0f, 1.0f);
+	Geom.addVertex(0.0f, 0.0f, 0.0f, 0.0f, 0.0f);
+	Geom.addVertex(1.0f, 0.0f, 0.0f, 1.0f, 0.0f);
 		
-	Engine.Render.Geometry.addFace();
-	Engine.Render.Geometry.addVertex(0.0f, 0.0f, 1.0f, 0.0f, 1.0f);
-	Engine.Render.Geometry.addVertex(1.0f, 0.0f, 0.0f, 1.0f, 0.0f);
-	Engine.Render.Geometry.addVertex(1.0f, 0.0f, 1.0f, 1.0f, 1.0f);
+	Geom.addFace();
+	Geom.addVertex(0.0f, 0.0f, 1.0f, 0.0f, 1.0f);
+	Geom.addVertex(1.0f, 0.0f, 0.0f, 1.0f, 0.0f);
+	Geom.addVertex(1.0f, 0.0f, 1.0f, 1.0f, 1.0f);
 
-	Engine.Render.Geometry.updateMeshGeometry(_animatedMesh);
+	Geom.updateMeshGeometry(_animatedMesh);
 
 	_sky = NULL; // TODO
+
+	_geometryShaderMesh = Geom.newMesh();
+	Geom.addFace()->program = Prog.withShaders(Prog.getDefault(false)->vertexShader,
+		Prog.getDefault(false)->fragmentShader,
+		Engine.Render.Shader.fromContent(SHADER_GEOMETRY, _geomShaderTest));
+
+	Geom.addVertex(-1.0f, 0.0f, 0.0f, 0.0f, 0.0f);
+	Geom.addVertex(1.0f, 0.0f, 0.0f, 1.0f, 0.0f);
+	Geom.addVertex(0.0f, 0.0f, 1.0f, 0.5f, 1.0f);
+	Geom.updateMeshGeometry(_geometryShaderMesh);
+	_geometryShaderMesh->origin[2] = 2.0f;
 }
 
 
@@ -68,7 +101,8 @@ void updateSampleMesh(timeStruct_t time, inputStruct_t input)
 
 void drawSampleMesh(float viewMatrix[16])
 {
-	//Engine.Render.Geometry.renderMesh(_sky, viewMatrix);
-	Engine.Render.Geometry.renderMesh(_texturedMesh, viewMatrix);
-	Engine.Render.Geometry.renderMesh(_animatedMesh, viewMatrix);
+	//Geom.renderMesh(_sky, viewMatrix);
+	Geom.renderMesh(_texturedMesh, viewMatrix);
+	Geom.renderMesh(_animatedMesh, viewMatrix);
+	Geom.renderMesh(_geometryShaderMesh, viewMatrix);
 }

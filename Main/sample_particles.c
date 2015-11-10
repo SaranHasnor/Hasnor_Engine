@@ -1,4 +1,3 @@
-
 #include <engine.h>
 #include <utils_vector.h>
 
@@ -9,8 +8,6 @@ void initSampleParticles(void)
 	particleModel_t *particleModel;
 	emitter_t *emitter;
 	int i;
-	
-	particles_InitRenderer();
 
 	emitterModel = Engine.Render.Particles.newEmitter();
 	emitterModel->particleTransform.velocity[0] = 5.0f;

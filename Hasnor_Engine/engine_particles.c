@@ -54,10 +54,13 @@ list_t *_particleList;
 uint _particleCount;
 list_t *_emitterList;
 
+bool _pause;
+
 void particles_InitRenderer(void)
 {
 	_defaultParticleProgram = ProgramInternal->withShaders(ShaderInternal->fromContent(SHADER_VERTEX, _particleVertexShader),
-														   ShaderInternal->fromContent(SHADER_FRAGMENT, _particleFragmentShader));
+														   ShaderInternal->fromContent(SHADER_FRAGMENT, _particleFragmentShader),
+														   NULL);
 	
 	ProgramInternal->registerCustomUniform(_defaultParticleProgram, "scale");
 
@@ -72,6 +75,7 @@ void particles_InitRenderer(void)
 	_particleList = NULL;
 	_particleCount = 0;
 	_emitterList = NULL;
+	_pause = false;
 }
 
 void _lerpParticleData(particleData_t *from, particleData_t *to, float percentage, particleData_t *out)
@@ -241,14 +245,13 @@ void _particlesMergeSort(list_t **list, uint count)
 
 void particles_Update(timeStruct_t time)
 {
-	const bool pause = false;
 	list_t **particleListIterator = &_particleList;
 	list_t **emitterListIterator = &_emitterList;
 	float camPos[3];
 
 	CameraInternal->getPosition(camPos);
 
-	if (pause)
+	if (_pause)
 	{
 		while (*particleListIterator)
 		{
@@ -401,6 +404,11 @@ emitter_t *particles_CreateEmitterFromModel(emitterModel_t *model)
 	return newEmitter;
 }
 
+void particles_setPause(bool pause)
+{
+	_pause = pause;
+}
+
 void initParticleFunctions(_particle_functions *Particles)
 {
 	Particles->addNewParticleToEmitter = particles_AddNewParticleToEmitter;
@@ -409,6 +417,7 @@ void initParticleFunctions(_particle_functions *Particles)
 	Particles->newEmitter = particles_newEmitterModel;
 	Particles->newParticle = particles_newParticleModel;
 	Particles->setParticleTransition = particles_addFinalStateToParticleModel;
+	Particles->setPause = particles_setPause;
 }
 
 #undef HASNOR_ENGINE_INTERNAL

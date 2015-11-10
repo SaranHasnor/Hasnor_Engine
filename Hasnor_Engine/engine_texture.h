@@ -15,7 +15,8 @@ typedef struct {
 
 typedef enum {
 	SHADER_VERTEX,
-	SHADER_FRAGMENT
+	SHADER_FRAGMENT,
+	SHADER_GEOMETRY
 } shaderType_t;
 
 typedef struct {
@@ -30,6 +31,7 @@ typedef struct {
 typedef struct {
 	shader_t	*vertexShader;
 	shader_t	*fragmentShader;
+	shader_t	*geometryShader;
 
 	uint		programID;
 
@@ -59,7 +61,7 @@ typedef struct {
 } _shader_functions;
 
 typedef struct {
-	program_t*	(*withShaders)(shader_t *vertexShader, shader_t *fragmentShader);
+	program_t*	(*withShaders)(shader_t *vertexShader, shader_t *fragmentShader, shader_t *geometryShader);
 
 	void		(*registerCustomUniform)(program_t *program, const char *name);
 	int			(*getCustomUniformLocation)(program_t *program, const char *name);

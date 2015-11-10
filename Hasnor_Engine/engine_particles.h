@@ -63,15 +63,18 @@ typedef struct {
 	
 	void				(*createNewWaveForEmitter)(emitterModel_t *emitter, long delay);
 	void				(*addNewParticleToEmitter)(emitterModel_t *emitter, particleModel_t *model);
+
+	void				(*setPause)(bool pause);
 } _particle_functions;
 
 #ifdef HASNOR_INIT
 void initParticleFunctions(_particle_functions *Particles);
 #endif
 
-
+#ifdef HASNOR_ENGINE_INTERNAL
 void particles_InitRenderer(void);
 void particles_Render(float viewMatrix[16]);
 void particles_Update(timeStruct_t time);
+#endif
 
 #endif
