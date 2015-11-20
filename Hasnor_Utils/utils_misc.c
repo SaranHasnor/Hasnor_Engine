@@ -6,35 +6,6 @@
 
 #pragma warning (disable:4996)	// Allow use of deprecated/unsafe functions
 
-int randomIntBetween(int min, int max)
-{
-	if (max < min)
-	{
-		int temp = min;
-		min = max;
-		max = temp;
-	}
-
-	return min+rand()%(max-min+1);
-}
-
-float randomValueBetween(float min, float max)
-{
-	if (max < min)
-	{
-		float temp = min;
-		min = max;
-		max = temp;
-	}
-
-	return min+((float)rand() / (float)RAND_MAX) * (max-min);
-}
-
-int isInRange(float min, float val, float max)
-{
-	return ((min <= val) && (val <= max));
-}
-
 unsigned int nbDigits(int n)
 { // Returns the amount of digits in the integer (also counts the minus sign if required)
 	unsigned int i=0;
@@ -81,11 +52,6 @@ char *strFromInt(int n)
 	return res;
 }
 
-int parseInt(char *s)
-{
-	return atoi(s);
-}
-
 char *strFromFloat(float n)
 {
 	uint len = nbDigits((int)n) + 10;	// Something like that...
@@ -94,42 +60,11 @@ char *strFromFloat(float n)
 	return res;
 }
 
-float parseFloat(char *s)
-{
-	return (float)atof(s);
-}
-
-char *strFromVec(float vec[3])
+char *strFromVec(const float vec[3])
 {
 	char *res = newArray(char, 48); // Sounds about right
 	sprintf(res, "%f %f %f", vec[0], vec[1], vec[2]);
 	return res;
-}
-
-void strip(char *s, char c)
-{
-	unsigned int i=0,j=0;
-	unsigned int len = strlen(s);
-	bool inString = false;
-	
-	while (j < len)
-	{
-		if ((s[j] == '\"' || s[j] == '\'') && (j == 0 || s[j-1] != '\\') && s[j] != c)
-			inString = !inString;
-
-		if (!inString)
-		{
-			if (s[j] == c)
-			{
-				j++;
-				continue;
-			}
-		}
-		s[i] = s[j];
-		i++;
-		j++;
-	}
-	s[i] = '\0';
 }
 
 void vecFromStr(float vec[3], char *str)
@@ -147,16 +82,6 @@ void vecFromStr(float vec[3], char *str)
 	vec[1] = (float)atof(pos+1);
 	vec[2] = (float)atof(pos2+1);
 	destroy(temp);
-}
-
-float atLeastOne(float x)
-{ // Utility function that prevents x's rounded value to be equal to 0 unless it actually is 0 (yes, seriously)
-	if (x > -1 && x < 0)
-		return -1;
-	if (x > 0 && x < 1)
-		return 1;
-
-	return x;
 }
 
 void strcpy_safe(char *dst, char *src)

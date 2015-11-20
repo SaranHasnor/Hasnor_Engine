@@ -2,7 +2,8 @@
 #include "interface_render.h"
 
 #include <utils_bytestream.h>
-#include <string.h>
+#include <utils_string.h>
+#include <stdlib.h>
 
 textField_t *newTextField(void)
 {
@@ -49,7 +50,7 @@ void updateFieldValue(textField_t *field)
 { // text -> value
 	if (field->type == FIELDTYPE_INT)
 	{
-		int value = parseInt(field->text);
+		int value = atoi(field->text);
 		if (value < field->min)
 			value = field->min;
 		if (value > field->max)
@@ -58,7 +59,7 @@ void updateFieldValue(textField_t *field)
 	}
 	else if (field->type == FIELDTYPE_FLOAT)
 	{
-		float value = (float)parseFloat(field->text);
+		float value = (float)atof(field->text);
 		if (value < field->min)
 			value = field->min;
 		if (value > field->max)
@@ -118,6 +119,6 @@ void drawTextField(textField_t *field, staticPlacement_t placement)
 	if (field->text)
 	{
 		glColor3f(0.0f,0.0f,0.0f);
-		renderString(field->text, placement, ANCHOR_CENTER, field->selected ? strlen(field->text) : -1);
+		renderString(field->text, placement, ANCHOR_CENTER, field->selected ? String.length(field->text) : -1);
 	}
 }

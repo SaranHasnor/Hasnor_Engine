@@ -98,7 +98,7 @@ bool interface_clickDown(int x, int y)
 		int top = objectPos->y;
 		int bottom = objectPos->y + objectPos->h;
 
-		if (isInRange(left, x, right) && isInRange(top, y, bottom))
+		if (left <= x && x <= right && top <= y && y <= bottom)
 		{
 			switch (object->gen_component.type)
 			{

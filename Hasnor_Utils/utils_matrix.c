@@ -1,4 +1,8 @@
-#include "utils_math.h"
+#include "utils_matrix.h"
+#include "utils_vector.h"
+
+#define _USE_MATH_DEFINES
+#include <math.h>
 
 #include "utils_ctools.h"
 

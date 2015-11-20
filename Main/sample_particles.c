@@ -1,5 +1,6 @@
 #include <engine.h>
 #include <utils_vector.h>
+#include <utils_math.h>
 
 void initSampleParticles(void)
 {
@@ -23,9 +24,9 @@ void initSampleParticles(void)
 		Vector.set(emitter->transform.position, 10.0f, 0.0f, 0.0f);
 
 		Vector.set(emitter->transform.rotation,
-			randomValueBetween(-100.0f, 100.0f),
-			randomValueBetween(-100.0f, 100.0f),
-			randomValueBetween(-100.0f, 100.0f));
+			Math.randomInterval(-100.0f, 100.0f),
+			Math.randomInterval(-100.0f, 100.0f),
+			Math.randomInterval(-100.0f, 100.0f));
 	}
 
 	emitterModel = Engine.Render.Particles.newEmitter();
@@ -41,8 +42,8 @@ void initSampleParticles(void)
 		Vector.set(emitter->transform.position, 10.0f, 0.0f, 0.0f);
 
 		Vector.set(emitter->transform.rotation,
-			randomValueBetween(-100.0f, 100.0f),
-			randomValueBetween(-100.0f, 100.0f),
-			randomValueBetween(-100.0f, 100.0f));
+			Math.randomInterval(-100.0f, 100.0f),
+			Math.randomInterval(-100.0f, 100.0f),
+			Math.randomInterval(-100.0f, 100.0f));
 	}
 }

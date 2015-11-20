@@ -1,4 +1,7 @@
-#include "utils_math.h"
+#include "utils_vector.h"
+
+#define _USE_MATH_DEFINES
+#include <math.h>
 
 static float _workVec[3];
 

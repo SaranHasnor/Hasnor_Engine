@@ -67,6 +67,7 @@
     <ClCompile Include="utils_init.c" />
     <ClCompile Include="utils_list.c" />
     <ClCompile Include="utils_map.c" />
+    <ClCompile Include="utils_math.c" />
     <ClCompile Include="utils_matrix.c" />
     <ClCompile Include="utils_quaternion.c" />
     <ClCompile Include="utils_string.c" />

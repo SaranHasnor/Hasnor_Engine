@@ -7,6 +7,7 @@
 #include "utils_file.h"
 #include "utils_list.h"
 #include "utils_map.h"
+#include "utils_math.h"
 #include "utils_matrix.h"
 #include "utils_quaternion.h"
 #include "utils_string.h"
@@ -22,6 +23,7 @@ void initHasnorUtils(void)
 	initFileFunctions();
 	initListFunctions();
 	initMapFunctions();
+	initMathFunctions();
 	initMatrixFunctions();
 	initQuaternionFunctions();
 	initStringFunctions();
