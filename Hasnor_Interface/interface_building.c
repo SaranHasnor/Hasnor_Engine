@@ -1,6 +1,8 @@
 #include "interface_main.h"
 #include "interface_building.h"
 
+#include <utils_string.h>
+
 void _pushBlock(block_t *block)
 { // Creates a new block and enters its context
 	blockList_t *newBlockEntry = newObject(blockList_t);
@@ -130,7 +132,7 @@ int interface_staticLabel(char *text, placement_t placement, anchor_t anchor)
 	component_t *component = _addComponent(COMP_LABEL, placement);
 	label_t *label = component->gen_component.object.label;
 
-	label->text = quickString(text);
+	label->text = String.create(text);
 	label->dynText = NULL;
 	label->textAlignment = anchor;
 
@@ -154,7 +156,7 @@ int interface_staticButton(char *text, placement_t placement, void (*onClick)(vo
 	component_t *component = _addComponent(COMP_BUTTON, placement);
 	button_t *button = component->gen_component.object.button;
 	
-	button->text = quickString(text);
+	button->text = String.create(text);
 	button->dynText = NULL;
 	button->onClick = onClick;
 

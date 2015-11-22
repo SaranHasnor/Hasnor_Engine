@@ -9,35 +9,38 @@ utils_string
 - Functions and structures for creating and parsing arrays of characters
 */
 
-typedef struct {
+/*typedef struct {
 	char			*s;
 	uint			len;
-} string;
+} string;*/
 
 typedef struct {
 	/* Initialization */
-	string*		(*create)(const char *value);
-	void		(*init)(string *str, const char *value, uint optionalSize);
-	void		(*fromInt)(string *str, int value);
-	void		(*fromFloat)(string *str, float value);
-	void		(*fromVector)(string *str, const float *vec, uint size);
-	//void		(*fromFormat)(string *str, ...); // TODO
-	string*		(*duplicate)(const string *str);
+	char*		(*create)(const char *value);
+	char*		(*createCapped)(const char *value, uint maxLength);
+	char*		(*fromInt)(int value);
+	char*		(*fromFloat)(float value);
+	char*		(*fromVector)(const float *vec);
+	//char*		(*fromFormat)(const char *str, ...); // TODO
+	//string*		(*precompute)(const char *value); // This would only be a good idea if a lot of data was precomputed, length isn't enough
 
 	/* Modification */
-	void		(*strip)(string *str, char c);
-	void		(*append)(string *str, const char *value);
-	void		(*replace)(string *str, const char *pattern, const char *value);
-	void		(*insert)(string *str, const char *value, uint pos);
+	void		(*copy)(char *dest, const char *src);
+	void		(*copySafe)(char *dest, const char *src);
+	void		(*strip)(char *str, char c);
+	void		(*append)(char **str, const char *value);
+	void		(*replace)(char **str, const char *pattern, const char *value);
+	void		(*insert)(char **str, const char *value, uint pos);
 
 	/* Extraction */
 	uint		(*length)(const char *str);
-	string*		(*substring)(const string *str, uint start, uint end);
-	bool		(*findChar)(const string *str, char c, uint *index);
-	bool		(*findString)(const string *str, const char *pattern, uint *index);
-	bool		(*compare)(const string *str, const char *pattern, bool caseSensitive);
-	int			(*parseInt)(const string *str);
-	float		(*parseFloat)(const string *str);
+	char*		(*substring)(const char *str, uint start, uint end);
+	bool		(*findChar)(const char *str, char c, uint *index);
+	bool		(*findString)(const char *str, const char *pattern, uint *index);
+	bool		(*compare)(const char *str1, const char *str2, bool caseSensitive);
+	int			(*parseInt)(const char *str);
+	float		(*parseFloat)(const char *str);
+	void		(*parseVector)(const char *str, float *out);
 } _string_functions;
 
 _string_functions String;

@@ -27,11 +27,11 @@ void updateFieldText(textField_t *field)
 
 	if (field->type == FIELDTYPE_INT)
 	{
-		field->text = strFromInt(*((int*)(*field->value)));
+		field->text = String.fromInt(*((int*)(*field->value)));
 	}
 	else if (field->type == FIELDTYPE_FLOAT)
 	{
-		field->text = strFromFloat(*((float*)(*field->value)));
+		field->text = String.fromInt(*((float*)(*field->value)));
 	}
 	else if (field->type == FIELDTYPE_BINARY)
 	{ // NEEDS TESTING
@@ -42,7 +42,7 @@ void updateFieldText(textField_t *field)
 	}
 	else
 	{
-		field->text = quickString((char*)(*field->value));
+		field->text = String.create((char*)(*field->value));
 	}
 }
 
@@ -93,7 +93,7 @@ void updateFieldValue(textField_t *field)
 	}
 	else
 	{
-		strcpy_safe((char*)(*field->value), field->text);
+		String.copySafe((char*)(*field->value), field->text);
 	}
 }
 

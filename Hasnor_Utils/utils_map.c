@@ -1,5 +1,7 @@
 #include "utils_map.h"
 
+#include "utils_string.h"
+
 void map_init(map_t *map)
 {
 	map->list = NULL;
@@ -59,7 +61,7 @@ void map_setValueForKey(map_t *map, const char *key, void *value, bool strong)
 	// Doesn't exist yet
 	newEntry = newObject(mapEntry_t);
 	newEntry->hash = hash;
-	newEntry->key = quickString(key);
+	newEntry->key = String.create(key);
 	newEntry->value = value;
 	newEntry->strong = strong;
 	List.add(list, newEntry);

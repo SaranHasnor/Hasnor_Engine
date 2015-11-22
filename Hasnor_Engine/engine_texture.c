@@ -1,7 +1,9 @@
 #define HASNOR_ENGINE_INTERNAL
 
 #include "engine_texture.h"
-#include "utils_file.h"
+
+#include <utils_file.h>
+#include <utils_string.h>
 
 #include <GL/glew.h>
 
@@ -74,7 +76,7 @@ texture_t *textureFromPath(const char *filePath)
 {
 	texture_t *newTexture = newObject(texture_t);
 
-	newTexture->filePath = quickString(filePath);
+	newTexture->filePath = String.create(filePath);
 	newTexture->textureID = 0;
 
 	updateTextureContents(newTexture);
@@ -121,7 +123,7 @@ shader_t *shaderFromContent(shaderType_t type, const char *contents)
 {
 	shader_t *newShader = newObject(shader_t);
 	newShader->filePath = NULL;
-	newShader->content = quickString(contents);
+	newShader->content = String.create(contents);
 	newShader->type = type;
 
 	newShader->shaderID = glCreateShader(_translateShaderType(type));
@@ -141,7 +143,7 @@ shader_t *shaderFromPath(shaderType_t type, const char *filePath)
 	if (File.read(filePath, &contents))
 	{
 		shader_t *newShader = shaderFromContent(type, contents);
-		newShader->filePath = quickString(filePath);
+		newShader->filePath = String.create(filePath);
 		return newShader;
 	}
 	return NULL;

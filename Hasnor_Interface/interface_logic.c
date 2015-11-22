@@ -3,8 +3,7 @@
 #include "interface_render.h"
 
 #include <utils_bytestream.h>
-#include <string.h>
-#include <stdlib.h>
+#include <utils_string.h>
 
 void interface_init(void)
 {
@@ -256,7 +255,7 @@ bool interface_keyPressed(unsigned char key, int x, int y)
 	if (!_curObject)
 		return false;
 
-	len = strlen(*renameString);
+	len = String.length(*renameString);
 	pos = len;//renameStringCursor;
 
 	if (key == 8)
@@ -282,7 +281,7 @@ bool interface_keyPressed(unsigned char key, int x, int y)
 			{
 				list_t *list = _curObject->gen_component.object.list;
 				int index = list->selectIndex;
-				strcpy_safe(list->entries[index].dynValue ? *list->entries[index].dynValue : list->entries[index].value, *renameString);
+				String.copySafe(list->entries[index].dynValue ? *list->entries[index].dynValue : list->entries[index].value, *renameString);
 				_dropFocus();
 				list->onSelect(index); // Update it	
 			}

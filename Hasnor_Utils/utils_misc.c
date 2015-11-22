@@ -2,13 +2,10 @@
 #include "utils_ctools.h"
 
 #include <stdlib.h>
-#include <string.h>
 
-#pragma warning (disable:4996)	// Allow use of deprecated/unsafe functions
-
-unsigned int nbDigits(int n)
+uint nbDigits(int n)
 { // Returns the amount of digits in the integer (also counts the minus sign if required)
-	unsigned int i=0;
+	uint i=0;
 
 	if (n == 0)
 		return 1;
@@ -23,88 +20,6 @@ unsigned int nbDigits(int n)
 		i++;
 
 	return i;
-}
-
-char *quickString(const char *s)
-{
-	int length = strlen(s);
-	char *r = newArray(char, length+1);
-	strncpy(r, s, length);
-	r[length] = '\0';
-	return r;
-}
-
-char *quickString2(const char *s, unsigned int len)
-{
-	unsigned int sLen = strlen(s);
-	int length = (sLen<len)?sLen:len;
-	char *r = newArray(char, len+1);
-	strncpy(r, s, length);
-	r[length] = '\0';
-	return r;
-}
-
-char *strFromInt(int n)
-{
-	uint len = nbDigits(n);
-	char *res = newArray(char, len+1);
-	sprintf(res, "%d", n);
-	return res;
-}
-
-char *strFromFloat(float n)
-{
-	uint len = nbDigits((int)n) + 10;	// Something like that...
-	char *res = newArray(char, len+1);
-	sprintf(res, "%f", n);
-	return res;
-}
-
-char *strFromVec(const float vec[3])
-{
-	char *res = newArray(char, 48); // Sounds about right
-	sprintf(res, "%f %f %f", vec[0], vec[1], vec[2]);
-	return res;
-}
-
-void vecFromStr(float vec[3], char *str)
-{
-	char *pos;
-	char *pos2;
-	char *temp;
-	
-	temp = quickString(str);
-	pos = strchr(temp, ' ');
-	*pos = '\0';
-	pos2 = strchr(pos+1, ' ');
-	*pos2 = '\0';
-	vec[0] = (float)atof(temp);
-	vec[1] = (float)atof(pos+1);
-	vec[2] = (float)atof(pos2+1);
-	destroy(temp);
-}
-
-void strcpy_safe(char *dst, char *src)
-{ // Copies string src to dst while respecting dst's memory size
-	size_t maxSize = Memory.size(dst);
-	unsigned int i=0;
-
-	if (!maxSize) return;
-
-	while (src[i] != '\0' && i < maxSize)
-	{
-		dst[i] = src[i];
-		i++;
-	}
-
-	if (i >= maxSize)
-	{
-		dst[maxSize-1] = '\0';
-	}
-	else
-	{
-		dst[i] = '\0';
-	}
 }
 
 bool charsEqualCaseInsensitive(char a, char b)
