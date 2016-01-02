@@ -191,6 +191,7 @@ program_t *programWithShaders(shader_t *vertexShader, shader_t *fragmentShader, 
 
 	newProgram->coordsLocation = glGetAttribLocation(newProgram->programID, "pos");
 	newProgram->texCoordsLocation = glGetAttribLocation(newProgram->programID, "texPos");
+	newProgram->normalsLocation = glGetAttribLocation(newProgram->programID, "normal");
 	newProgram->originLocation = glGetUniformLocation(newProgram->programID, "origin");
 	newProgram->rotationLocation = glGetUniformLocation(newProgram->programID, "rotation");
 	newProgram->viewMatLocation = glGetUniformLocation(newProgram->programID, "viewMatrix");

@@ -1,7 +1,7 @@
 #include "interface_list.h"
 #include "interface_render.h"
 
-#include <string.h>
+#include <utils_string.h>
 
 list_t *newList(void)
 {
@@ -128,7 +128,7 @@ void drawList(list_t *list, staticPlacement_t placement)
 		}
 		else if (text[0] != '\0' || list->selected)
 		{
-			renderString(text, entryPlacement, list->textAlignment, list->selected ? strlen(text) : -1);
+			renderString(text, entryPlacement, list->textAlignment, list->selected ? String.length(text) : -1);
 		}
 		else
 		{

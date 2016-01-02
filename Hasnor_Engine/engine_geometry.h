@@ -20,6 +20,7 @@ typedef struct {
 typedef struct {
 	coords_t	coords;
 	texCoords_t texCoords;
+	coords_t	normal;
 } vertex_t;
 
 typedef struct {
@@ -53,6 +54,9 @@ typedef struct {
 } mesh_t;
 
 typedef struct {
+
+	/* Primitives */
+	mesh_t*		(*makeSphere)(float center[3], float radius, int rings, int sectors, texture_t *texture);
 	
 	/* Construction functions */
 	vertex_t*	(*addVertexToFace)(face_t *face, float x, float y, float z, float u, float v);

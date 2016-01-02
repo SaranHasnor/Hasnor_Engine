@@ -1,30 +1,63 @@
 #include "utils_time.h"
 #include <time.h>
+#include <windows.h>
+#include <stdio.h>
 
-clock_t start;
-long offset;
+clock_t _start;
+long _offset;
+
+LARGE_INTEGER _benchmarkFrequency;
+LARGE_INTEGER _benchmarkStart;
+
+const static double CLOCKS_PER_MSEC = CLOCKS_PER_SEC / 1000.0;
 
 void time_init(void)
 {
-	start = clock();
-	offset = 0;
+	_start = clock();
+	_offset = 0;
 }
 
 double time_current_sec(void)
 {
 	clock_t current = clock();
 
-	return ((double)offset / 1000.0) + ((double)(current - start) / CLOCKS_PER_SEC);
+	return ((double)_offset / 1000.0) + ((double)(current - _start) / CLOCKS_PER_SEC);
 }
 
 long time_current_ms(void)
 {
-	return offset + (long)(time_current_sec() * 1000);
+	clock_t current = clock();
+
+	return (double)_offset + ((double)(current - _start) / CLOCKS_PER_MSEC);
 }
 
 void time_sync(long currentTime)
 {
-	offset = currentTime - time_current_ms();
+	_offset = currentTime - time_current_ms();
+}
+
+void _beginBenchmark(const char *name)
+{
+	QueryPerformanceFrequency(&_benchmarkFrequency);
+	QueryPerformanceCounter(&_benchmarkStart);
+
+	printf("===========================\nBenchmark start: %s\n", name);
+}
+
+void _logBenchmark(void)
+{
+	LARGE_INTEGER current;
+	QueryPerformanceCounter(&current);
+
+	printf("Benchmark: %fs\n", (current.QuadPart - _benchmarkStart.QuadPart) / _benchmarkFrequency.QuadPart);
+}
+
+void _endBenchmark(void)
+{
+	LARGE_INTEGER end;
+	QueryPerformanceCounter(&end);
+
+	printf("End of benchmark: %fs\n===========================\n", (double)(end.QuadPart - _benchmarkStart.QuadPart) / _benchmarkFrequency.QuadPart);
 }
 
 void initTimeFunctions(void)
@@ -33,4 +66,7 @@ void initTimeFunctions(void)
 	Time.sync = time_sync;
 	Time.seconds = time_current_sec;
 	Time.milliseconds = time_current_ms;
+	Time.beginBenchmark = _beginBenchmark;
+	Time.logBenchmark = _logBenchmark;
+	Time.endBenchmark = _endBenchmark;
 }

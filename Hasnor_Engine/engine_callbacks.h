@@ -3,12 +3,6 @@
 
 #include <utils_types.h>
 
-/*
-engine_callbacks
-
-- Input events
-*/
-
 #define INPUT_MOUSELEFT_BUTTON		0
 #define INPUT_MOUSERIGHT_BUTTON		1
 #define INPUT_MOUSEMIDDLE_BUTTON	2

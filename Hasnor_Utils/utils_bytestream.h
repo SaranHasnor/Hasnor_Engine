@@ -1,12 +1,6 @@
 #ifndef HASNOR_BYTESTREAM_DEFINED
 #define HASNOR_BYTESTREAM_DEFINED
 
-/*
-utils_bytestream
-
-- Functions and structures for writing and reading streams of bytes
-*/
-
 #include "utils_types.h"
 
 typedef struct {

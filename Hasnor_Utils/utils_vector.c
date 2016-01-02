@@ -12,7 +12,7 @@ void vectorSet(float v[3], float x, float y, float z)
 	v[2] = z;
 }
 
-void vectorCopy(float dest[3], float src[3])
+void vectorCopy(float dest[3], const float src[3])
 {
 	vectorSet(dest, src[0], src[1], src[2]);
 }
@@ -27,12 +27,12 @@ void vectorNegate(float v[3])
 	vectorSet(v, -v[0], -v[1], -v[2]);
 }
 
-float vectorLength(float v[3])
+float vectorLength(const float v[3])
 {
 	return sqrtf(v[0]*v[0]+v[1]*v[1]+v[2]*v[2]);
 }
 
-float vectorSquareLength(float v[3])
+float vectorSquareLength(const float v[3])
 {
 	return v[0]*v[0]+v[1]*v[1]+v[2]*v[2];
 }
@@ -47,31 +47,31 @@ float vectorNormalize(float v[3])
 	return length;
 }
 
-void vectorAdd(float dest[3], float a[3], float b[3])
+void vectorAdd(float dest[3], const float a[3], const float b[3])
 { // dest = a + b
 	int i;
 	for (i=0; i<3; i++)
 		dest[i] = a[i] + b[i];
 }
 
-void vectorSubtract(float dest[3], float a[3], float b[3])
+void vectorSubtract(float dest[3], const float a[3], const float b[3])
 { // dest = a - b
 	int i;
 	for (i=0; i<3; i++)
 		dest[i] = a[i] - b[i];
 }
 
-void vectorMult(float dest[3], float a[3], float b[3])
+void vectorMult(float dest[3], const float a[3], const float b[3])
 { // dest = a x b
 	vectorSet(dest, a[0]*b[0], a[1]*b[1], a[2]*b[2]);
 }
 
-void vectorScale(float dest[3], float s, float src[3])
+void vectorScale(float dest[3], float s, const float src[3])
 { // dest = s * src
 	vectorSet(dest, s*src[0], s*src[1], s*src[2]);
 }
 
-void vectorMA(float out[3], float org[3], float s, float move[3])
+void vectorMA(float out[3], const float org[3], float s, const float move[3])
 { // v = org + s * move
 	int i;
 	for (i=0; i<3; i++)
@@ -80,7 +80,7 @@ void vectorMA(float out[3], float org[3], float s, float move[3])
 	}
 }
 
-void vectorTransition(float v[3], float org[3], float dest[3], float percentage)
+void vectorTransition(float v[3], const float org[3], const float dest[3], float percentage)
 { // v = org + percentage * (dest - org)
 	int i;
 	for (i=0; i<3; i++)
@@ -89,7 +89,7 @@ void vectorTransition(float v[3], float org[3], float dest[3], float percentage)
 	}
 }
 
-float vectorDot(float a[3], float b[3])
+float vectorDot(const float a[3], const float b[3])
 { // Returns the dot product of both vectors
 	float res = 0;
 	int i;
@@ -100,7 +100,7 @@ float vectorDot(float a[3], float b[3])
 	return res;
 }
 
-void vectorCross(float out[3], float a[3], float b[3])
+void vectorCross(float out[3], const float a[3], const float b[3])
 {
 	_workVec[0] = a[1] * b[2] - a[2] * b[1];
 	_workVec[1] = a[2] * b[0] - a[0] * b[2];
@@ -111,34 +111,32 @@ void vectorCross(float out[3], float a[3], float b[3])
 	out[2] = _workVec[2];
 }
 
-void vectorRotate(float vec[3], float targetAxis[3][3])
+void vectorRotate(float vec[3], const float targetAxis[3][3])
 { // Rotates the given vector to match the target axis
-	float newVec[3];
-
-	newVec[0] = vectorDot(vec, targetAxis[0]);
-	newVec[1] = vectorDot(vec, targetAxis[1]);
-	newVec[2] = vectorDot(vec, targetAxis[2]);
+	_workVec[0] = vectorDot(vec, targetAxis[0]);
+	_workVec[1] = vectorDot(vec, targetAxis[1]);
+	_workVec[2] = vectorDot(vec, targetAxis[2]);
 	
-	vec[0] = newVec[0];
-	vec[1] = newVec[1];
-	vec[2] = newVec[2];
+	vec[0] = _workVec[0];
+	vec[1] = _workVec[1];
+	vec[2] = _workVec[2];
 }
 
-float vectorDistance(float a[3], float b[3])
+float vectorDistance(const float a[3], const float b[3])
 {
-	float vec[3];
-	vectorSubtract(vec, a, b);
-	return vectorLength(vec);
+	vectorSubtract(_workVec, a, b);
+	return vectorLength(_workVec);
 }
 
-float vectorSquareDistance(float a[3], float b[3])
+float vectorSquareDistance(const float a[3], const float b[3])
 {
 	return (b[0] - a[0]) * (b[0] - a[0]) +
 		(b[1] - a[1]) * (b[1] - a[1]) +
 		(b[2] - a[2]) * (b[2] - a[2]);
 }
 
-void vectoangles( float *vec, float *angles ) {
+void vectoangles(const float vec[3], float angles[3])
+{
 	double	forward;
 	double	yaw, pitch;
 	
@@ -177,7 +175,7 @@ void vectoangles( float *vec, float *angles ) {
 	angles[2] = 0.0f;
 }
 
-void AngleVectors(float *angles, float *forward, float *right, float *up) {
+void AngleVectors(const float angles[3], float *forward, float *right, float *up) {
 	double	angle;
 	double	sr, sp, sy, cr, cp, cy;
 	
@@ -211,12 +209,12 @@ void AngleVectors(float *angles, float *forward, float *right, float *up) {
 	}
 }
 
-float vectorAngleBetween_norm(float normA[3], float normB[3])
+float vectorAngleBetween_norm(const float normA[3], const float normB[3])
 {
 	return 90.0f - 90.0f * vectorDot(normA, normB);
 }
 
-float vectorAngleBetween(float a[3], float b[3])
+float vectorAngleBetween(const float a[3], const float b[3])
 {
 	float normA[3], normB[3];
 	vectorCopy(normA, a);
@@ -226,7 +224,7 @@ float vectorAngleBetween(float a[3], float b[3])
 	return vectorAngleBetween_norm(normA, normB);
 }
 
-float vectorOrientedAngleBetween(float a[3], float b[3], float normal[3])
+float vectorOrientedAngleBetween(const float a[3], const float b[3], const float normal[3])
 {
 	float normA[3], normB[3];
 	float angle;

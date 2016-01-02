@@ -101,9 +101,58 @@ int _sign(float value)
 	return 0;
 }
 
+float _sqrt(float a)
+{
+	return sqrtf(a);
+}
+
+float _sqrtI(int a)
+{
+	return (float)sqrtl(a);
+}
+
+float _pow(float value, int power)
+{
+	float res = 1.0f;
+	int i;
+	for (i = 0; i < power; i++)
+	{
+		res *= value;
+	}
+	return res;
+}
+
+int _powI(int value, int power)
+{
+	int res = 1;
+	int i;
+	for (i = 0; i < power; i++)
+	{
+		res *= value;
+	}
+	return res;
+}
+
+float _abs(float a)
+{
+	return abs(a);
+}
+
+int _absI(int a)
+{
+	return abs(a);
+}
+
 void initMathFunctions(void)
 {
 	Math.pi = (float)M_PI;
+
+	Math.sqrt = _sqrt;
+	Math.sqrtI = _sqrtI;
+	Math.pow = _pow;
+	Math.powI = _powI;
+	Math.abs = _abs;
+	Math.absI = _absI;
 
 	Math.cos = _cos;
 	Math.sin = _sin;

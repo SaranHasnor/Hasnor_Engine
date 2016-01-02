@@ -3,11 +3,6 @@
 
 #include "utils_types.h"
 
-/*
-utils_misc
-
-- Utility functions that don't belong anywhere else
-*/
 
 uint nbDigits(int n);
 

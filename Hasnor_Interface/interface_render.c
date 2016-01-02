@@ -1,6 +1,6 @@
 #include "interface_render.h"
 
-#include <string.h>
+#include <utils_string.h>
 
 void drawRect(staticPlacement_t rect)
 {
@@ -19,10 +19,42 @@ void renderString(char *s, staticPlacement_t placement, anchor_t alignment, int 
 	int currentX, currentY;
 
 	switch (alignment)
-	{
-	case ANCHOR_CENTER: // This doesn't work with line breaks
-		startX = placement.x + (placement.w - (strlen(s) * 8)) / 2;
+	{ // Alignment doesn't work very well with line breaks
+	case ANCHOR_TOP_LEFT:
+		startX = placement.x;
+		startY = placement.y + 14;
+		break;
+	case ANCHOR_TOP:
+		startX = placement.x + (placement.w - (String.length(s) * 8)) / 2;
+		startY = placement.y + 14;
+		break;
+	case ANCHOR_TOP_RIGHT:
+		startX = placement.x + placement.w - (String.length(s) * 8);
+		startY = placement.y + 14;
+		break;
+	case ANCHOR_LEFT:
+		startX = placement.x;
 		startY = placement.y + ((placement.h / 2) + 4);
+		break;
+	case ANCHOR_CENTER:
+		startX = placement.x + (placement.w - (String.length(s) * 8)) / 2;
+		startY = placement.y + ((placement.h / 2) + 4);
+		break;
+	case ANCHOR_RIGHT:
+		startX = placement.x + placement.w - (String.length(s) * 8);
+		startY = placement.y + ((placement.h / 2) + 4);
+		break;
+	case ANCHOR_BOTTOM_LEFT:
+		startX = placement.x;
+		startY = placement.y + placement.h;
+		break;
+	case ANCHOR_BOTTOM:
+		startX = placement.x + (placement.w - (String.length(s) * 8)) / 2;
+		startY = placement.y + placement.h;
+		break;
+	case ANCHOR_BOTTOM_RIGHT:
+		startX = placement.x + placement.w - (String.length(s) * 8);
+		startY = placement.y + placement.h;
 		break;
 	default:
 		startX = placement.x;

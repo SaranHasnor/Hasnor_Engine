@@ -3,6 +3,7 @@
 #include "engine_geometry.h"
 #include <utils_matrix.h>
 #include <utils_quaternion.h>
+#include <utils_math.h>
 
 #include <GL/glew.h>
 
@@ -52,6 +53,9 @@ vertex_t *_addVertexToFace(face_t *face, float pos[3], float u, float v)
 	vertex->coords.z = pos[2] + _cursorPos[2];
 	vertex->texCoords.u = u;
 	vertex->texCoords.v = v;
+	vertex->normal.x = 0.0f;
+	vertex->normal.y = 0.0f;
+	vertex->normal.z = 0.0f;
 	linkVertexToFace(face, vertex);
 	return vertex;
 }
@@ -172,6 +176,77 @@ mesh_t *duplicateMesh(mesh_t *mesh)
 	}
 
 	return newMesh;
+}
+
+void updateMeshGeometry(mesh_t *mesh);
+mesh_t *createSphere(float center[3], float radius, int rings, int sectors, texture_t *texture)
+{ // Inspired by http://stackoverflow.com/questions/7946770/calculating-a-sphere-in-opengl
+	const float R = 1.0f / (rings-1);
+	const float S = 1.0f / (sectors-1);
+	int r, s;
+	vertex_t *vertices = newArray(vertex_t, rings * sectors);
+	vertex_t *vertexIterator = vertices;
+	mesh_t *sphere;
+
+	for (r = 0; r < rings; r++)
+	{
+		for (s = 0; s < sectors; s++)
+		{
+			const float x = Math.cos(2 * Math.pi * s * S) * Math.sin(Math.pi * r * R);
+			const float y = Math.sin(2 * Math.pi * s * S) * Math.sin(Math.pi * r * R);
+			const float z = Math.sin(-0.5f * Math.pi + Math.pi * r * R);
+
+			vertexIterator->coords.x = center[0] + x * radius;
+			vertexIterator->coords.y = center[1] + y * radius;
+			vertexIterator->coords.z = center[2] + z * radius;
+
+			vertexIterator->texCoords.u = s * S;
+			vertexIterator->texCoords.v = 1.0f - r * R;
+
+			vertexIterator->normal.x = x;
+			vertexIterator->normal.y = y;
+			vertexIterator->normal.z = z;
+
+			vertexIterator++;
+		}
+	}
+
+	sphere = newMesh();
+
+	for (r = 0; r < rings; r++)
+	{
+		for (s = 0; s < sectors; s++)
+		{
+			face_t *currentFace;
+			vertex_t **currentVertices;
+			vertex_t *v1 = &vertices[((r+0)%rings) * sectors + ((s+0)%sectors)];
+			vertex_t *v2 = &vertices[((r+0)%rings) * sectors + ((s+1)%sectors)];
+			vertex_t *v3 = &vertices[((r+1)%rings) * sectors + ((s+1)%sectors)];
+			vertex_t *v4 = &vertices[((r+1)%rings) * sectors + ((s+0)%sectors)];
+
+			currentFace = addFaceToMesh(sphere);
+			currentFace->texture = texture;
+			currentVertices = newArray(vertex_t*, 3);
+			currentVertices[0] = v1;
+			currentVertices[1] = v2;
+			currentVertices[2] = v3;
+			currentFace->vertices = currentVertices;
+			currentFace->nbVertices = 3;
+
+			currentFace = addFaceToMesh(sphere);
+			currentFace->texture = texture;
+			currentVertices = newArray(vertex_t*, 3);
+			currentVertices[0] = v3;
+			currentVertices[1] = v4;
+			currentVertices[2] = v1;
+			currentFace->vertices = currentVertices;
+			currentFace->nbVertices = 3;
+		}
+	}
+
+	updateMeshGeometry(sphere);
+
+	return sphere;
 }
 
 void destroyVertex(vertex_t *vertex)
@@ -388,7 +463,7 @@ void updateMeshGeometry(mesh_t *mesh)
 	{
 		face_t *face = mesh->faces[i];
 
-		face->vbo = newArray(float, face->nbVertices * 5);
+		face->vbo = newArray(float, face->nbVertices * 8);
 		face->ebo = newArray(ushort, face->nbVertices);
 
 		for (j = 0; j < face->nbVertices; j++)
@@ -398,7 +473,7 @@ void updateMeshGeometry(mesh_t *mesh)
 		}
 
 		glBindBuffer(GL_ARRAY_BUFFER, face->vboIndex);
-		glBufferData(GL_ARRAY_BUFFER, 5 * face->nbVertices * sizeof(float), face->vbo, GL_STATIC_DRAW);
+		glBufferData(GL_ARRAY_BUFFER, 8 * face->nbVertices * sizeof(float), face->vbo, GL_STATIC_DRAW);
 
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, face->eboIndex);
 		glBufferData(GL_ELEMENT_ARRAY_BUFFER, face->nbVertices * sizeof(ushort), face->ebo, GL_STATIC_DRAW);
@@ -467,10 +542,12 @@ void renderMesh(const mesh_t *mesh, float viewMatrix[16])
 		glBindBuffer(GL_ARRAY_BUFFER, face->vboIndex);
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, face->eboIndex);
 
-		glVertexAttribPointer(program->coordsLocation, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), NULL);
+		glVertexAttribPointer(program->coordsLocation, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), NULL);
 		glEnableVertexAttribArray(program->coordsLocation);
-		glVertexAttribPointer(program->texCoordsLocation, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(3 * sizeof(float)));
+		glVertexAttribPointer(program->texCoordsLocation, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(3 * sizeof(float)));
 		glEnableVertexAttribArray(program->texCoordsLocation);
+		glVertexAttribPointer(program->normalsLocation, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(5 * sizeof(float)));
+		glEnableVertexAttribArray(program->normalsLocation);
 
 		glUniformMatrix4fv(program->viewMatLocation, 1, GL_TRUE, viewMatrix);
 
@@ -488,6 +565,7 @@ void renderMesh(const mesh_t *mesh, float viewMatrix[16])
 
 void initGeometryFunctions(_geometry_functions *Geometry)
 {
+	Geometry->makeSphere = createSphere;
 	Geometry->addFace = addFace;
 	Geometry->addFaceToMesh = addFaceToMesh;
 	Geometry->addVertex = addVertex;

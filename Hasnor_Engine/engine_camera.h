@@ -4,12 +4,6 @@
 #include "engine_callbacks.h"
 #include <utils_types.h>
 
-/*
-engine_camera
-
-- Handles the camera's position
-*/
-
 typedef struct {
 	void (*setPosition)(float position[3]);
 	void (*getPosition)(float out[3]);

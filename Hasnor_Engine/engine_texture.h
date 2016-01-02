@@ -41,6 +41,7 @@ typedef struct {
 
 	uint		coordsLocation;
 	uint		texCoordsLocation;
+	uint		normalsLocation;
 
 	uint		viewMatLocation;
 

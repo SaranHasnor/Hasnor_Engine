@@ -1,13 +1,6 @@
 #ifndef MEM_H_DEFINED
 #define MEM_H_DEFINED
 
-/*
-utils_ctools
-
-- Memory allocation assistant
-- Debugging tools
-*/
-
 #include <stdio.h>
 #include <assert.h>
 

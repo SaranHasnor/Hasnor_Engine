@@ -1,12 +1,6 @@
 #ifndef HASNOR_WINDOW_IMPORTED
 #define HASNOR_WINDOW_IMPORTED
 
-/*
-engine_window
-
-- Window creation and management
-*/
-
 typedef struct {
 	int	(*getWidth)(void);
 	int	(*getHeight)(void);

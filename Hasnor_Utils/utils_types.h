@@ -1,18 +1,12 @@
 #ifndef HASNOR_TYPES_DEFINED
 #define HASNOR_TYPES_DEFINED
 
-/*
-utils_types
-
-- Defines various useful types and imports utility functions to use them
-*/
-
 typedef unsigned char uchar;
 typedef unsigned short ushort;
 typedef unsigned int uint;
 typedef unsigned long ulong;
 typedef unsigned char byte;
-typedef char sbyte;
+typedef signed char sbyte;
 
 #ifndef _cplusplus
 typedef enum { false, true } bool;

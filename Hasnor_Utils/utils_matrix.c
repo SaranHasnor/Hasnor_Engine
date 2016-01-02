@@ -22,7 +22,7 @@ void mat_perspective(float mat[16], float fov, float aspect, float near, float f
 	mat[14] = -2.0f * far * near / depth;
 }
 
-void mat_viewModel(float mat[16], float position[3], float angle[3])
+void mat_viewModel(float mat[16], const float position[3], const float angle[3])
 {
 	int i;
 	float fwd[3], right[3], up[3];
@@ -116,30 +116,35 @@ void mat_identity(float mat[16])
 	}
 }
 
-void mat_fromQuaternion(float out[16], float src[4])
+void mat_fromQuaternion(float out[16], const float src[4])
 {
-	out[0] =  src[0];
-	out[1] = -src[1];
-	out[2] = -src[2];
-	out[3] = -src[3];
+	float w = src[0];
+	float x = src[1];
+	float y = src[2];
+	float z = src[3];
 
-	out[4] =  src[1];
-	out[5] =  src[0];
-	out[6] =  src[3];
-	out[7] = -src[2];
+	out[0] = 1.0f - 2.0f * y * y - 2.0f * z * z;
+	out[1] = 2.0f * x * y + 2.0f * z * w;
+	out[2] = 2.0f * x * z - 2.0f * y * w;
+	out[3] = 0.0f;
 
-	out[8]  =  src[2];
-	out[9]  = -src[3];
-	out[10] =  src[0];
-	out[11] =  src[1];
+	out[4] = 2.0f * x * y - 2.0f * z * w;
+	out[5] = 1.0f - 2.0f * x * x - 2.0f * z * z;
+	out[6] = 2.0f * y * z + 2.0f * x * w;
+	out[7] = 0.0f;
 
-	out[12] =  src[3];
-	out[13] =  src[2];
-	out[14] = -src[1];
-	out[15] =  src[0];
+	out[8]  = 2.0f * x * z + 2.0f * y * w;
+	out[9]  = 2.0f * y * z - 2.0f * x * w;
+	out[10] = 1.0f - 2.0f * x * x - 2.0f * y * y;
+	out[11] = 0.0f;
+
+	out[12] =  0.0f;
+	out[13] =  0.0f;
+	out[14] =  0.0f;
+	out[15] =  1.0f;
 }
 
-void mat_multiply(float out[16], float a[16], float b[16])
+void mat_multiply(float out[16], const float a[16], const float b[16])
 {
 	int i,j;
 	for (j=0; j<16; j+=4)
@@ -157,7 +162,7 @@ void mat_multiply(float out[16], float a[16], float b[16])
 	}
 }
 
-void mat_transpose(float out[16], float src[16])
+void mat_transpose(float out[16], const float src[16])
 {
 	float temp;
 
@@ -175,7 +180,7 @@ void mat_transpose(float out[16], float src[16])
 #undef _swapIndexes
 }
 
-bool mat_inverse(float out[16], float src[16])
+bool mat_inverse(float out[16], const float src[16])
 { // Taken from GLU's implementation
 	float inv[16], det;
 	int i;

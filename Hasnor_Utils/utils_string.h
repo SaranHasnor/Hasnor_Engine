@@ -3,12 +3,6 @@
 
 #include "utils_types.h"
 
-/*
-utils_string
-
-- Functions and structures for creating and parsing arrays of characters
-*/
-
 /*typedef struct {
 	char			*s;
 	uint			len;

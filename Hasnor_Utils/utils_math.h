@@ -5,6 +5,14 @@ typedef struct {
 	/* Constants */
 	float		pi;
 
+	/* Algebra */
+	float		(*sqrt)(float);
+	float		(*sqrtI)(int);
+	float		(*pow)(float value, int power);
+	int			(*powI)(int value, int power);
+	float		(*abs)(float);
+	int			(*absI)(int);
+
 	/* Trigonometry */
 	float		(*cos)(float);
 	float		(*sin)(float);
