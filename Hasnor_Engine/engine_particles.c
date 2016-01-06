@@ -14,24 +14,24 @@ program_t *_defaultParticleProgram;
 const char *_particleVertexShader =  
 	"in vec3 pos;																		\
 	in vec2 texPos;																		\
-	varying vec2 texCoord;																\
+	varying vec2 v_texCoord;															\
 	uniform vec3 origin;																\
 	uniform float particleAngle;														\
 	uniform float scale;																\
 	uniform mat4 viewMatrix;															\
 	void main(void)																		\
 	{																					\
-		texCoord = texPos;																\
+		v_texCoord = texPos;																\
 		gl_Position = vec4(origin, 1.0) * viewMatrix + vec4(pos, 0.0) * scale;			\
 	}";
 
 const char *_particleFragmentShader =  
 	"uniform sampler2D tex;																\
 	uniform vec4 customColor;															\
-	varying vec2 texCoord;																\
+	varying vec2 v_texCoord;																\
 	void main(void)																		\
 	{																					\
-		vec3 inColor = texture2D(tex, texCoord).rgb * customColor.rgb * customColor.a;	\
+		vec3 inColor = texture2D(tex, v_texCoord).rgb * customColor.rgb * customColor.a;	\
 		float intensity = (inColor.r + inColor.g + inColor.b) / 3.0;					\
 		gl_FragColor = vec4(inColor, intensity);										\
 	}";

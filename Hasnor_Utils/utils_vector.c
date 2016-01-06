@@ -37,12 +37,12 @@ float vectorSquareLength(const float v[3])
 	return v[0]*v[0]+v[1]*v[1]+v[2]*v[2];
 }
 
-float vectorNormalize(float v[3])
+float vectorNormalize(float out[3], const float src[3])
 {
-	float length = vectorLength(v);
+	const float length = vectorLength(src);
 	if (length)
 	{
-		vectorSet(v, v[0]/length, v[1]/length, v[2]/length);
+		vectorSet(out, src[0]/length, src[1]/length, src[2]/length);
 	}
 	return length;
 }
@@ -217,10 +217,8 @@ float vectorAngleBetween_norm(const float normA[3], const float normB[3])
 float vectorAngleBetween(const float a[3], const float b[3])
 {
 	float normA[3], normB[3];
-	vectorCopy(normA, a);
-	vectorNormalize(normA);
-	vectorCopy(normB, b);
-	vectorNormalize(normB);
+	vectorNormalize(normA, a);
+	vectorNormalize(normB, b);
 	return vectorAngleBetween_norm(normA, normB);
 }
 
@@ -230,10 +228,8 @@ float vectorOrientedAngleBetween(const float a[3], const float b[3], const float
 	float angle;
 	float cross[3];
 
-	vectorCopy(normA, a);
-	vectorNormalize(normA);
-	vectorCopy(normB, b);
-	vectorNormalize(normB);
+	vectorNormalize(normA, a);
+	vectorNormalize(normB, b);
 
 	angle = vectorAngleBetween_norm(normA, normB);
 

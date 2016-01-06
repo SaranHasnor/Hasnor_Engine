@@ -13,13 +13,16 @@
 const char *defaultVertexShader = 
 	"in vec3 pos;															\
 	in vec2 texPos;															\
-	varying vec2 texCoord;													\
+	in vec3 normal;															\
+	varying vec2 v_texCoord;												\
+	varying vec3 v_normal;													\
 	uniform mat4 viewMatrix;												\
 	uniform vec3 origin;													\
 	uniform mat4 rotation;													\
 	void main(void)															\
 	{																		\
-		texCoord = texPos;													\
+		v_texCoord = texPos;												\
+		v_normal = normal;													\
 		vec4 actualPos = vec4(origin, 0.0) + rotation * vec4(pos, 1.0);		\
 		gl_Position = actualPos * viewMatrix;								\
 	}";
@@ -34,10 +37,10 @@ const char *defaultFragmentShader =
 const char *defaultFragmentShader_texture =
 	"uniform sampler2D tex;										\
 	uniform vec4 customColor;									\
-	varying vec2 texCoord;										\
+	varying vec2 v_texCoord;									\
 	void main(void)												\
 	{															\
-		gl_FragColor = texture(tex, texCoord) * customColor;	\
+		gl_FragColor = texture(tex, v_texCoord) * customColor;	\
 	}";
 
 

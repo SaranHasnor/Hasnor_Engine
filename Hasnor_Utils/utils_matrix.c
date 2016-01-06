@@ -118,10 +118,10 @@ void mat_identity(float mat[16])
 
 void mat_fromQuaternion(float out[16], const float src[4])
 {
-	float w = src[0];
-	float x = src[1];
-	float y = src[2];
-	float z = src[3];
+	const float w = src[3];
+	const float x = src[0];
+	const float y = src[1];
+	const float z = src[2];
 
 	out[0] = 1.0f - 2.0f * y * y - 2.0f * z * z;
 	out[1] = 2.0f * x * y + 2.0f * z * w;

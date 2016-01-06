@@ -179,7 +179,7 @@ mesh_t *duplicateMesh(mesh_t *mesh)
 }
 
 void updateMeshGeometry(mesh_t *mesh);
-mesh_t *createSphere(float center[3], float radius, int rings, int sectors, texture_t *texture)
+mesh_t *createSphere(float center[3], float radius, int rings, int sectors, texture_t *texture, program_t *program)
 { // Inspired by http://stackoverflow.com/questions/7946770/calculating-a-sphere-in-opengl
 	const float R = 1.0f / (rings-1);
 	const float S = 1.0f / (sectors-1);
@@ -192,13 +192,15 @@ mesh_t *createSphere(float center[3], float radius, int rings, int sectors, text
 	{
 		for (s = 0; s < sectors; s++)
 		{
-			const float x = Math.cos(2 * Math.pi * s * S) * Math.sin(Math.pi * r * R);
-			const float y = Math.sin(2 * Math.pi * s * S) * Math.sin(Math.pi * r * R);
+			const float x = Math.cos(2.0f * Math.pi * s * S) * Math.sin(Math.pi * r * R);
+			const float y = Math.sin(2.0f * Math.pi * s * S) * Math.sin(Math.pi * r * R);
 			const float z = Math.sin(-0.5f * Math.pi + Math.pi * r * R);
 
 			vertexIterator->coords.x = center[0] + x * radius;
 			vertexIterator->coords.y = center[1] + y * radius;
 			vertexIterator->coords.z = center[2] + z * radius;
+
+			Vector.rotate((float*)&vertexIterator->coords, _localAxis);
 
 			vertexIterator->texCoords.u = s * S;
 			vertexIterator->texCoords.v = 1.0f - r * R;
@@ -226,6 +228,7 @@ mesh_t *createSphere(float center[3], float radius, int rings, int sectors, text
 
 			currentFace = addFaceToMesh(sphere);
 			currentFace->texture = texture;
+			currentFace->program = program;
 			currentVertices = newArray(vertex_t*, 3);
 			currentVertices[0] = v1;
 			currentVertices[1] = v2;
@@ -235,6 +238,7 @@ mesh_t *createSphere(float center[3], float radius, int rings, int sectors, text
 
 			currentFace = addFaceToMesh(sphere);
 			currentFace->texture = texture;
+			currentFace->program = program;
 			currentVertices = newArray(vertex_t*, 3);
 			currentVertices[0] = v3;
 			currentVertices[1] = v4;
@@ -247,6 +251,89 @@ mesh_t *createSphere(float center[3], float radius, int rings, int sectors, text
 	updateMeshGeometry(sphere);
 
 	return sphere;
+}
+
+mesh_t *createRing(float center[3], float innerRadius, float outerRadius, int sectors, texture_t *texture, program_t *program)
+{
+	const float S = 1.0f / (sectors-1);
+	const int vertexCount = 2 * sectors;
+	int s;
+	vertex_t *vertices = newArray(vertex_t, vertexCount);
+	vertex_t *vertexIterator = vertices;
+	mesh_t *ring;
+
+	for (s = 0; s < sectors; s++)
+	{
+		const float x = Math.cos(2.0f * Math.pi * s * S);
+		const float y = Math.sin(2.0f * Math.pi * s * S);
+		const float z = 0.0f;
+
+		vertexIterator->coords.x = center[0] + x * innerRadius;
+		vertexIterator->coords.y = center[1] + y * innerRadius;
+		vertexIterator->coords.z = center[2] + z * innerRadius;
+
+		Vector.rotate((float*)&vertexIterator->coords, _localAxis);
+
+		vertexIterator->texCoords.u = 1.0f;
+		vertexIterator->texCoords.v = 0.0f;
+
+		vertexIterator->normal.x = x;
+		vertexIterator->normal.y = y;
+		vertexIterator->normal.z = z;
+
+		vertexIterator++;
+
+		vertexIterator->coords.x = center[0] + x * outerRadius;
+		vertexIterator->coords.y = center[1] + y * outerRadius;
+		vertexIterator->coords.z = center[2] + z * outerRadius;
+
+		Vector.rotate((float*)&vertexIterator->coords, _localAxis);
+
+		vertexIterator->texCoords.u = 0.0f;
+		vertexIterator->texCoords.v = 0.0f;
+
+		vertexIterator->normal.x = x;
+		vertexIterator->normal.y = y;
+		vertexIterator->normal.z = z;
+
+		vertexIterator++;
+	}
+
+	ring = newMesh();
+
+	for (s = 0; s < sectors; s++)
+	{
+		face_t *currentFace;
+		vertex_t **currentVertices;
+		vertex_t *v1 = &vertices[(2 * s + 0) % (vertexCount)];
+		vertex_t *v2 = &vertices[(2 * s + 1) % (vertexCount)];
+		vertex_t *v3 = &vertices[(2 * s + 3) % (vertexCount)];
+		vertex_t *v4 = &vertices[(2 * s + 2) % (vertexCount)];
+
+		currentFace = addFaceToMesh(ring);
+		currentFace->texture = texture;
+		currentFace->program = program;
+		currentVertices = newArray(vertex_t*, 3);
+		currentVertices[0] = v1;
+		currentVertices[1] = v2;
+		currentVertices[2] = v3;
+		currentFace->vertices = currentVertices;
+		currentFace->nbVertices = 3;
+
+		currentFace = addFaceToMesh(ring);
+		currentFace->texture = texture;
+		currentFace->program = program;
+		currentVertices = newArray(vertex_t*, 3);
+		currentVertices[0] = v3;
+		currentVertices[1] = v4;
+		currentVertices[2] = v1;
+		currentFace->vertices = currentVertices;
+		currentFace->nbVertices = 3;
+	}
+
+	updateMeshGeometry(ring);
+
+	return ring;
 }
 
 void destroyVertex(vertex_t *vertex)
@@ -413,7 +500,7 @@ void setLocalAxisFromLine(float startX, float startY, float startZ, float endX, 
 	vec[0] = endX - startX;
 	vec[1] = endY - startY;
 	vec[2] = endZ - startZ;
-	Vector.normalize(vec);
+	Vector.normalize(vec, vec);
 	setLocalAxis(vec);
 }
 
@@ -453,6 +540,33 @@ void resetWorkSpace(void)
 	}
 
 	_autoSelect = true;
+}
+
+mesh_t *fuseMeshes(mesh_t **a, mesh_t **b)
+{
+	mesh_t *mesh = newMesh();
+	uint i;
+
+	mesh->nbFaces = (*a)->nbFaces + (*b)->nbFaces;
+	mesh->faces = newArray(face_t*, mesh->nbFaces);
+
+	for (i = 0; i < (*a)->nbFaces; i++)
+	{
+		mesh->faces[i] = (*a)->faces[i];
+	}
+	for (i = 0; i < (*b)->nbFaces; i++)
+	{
+		mesh->faces[i + (*a)->nbFaces] = (*b)->faces[i];
+	}
+
+	Memory.free((*a)->faces);
+	Memory.free((*b)->faces);
+	Memory.free(*a);
+	Memory.free(*b);
+	*a = NULL;
+	*b = NULL;
+
+	return mesh;
 }
 
 void updateMeshGeometry(mesh_t *mesh)
@@ -566,10 +680,12 @@ void renderMesh(const mesh_t *mesh, float viewMatrix[16])
 void initGeometryFunctions(_geometry_functions *Geometry)
 {
 	Geometry->makeSphere = createSphere;
+	Geometry->makeRing = createRing;
 	Geometry->addFace = addFace;
 	Geometry->addFaceToMesh = addFaceToMesh;
 	Geometry->addVertex = addVertex;
 	Geometry->addVertexToFace = addVertexToFace;
+	Geometry->fuseMeshes = fuseMeshes;
 	Geometry->destroyFace = destroyFace;
 	Geometry->destroyMesh = destroyMesh;
 	Geometry->destroyVertex = destroyVertex;

@@ -56,7 +56,11 @@ typedef struct {
 typedef struct {
 
 	/* Primitives */
-	mesh_t*		(*makeSphere)(float center[3], float radius, int rings, int sectors, texture_t *texture);
+	mesh_t*		(*makeSphere)(float center[3], float radius, int rings, int sectors, texture_t *texture, program_t *program);
+	mesh_t*		(*makeRing)(float center[3], float innerRadius, float outerRadius, int sectors, texture_t *texture, program_t *program);
+
+	/* Operations */
+	mesh_t*		(*fuseMeshes)(mesh_t **a, mesh_t **b);
 	
 	/* Construction functions */
 	vertex_t*	(*addVertexToFace)(face_t *face, float x, float y, float z, float u, float v);

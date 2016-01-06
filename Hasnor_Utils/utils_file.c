@@ -6,7 +6,7 @@
 bool file_read(const char *path, char **out)
 {
 	FILE *file = fopen(path, "r");
-	long size;
+	ulong size;
 
 	if (!file)
 	{
@@ -14,11 +14,12 @@ bool file_read(const char *path, char **out)
 	}
 
 	fseek(file, 0, SEEK_END);
-	size = ftell(file);
-	*out = newArray(char, size);
+	size = (ulong)ftell(file);
+	*out = newArray(char, size+1);
 
 	fseek(file, 0, SEEK_SET);
-	fread(*out, sizeof(char), size, file);
+	size = fread(*out, sizeof(char), size, file);
+	(*out)[size] = '\0';
 
 	fclose(file);
 
