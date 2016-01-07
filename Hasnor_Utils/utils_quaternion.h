@@ -6,7 +6,8 @@ typedef struct {
 	void (*set)(float out[4], float x, float y, float z, float w);
 	void (*copy)(float out[4], const float src[4]);
 	void (*fromEuler)(float out[4], float pitch, float yaw, float roll);
-	void (*aroundAxis)(float out[4], float axis[3], float angle);
+	void (*aroundAxis)(float out[4], const float axis[3], float angle);
+	void (*fromMatrix)(float out[4], const float matrix[16]);
 	void (*identity)(float out[4]);
 
 	/* Binary operators */

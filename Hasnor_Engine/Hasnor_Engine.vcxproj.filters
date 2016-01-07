@@ -51,6 +51,9 @@
     <ClInclude Include="engine_geometry.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
+    <ClInclude Include="engine_mesh.h">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="engine.c">
@@ -84,6 +87,9 @@
       <Filter>Fichiers sources</Filter>
     </ClCompile>
     <ClCompile Include="engine_geometry.c">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
+    <ClCompile Include="engine_mesh.c">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
   </ItemGroup>

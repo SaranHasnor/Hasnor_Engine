@@ -34,8 +34,8 @@ typedef struct {
 	void	(*mouseUpFunc)(ushort button, int x, int y);
 
 	void	(*initFunc)(void);
-	void	(*updateFunc)(timeStruct_t time, inputStruct_t input);
-	void	(*renderFunc)(float viewMatrix[16]);
+	void	(*updateFunc)(const timeStruct_t time, const inputStruct_t input);
+	void	(*renderFunc)(const float viewMatrix[16]);
 } engineListener_t;
 
 #endif

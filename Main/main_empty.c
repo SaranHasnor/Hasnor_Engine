@@ -82,14 +82,14 @@ void initFunc(void)
 	// Init
 }
 
-void updateFunc(timeStruct_t time, inputStruct_t input)
+void updateFunc(const timeStruct_t time, const inputStruct_t input)
 {
 	// Update
 
 	updateCamera(input);
 }
 
-void renderFunc(float viewMatrix[16])
+void renderFunc(const float viewMatrix[16])
 {
 	drawAxis();
 
@@ -111,7 +111,7 @@ int main(int argc, char **argv)
 	initHasnorUtils();
 	initHasnorEngine();
 
-	Engine.run(argc, argv, 1200, 600, "Test", listener);
+	Engine.run(argc, argv, 1200, 600, "NewProject", listener);
 
 	return 0;
 }

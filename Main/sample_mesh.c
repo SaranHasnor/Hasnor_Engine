@@ -28,57 +28,55 @@ const char *_geomShaderTest =
 		EndPrimitive();								\
 	}";
 
-#define Geom Engine.Render.Geometry
-#define Prog Engine.Render.Program
 void initSampleMesh(void)
 {
-	texture_t *texture = Engine.Render.Texture.fromPath("textures/Lotus.jpg");
+	texture_t *texture = GLTexture.fromPath("textures/Lotus.jpg");
 
-	_texturedMesh = Geom.newMesh();
-	Geom.addFace()->texture = texture;
-	Geom.addVertex(0.0f, 1.0f, 0.0f, 0.0f, 1.0f);
-	Geom.addVertex(0.0f, 0.0f, 0.0f, 0.0f, 0.0f);
-	Geom.addVertex(1.0f, 0.0f, 0.0f, 1.0f, 0.0f);
+	_texturedMesh = Mesh.newMesh();
+	Mesh.addFace()->texture = texture;
+	Mesh.addVertex(0.0f, 1.0f, 0.0f, 0.0f, 1.0f);
+	Mesh.addVertex(0.0f, 0.0f, 0.0f, 0.0f, 0.0f);
+	Mesh.addVertex(1.0f, 0.0f, 0.0f, 1.0f, 0.0f);
 		
-	Geom.addFace()->texture = texture;
-	Geom.addVertex(0.0f, 1.0f, 0.0f, 0.0f, 1.0f);
-	Geom.addVertex(1.0f, 0.0f, 0.0f, 1.0f, 0.0f);
-	Geom.addVertex(1.0f, 1.0f, 0.0f, 1.0f, 1.0f);
+	Mesh.addFace()->texture = texture;
+	Mesh.addVertex(0.0f, 1.0f, 0.0f, 0.0f, 1.0f);
+	Mesh.addVertex(1.0f, 0.0f, 0.0f, 1.0f, 0.0f);
+	Mesh.addVertex(1.0f, 1.0f, 0.0f, 1.0f, 1.0f);
 
-	Geom.updateMeshGeometry(_texturedMesh);
+	Mesh.updateGeometry(_texturedMesh);
 
 	Vector.set(_texturedMesh->origin, -2.0f, -1.5f, 0.0f);
 	Matrix.rotation(_texturedMesh->rotation, -90.0f, 45.0f, 0.0f, true);
 
-	_animatedMesh = Geom.newMesh();
-	Geom.addFace();
-	Geom.addVertex(0.0f, 0.0f, 1.0f, 0.0f, 1.0f);
-	Geom.addVertex(0.0f, 0.0f, 0.0f, 0.0f, 0.0f);
-	Geom.addVertex(1.0f, 0.0f, 0.0f, 1.0f, 0.0f);
+	_animatedMesh = Mesh.newMesh();
+	Mesh.addFace();
+	Mesh.addVertex(0.0f, 0.0f, 1.0f, 0.0f, 1.0f);
+	Mesh.addVertex(0.0f, 0.0f, 0.0f, 0.0f, 0.0f);
+	Mesh.addVertex(1.0f, 0.0f, 0.0f, 1.0f, 0.0f);
 		
-	Geom.addFace();
-	Geom.addVertex(0.0f, 0.0f, 1.0f, 0.0f, 1.0f);
-	Geom.addVertex(1.0f, 0.0f, 0.0f, 1.0f, 0.0f);
-	Geom.addVertex(1.0f, 0.0f, 1.0f, 1.0f, 1.0f);
+	Mesh.addFace();
+	Mesh.addVertex(0.0f, 0.0f, 1.0f, 0.0f, 1.0f);
+	Mesh.addVertex(1.0f, 0.0f, 0.0f, 1.0f, 0.0f);
+	Mesh.addVertex(1.0f, 0.0f, 1.0f, 1.0f, 1.0f);
 
-	Geom.updateMeshGeometry(_animatedMesh);
+	Mesh.updateGeometry(_animatedMesh);
 
 	_sky = NULL; // TODO
 
-	_geometryShaderMesh = Geom.newMesh();
-	Geom.addFace()->program = Prog.withShaders(Prog.getDefault(false)->vertexShader,
-		Prog.getDefault(false)->fragmentShader,
-		Engine.Render.Shader.fromContent(SHADER_GEOMETRY, _geomShaderTest));
+	_geometryShaderMesh = Mesh.newMesh();
+	Mesh.addFace()->program = GLProgram.withShaders(GLProgram.getDefault(false)->vertexShader,
+		GLProgram.getDefault(false)->fragmentShader,
+		GLShader.fromContent(SHADER_GEOMETRY, _geomShaderTest));
 
-	Geom.addVertex(-1.0f, 0.0f, 0.0f, 0.0f, 0.0f);
-	Geom.addVertex(1.0f, 0.0f, 0.0f, 1.0f, 0.0f);
-	Geom.addVertex(0.0f, 0.0f, 1.0f, 0.5f, 1.0f);
-	Geom.updateMeshGeometry(_geometryShaderMesh);
+	Mesh.addVertex(-1.0f, 0.0f, 0.0f, 0.0f, 0.0f);
+	Mesh.addVertex(1.0f, 0.0f, 0.0f, 1.0f, 0.0f);
+	Mesh.addVertex(0.0f, 0.0f, 1.0f, 0.5f, 1.0f);
+	Mesh.updateGeometry(_geometryShaderMesh);
 	_geometryShaderMesh->origin[2] = 2.0f;
 }
 
 
-void updateSampleMesh(timeStruct_t time, inputStruct_t input)
+void updateSampleMesh(const timeStruct_t time, const inputStruct_t input)
 {
 	uint i;
 	_animatedMesh->origin[0] = Math.pi * Math.cos(((time.currentTime / 20) & 255) * Math.pi * 2.0f / 255.0f);
@@ -100,10 +98,10 @@ void updateSampleMesh(timeStruct_t time, inputStruct_t input)
 	}
 }
 
-void drawSampleMesh(float viewMatrix[16])
+void drawSampleMesh(const float viewMatrix[16])
 {
-	//Geom.renderMesh(_sky, viewMatrix);
-	Geom.renderMesh(_texturedMesh, viewMatrix);
-	Geom.renderMesh(_animatedMesh, viewMatrix);
-	Geom.renderMesh(_geometryShaderMesh, viewMatrix);
+	//Mesh.render(_sky, viewMatrix);
+	Mesh.render(_texturedMesh, viewMatrix);
+	Mesh.render(_animatedMesh, viewMatrix);
+	Mesh.render(_geometryShaderMesh, viewMatrix);
 }

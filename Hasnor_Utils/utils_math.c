@@ -135,12 +135,12 @@ int _powI(int value, int power)
 
 float _abs(float a)
 {
-	return abs(a);
+	return a < 0 ? -a : a;
 }
 
 int _absI(int a)
 {
-	return abs(a);
+	return a < 0 ? -a : a;
 }
 
 void initMathFunctions(void)

@@ -9,8 +9,8 @@
 typedef struct {
 	void* (*alloc)(size_t size);
 	void* (*realloc)(void *mem, size_t size);
-	void* (*duplicate)(void *mem, size_t size);
-	void* (*duplicateSafe)(void *mem);
+	void* (*duplicate)(const void *mem, size_t size);
+	void* (*duplicateSafe)(const void *mem);
 	void (*free)(void *mem);
 	void (*freeSafe)(void *mem);
 	void (*freeAll)(void);

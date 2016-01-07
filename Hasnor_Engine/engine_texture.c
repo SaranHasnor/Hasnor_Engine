@@ -252,30 +252,24 @@ program_t *defaultProgram(bool forTexture)
 	}
 }
 
-void initTextureFunctions(_texture_functions *Texture)
+void initTextureFunctions(void)
 {
-	TextureInternal = Texture;
-
-	Texture->fromPath = textureFromPath;
-	Texture->update = updateTextureContents;
+	GLTexture.fromPath = textureFromPath;
+	GLTexture.update = updateTextureContents;
 }
 
-void initShaderFunctions(_shader_functions *Shader)
+void initShaderFunctions(void)
 {
-	ShaderInternal = Shader;
-
-	Shader->fromContent = shaderFromContent;
-	Shader->fromPath = shaderFromPath;
+	GLShader.fromContent = shaderFromContent;
+	GLShader.fromPath = shaderFromPath;
 }
 
-void initProgramFunctions(_program_functions *Program)
+void initProgramFunctions(void)
 {
-	ProgramInternal = Program;
-
-	Program->getDefault = defaultProgram;
-	Program->getCustomUniformLocation = getCustomUniformLocationForProgram;
-	Program->withShaders = programWithShaders;
-	Program->registerCustomUniform = registerCustomUniformForProgram;
+	GLProgram.getDefault = defaultProgram;
+	GLProgram.getCustomUniformLocation = getCustomUniformLocationForProgram;
+	GLProgram.withShaders = programWithShaders;
+	GLProgram.registerCustomUniform = registerCustomUniformForProgram;
 }
 
 #undef HASNOR_ENGINE_INTERNAL

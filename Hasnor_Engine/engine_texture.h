@@ -70,16 +70,14 @@ typedef struct {
 	program_t*	(*getDefault)(bool forTexture);
 } _program_functions;
 
-#ifdef HASNOR_ENGINE_INTERNAL
-_texture_functions *TextureInternal;
-_shader_functions *ShaderInternal;
-_program_functions *ProgramInternal;
-#endif
+_texture_functions GLTexture;
+_shader_functions GLShader;
+_program_functions GLProgram;
 
 #ifdef HASNOR_INIT
-void initTextureFunctions(_texture_functions *Texture);
-void initShaderFunctions(_shader_functions *Shader);
-void initProgramFunctions(_program_functions *Program);
+void initTextureFunctions(void);
+void initShaderFunctions(void);
+void initProgramFunctions(void);
 #endif
 
 #endif

@@ -92,15 +92,15 @@ void initFunc(void)
 }
 
 extern void updateSampleMesh(timeStruct_t time, inputStruct_t input);
-void updateFunc(timeStruct_t time, inputStruct_t input)
+void updateFunc(const timeStruct_t time, const inputStruct_t input)
 {
 	updateSampleMesh(time, input);
 
 	updateCamera(input);
 }
 
-extern void drawSampleMesh(float viewMatrix[16]);
-void renderFunc(float viewMatrix[16])
+extern void drawSampleMesh(const float viewMatrix[16]);
+void renderFunc(const float viewMatrix[16])
 {
 	drawAxis();
 

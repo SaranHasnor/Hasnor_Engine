@@ -28,7 +28,7 @@ long time_current_ms(void)
 {
 	clock_t current = clock();
 
-	return (double)_offset + ((double)(current - _start) / CLOCKS_PER_MSEC);
+	return _offset + (long)((double)(current - _start) / CLOCKS_PER_MSEC);
 }
 
 void time_sync(long currentTime)

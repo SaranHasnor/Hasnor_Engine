@@ -4,6 +4,7 @@
 #include "engine.h"
 #include "engine_camera.h"
 #include "engine_texture.h"
+#include "engine_mesh.h"
 #include "engine_geometry.h"
 #include "engine_particles.h"
 #include "engine_interface.h"
@@ -14,12 +15,16 @@ void initHasnorEngine(void)
 {
 	initEngineFunctions();
 	
+	initTextureFunctions();
+	initShaderFunctions();
+	initProgramFunctions();
+
+	initMeshFunctions();
+	initGeometryFunctions();
+
+	initParticleFunctions();
+
 	initCameraFunctions(&Engine.Camera);
-	initTextureFunctions(&Engine.Render.Texture);
-	initShaderFunctions(&Engine.Render.Shader);
-	initProgramFunctions(&Engine.Render.Program);
-	initGeometryFunctions(&Engine.Render.Geometry);
-	initParticleFunctions(&Engine.Render.Particles);
 	initInterfaceFunctions(&Engine.UI);
 	initWindowFunctions(&Engine.Window);
 }

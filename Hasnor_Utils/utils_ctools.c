@@ -76,14 +76,14 @@ void *mem_realloc(void *mem, size_t size)
 	}
 }
 
-void *mem_dupe(void *mem, size_t size)
+void *mem_dupe(const void *mem, size_t size)
 {
 	void *newAlloc = mem_alloc(size);
 	memcpy(newAlloc, mem, size);
 	return newAlloc;
 }
 
-void *mem_dupe2(void *mem)
+void *mem_dupe2(const void *mem)
 {
 	mem_t *mem2 = alloc;
 

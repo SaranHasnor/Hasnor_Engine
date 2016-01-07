@@ -80,6 +80,7 @@ if not exist "$(OutputPath)glew32.dll" copy "$(HASNOR_LIBS_PATH)\Hasnor_Engine\L
     <ClInclude Include="engine_input.h" />
     <ClInclude Include="engine_interface.h" />
     <ClInclude Include="engine_camera.h" />
+    <ClInclude Include="engine_mesh.h" />
     <ClInclude Include="engine_particles.h" />
     <ClInclude Include="engine_physics.h" />
     <ClInclude Include="engine_geometry.h" />
@@ -92,6 +93,7 @@ if not exist "$(OutputPath)glew32.dll" copy "$(HASNOR_LIBS_PATH)\Hasnor_Engine\L
     <ClCompile Include="engine_init.c" />
     <ClCompile Include="engine_input.c" />
     <ClCompile Include="engine_interface.c" />
+    <ClCompile Include="engine_mesh.c" />
     <ClCompile Include="engine_particles.c" />
     <ClCompile Include="engine_physics.c" />
     <ClCompile Include="engine_geometry.c" />

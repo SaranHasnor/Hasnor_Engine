@@ -3,25 +3,17 @@
 
 #include "engine_callbacks.h"
 #include "engine_camera.h"
-#include "engine_geometry.h"
-#include "engine_particles.h"
 #include "engine_interface.h"
 #include "engine_window.h"
 
-typedef struct {
-	_texture_functions	Texture;
-	_shader_functions	Shader;
-	_program_functions	Program;
-	_geometry_functions	Geometry;
-	_particle_functions	Particles;
-} _render_functions;
+#include "engine_geometry.h"
+#include "engine_particles.h"
 
 typedef struct {
-	void (*run)(int argc, char **argv, int windowWidth, int windowHeight, char *windowName, engineListener_t listener);
+	void (*run)(int argc, char **argv, int windowWidth, int windowHeight, const char *windowName, engineListener_t listener);
 	void (*shutdown)(void);
 
 	_camera_functions Camera;
-	_render_functions Render;
 	_interface_functions UI;
 	_window_functions Window;
 } _engine_functions;

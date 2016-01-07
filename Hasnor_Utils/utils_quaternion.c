@@ -40,17 +40,74 @@ void quaternion_fromEuler(float out[4], float pitch, float yaw, float roll)
 	out[3] = cp * cy * cr + sp * sy * sr;
 }
 
-void quaternion_aroundAxis(float out[4], float axis[3], float angle)
+void quaternion_aroundAxis(float out[4], const float axis[3], float angle)
 {
-	out[0] = sinf(angle/2.0f) * axis[0];
-	out[1] = sinf(angle/2.0f) * axis[1];
-	out[2] = sinf(angle/2.0f) * axis[2];
-	out[3] = cos(angle/2.0f);
+	const float s = sinf(angle / 2.0f);
+
+	out[0] = s * axis[0];
+	out[1] = s * axis[1];
+	out[2] = s * axis[2];
+	out[3] = cosf(angle / 2.0f);
+}
+
+void quaternion_fromMatrix(float out[4], const float matrix[16])
+{
+	float trace = matrix[0] + matrix[5] + matrix[10];
+	if (trace > -1.0f)
+	{
+		float w4;
+		out[3] = sqrtf(1.0f + trace) / 2.0f;
+		w4 = 4.0f * out[3];
+		out[0] = (matrix[9] - matrix[6]) / w4;
+		out[1] = (matrix[2] - matrix[8]) / w4;
+		out[2] = (matrix[4] - matrix[1]) / w4;
+	}
+	else
+	{
+		if (trace > 0.0f)
+		{
+			float s = 2.0f * sqrtf(1.0f + trace);
+			out[3] = 0.25f * s;
+			out[0] = (matrix[9] - matrix[6]) / s;
+			out[1] = (matrix[2] - matrix[8]) / s;
+			out[2] = (matrix[4] - matrix[1]) / s;
+		}
+		else
+		{
+			if (matrix[0] > matrix[5] && matrix[0] > matrix[10])
+			{
+				float s = 2.0f * sqrtf(1.0f + matrix[0] - matrix[5] - matrix[10]);
+				out[3] = (matrix[9] - matrix[6]) / s;
+				out[0] = 0.25f * s;
+				out[1] = (matrix[1] + matrix[4]) / s;
+				out[2] = (matrix[2] + matrix[8]) / s;
+			}
+			else if (matrix[5] > matrix[10])
+			{
+				float s = 2.0f * sqrtf(1.0f + matrix[5] - matrix[0] - matrix[10]);
+				out[3] = (matrix[2] - matrix[8]) / s;
+				out[0] = (matrix[1] + matrix[4]) / s;
+				out[1] = 0.25f * s;
+				out[2] = (matrix[6] + matrix[9]) / s;
+			}
+			else
+			{
+				float s = 2.0f * sqrtf(1.0f + matrix[10] - matrix[0] - matrix[5]);
+				out[3] = (matrix[4] - matrix[1]) / s;
+				out[0] = (matrix[2] + matrix[8]) / s;
+				out[1] = (matrix[6] + matrix[9]) / s;
+				out[2] = 0.25f * s;
+			}
+		}
+	}
 }
 
 void quaternion_identity(float out[4])
 {
-	quaternion_fromEuler(out, 0.0f, 0.0f, 0.0f);
+	out[0] = 0.0f;
+	out[1] = 0.0f;
+	out[2] = 0.0f;
+	out[3] = 1.0f;
 }
 
 void quaternion_multiply(float out[4], const float a[4], const float b[4])
@@ -113,6 +170,7 @@ void initQuaternionFunctions(void)
 	Quaternion.copy = quaternion_copy;
 	Quaternion.fromEuler = quaternion_fromEuler;
 	Quaternion.aroundAxis = quaternion_aroundAxis;
+	Quaternion.fromMatrix = quaternion_fromMatrix;
 	Quaternion.identity = quaternion_identity;
 	Quaternion.multiply = quaternion_multiply;
 	Quaternion.conjugate = quaternion_conjugate;

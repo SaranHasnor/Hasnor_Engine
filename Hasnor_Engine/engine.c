@@ -62,7 +62,7 @@ void display(void)
 	glFlush();
 }
 
-void engine_run(int argc, char **argv, int windowWidth, int windowHeight, char *windowName, engineListener_t listener)
+void engine_run(int argc, char **argv, int windowWidth, int windowHeight, const char *windowName, engineListener_t listener)
 {
     glutInit(&argc, argv);
 	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGBA | GLUT_DEPTH);
@@ -89,9 +89,8 @@ void engine_run(int argc, char **argv, int windowWidth, int windowHeight, char *
 }
 
 void engine_shutdown(void)
-{
-	// Force the engine to shutdown
-	quit(); // temp
+{ // TODO: Actually stop the loop
+	quit();
 }
 
 void initEngineFunctions(void)

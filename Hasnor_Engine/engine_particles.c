@@ -58,11 +58,11 @@ bool _pause;
 
 void particles_InitRenderer(void)
 {
-	_defaultParticleProgram = ProgramInternal->withShaders(ShaderInternal->fromContent(SHADER_VERTEX, _particleVertexShader),
-														   ShaderInternal->fromContent(SHADER_FRAGMENT, _particleFragmentShader),
-														   NULL);
+	_defaultParticleProgram = GLProgram.withShaders(GLShader.fromContent(SHADER_VERTEX, _particleVertexShader),
+													GLShader.fromContent(SHADER_FRAGMENT, _particleFragmentShader),
+													NULL);
 	
-	ProgramInternal->registerCustomUniform(_defaultParticleProgram, "scale");
+	GLProgram.registerCustomUniform(_defaultParticleProgram, "scale");
 
 	glGenBuffers(1, &_defaultParticleVBO);
 	glBindBuffer(GL_ARRAY_BUFFER, _defaultParticleVBO);
@@ -90,7 +90,7 @@ void _lerpParticleData(particleData_t *from, particleData_t *to, float percentag
 	out->scale = from->scale * fromPercentage + to->scale * percentage;
 }
 
-void particles_Render(float viewMatrix[16])
+void particles_Render(const float viewMatrix[16])
 {
 	list_t **particleListIterator = &_particleList;
 
@@ -122,7 +122,7 @@ void particles_Render(float viewMatrix[16])
 
 		glUniform4f(particle->model->program->colorLocation,
 			particle->currentData.red, particle->currentData.green, particle->currentData.blue, particle->currentData.alpha);
-		glUniform1f(ProgramInternal->getCustomUniformLocation(particle->model->program, "scale"), particle->currentData.scale);
+		glUniform1f(GLProgram.getCustomUniformLocation(particle->model->program, "scale"), particle->currentData.scale);
 
 		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_BYTE, NULL);
 
@@ -243,7 +243,7 @@ void _particlesMergeSort(list_t **list, uint count)
 	_sortSplitMerge(list, count, 0);
 }
 
-void particles_Update(timeStruct_t time)
+void particles_Update(const timeStruct_t time)
 {
 	list_t **particleListIterator = &_particleList;
 	list_t **emitterListIterator = &_emitterList;
@@ -409,15 +409,16 @@ void particles_setPause(bool pause)
 	_pause = pause;
 }
 
-void initParticleFunctions(_particle_functions *Particles)
+void initParticleFunctions(void)
 {
-	Particles->addNewParticleToEmitter = particles_AddNewParticleToEmitter;
-	Particles->createNewWaveForEmitter = particles_CreateNewWaveForEmitter;
-	Particles->instantiateEmitter = particles_CreateEmitterFromModel;
-	Particles->newEmitter = particles_newEmitterModel;
-	Particles->newParticle = particles_newParticleModel;
-	Particles->setParticleTransition = particles_addFinalStateToParticleModel;
-	Particles->setPause = particles_setPause;
+	GLParticles.newParticle = particles_newParticleModel;
+	GLParticles.setParticleTransition = particles_addFinalStateToParticleModel;
+	GLParticles.setPause = particles_setPause;
+
+	GLParticleEmitter.addNewParticleToLastWave = particles_AddNewParticleToEmitter;
+	GLParticleEmitter.createNewWave = particles_CreateNewWaveForEmitter;
+	GLParticleEmitter.instantiate = particles_CreateEmitterFromModel;
+	GLParticleEmitter.newEmitter = particles_newEmitterModel;
 }
 
 #undef HASNOR_ENGINE_INTERNAL

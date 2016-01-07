@@ -58,23 +58,30 @@ typedef struct {
 typedef struct {
 	particleModel_t*	(*newParticle)(texture_t *texture, float r, float g, float b, float a, float scale, long life, bool useGravity);
 	void				(*setParticleTransition)(particleModel_t *model, float r, float g, float b, float a, float scale);
-	emitterModel_t*		(*newEmitter)(void);
-	emitter_t*			(*instantiateEmitter)(emitterModel_t *model);
-	
-	void				(*createNewWaveForEmitter)(emitterModel_t *emitter, long delay);
-	void				(*addNewParticleToEmitter)(emitterModel_t *emitter, particleModel_t *model);
 
 	void				(*setPause)(bool pause);
 } _particle_functions;
 
+_particle_functions GLParticles;
+
+typedef struct {
+	emitterModel_t*		(*newEmitter)(void);
+	emitter_t*			(*instantiate)(emitterModel_t *model);
+
+	void				(*createNewWave)(emitterModel_t *emitter, long delay);
+	void				(*addNewParticleToLastWave)(emitterModel_t *emitter, particleModel_t *model);
+} _emitter_functions;
+
+_emitter_functions GLParticleEmitter;
+
 #ifdef HASNOR_INIT
-void initParticleFunctions(_particle_functions *Particles);
+void initParticleFunctions(void);
 #endif
 
 #ifdef HASNOR_ENGINE_INTERNAL
 void particles_InitRenderer(void);
-void particles_Render(float viewMatrix[16]);
-void particles_Update(timeStruct_t time);
+void particles_Render(const float viewMatrix[16]);
+void particles_Update(const timeStruct_t time);
 #endif
 
 #endif
