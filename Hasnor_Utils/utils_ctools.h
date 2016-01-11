@@ -23,7 +23,7 @@ typedef struct {
 _memory_functions Memory;
 
 #define newObject(x) (x*)Memory.alloc(sizeof(x))
-#define newArray(x, n) (x*)Memory.alloc(sizeof(x) * n)
+#define newArray(x, n) (x*)Memory.alloc(sizeof(x) * (n))
 #define destroy(x) Memory.free(x)
 
 #ifdef HASNOR_INIT
