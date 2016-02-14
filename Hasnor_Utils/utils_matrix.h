@@ -8,7 +8,7 @@ typedef struct {
 	void (*perspective)(float mat[16], float fov, float aspect, float near, float far);
 	void (*viewModel)(float mat[16], const float position[3], const float angle[3]);
 	void (*orthographic)(float mat[16], float left, float right, float bottom, float top, float near, float far);
-	void (*rotation)(float out[16], float pitch, float yaw, float roll, bool degrees);
+	void (*rotation)(float out[16], float pitch, float yaw, float roll);
 	void (*identity)(float mat[16]);
 	void (*fromQuaternion)(float out[16], const float src[4]);
 	

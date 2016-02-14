@@ -46,7 +46,7 @@ void initSampleMesh(void)
 	Mesh.updateGeometry(_texturedMesh);
 
 	Vector.set(_texturedMesh->origin, -2.0f, -1.5f, 0.0f);
-	Matrix.rotation(_texturedMesh->rotation, -90.0f, 45.0f, 0.0f, true);
+	Matrix.rotation(_texturedMesh->rotation, Math.deg2rad(-90.0f), Math.deg2rad(45.0f), 0.0f);
 
 	_animatedMesh = Mesh.newMesh();
 	Mesh.addFace();
@@ -80,7 +80,7 @@ void updateSampleMesh(const timeStruct_t time, const inputStruct_t input)
 {
 	uint i;
 	_animatedMesh->origin[0] = Math.pi * Math.cos(((time.currentTime / 20) & 255) * Math.pi * 2.0f / 255.0f);
-	Matrix.rotation(_animatedMesh->rotation, _animatedMesh->origin[0], 0.0f, 0.0f, false);
+	Matrix.rotation(_animatedMesh->rotation, _animatedMesh->origin[0], 0.0f, 0.0f);
 	for (i = 0; i < _animatedMesh->nbFaces; i++)
 	{
 		if (_animatedMesh->origin[0] > 0)

@@ -27,7 +27,7 @@ void quaternion_fromEuler(float out[4], float pitch, float yaw, float roll)
 	float sp, sy, sr;
 
 	cp = cosf(pitch/2.0f);
-	cy = cosf(-roll/2.0f);
+	cy = cosf(roll/2.0f);
 	cr = cosf(yaw/2.0f);
 
 	sp = sinf(pitch/2.0f);
@@ -35,9 +35,9 @@ void quaternion_fromEuler(float out[4], float pitch, float yaw, float roll)
 	sr = sinf(yaw/2.0f);
 
 	out[0] = sp * cy * cr - cp * sy * sr;
-	out[1] = cp * sy * cr + sp * cy * sr;
-	out[2] = cp * cy * sr - sp * sy * cr;
-	out[3] = cp * cy * cr + sp * sy * sr;
+	out[1] =-cp * sy * cr - sp * cy * sr;
+	out[2] = cp * cy * sr + sp * sy * cr;
+	out[3] = cp * cy * cr - sp * sy * sr;
 }
 
 void quaternion_aroundAxis(float out[4], const float axis[3], float angle)
@@ -58,12 +58,12 @@ void quaternion_fromMatrix(float out[4], const float matrix[16])
 		float w4;
 		out[3] = sqrtf(1.0f + trace) / 2.0f;
 		w4 = 4.0f * out[3];
-		out[0] = (matrix[9] - matrix[6]) / w4;
-		out[1] = (matrix[2] - matrix[8]) / w4;
-		out[2] = (matrix[4] - matrix[1]) / w4;
+		out[0] = (matrix[6] - matrix[9]) / w4;
+		out[1] = (matrix[8] - matrix[2]) / w4;
+		out[2] = (matrix[1] - matrix[4]) / w4;
 	}
 	else
-	{
+	{ // These have not been tested yet...
 		if (trace > 0.0f)
 		{
 			float s = 2.0f * sqrtf(1.0f + trace);

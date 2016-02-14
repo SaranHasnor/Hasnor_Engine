@@ -404,6 +404,12 @@ emitter_t *particles_CreateEmitterFromModel(emitterModel_t *model)
 	return newEmitter;
 }
 
+void particles_DeleteEmitter(emitter_t *emitter)
+{
+	List.remove(&_emitterList, emitter);
+	destroy(emitter);
+}
+
 void particles_setPause(bool pause)
 {
 	_pause = pause;
@@ -419,6 +425,7 @@ void initParticleFunctions(void)
 	GLParticleEmitter.createNewWave = particles_CreateNewWaveForEmitter;
 	GLParticleEmitter.instantiate = particles_CreateEmitterFromModel;
 	GLParticleEmitter.newEmitter = particles_newEmitterModel;
+	GLParticleEmitter.remove = particles_DeleteEmitter;
 }
 
 #undef HASNOR_ENGINE_INTERNAL

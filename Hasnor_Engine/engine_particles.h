@@ -67,6 +67,7 @@ _particle_functions GLParticles;
 typedef struct {
 	emitterModel_t*		(*newEmitter)(void);
 	emitter_t*			(*instantiate)(emitterModel_t *model);
+	void				(*remove)(emitter_t *emitter);
 
 	void				(*createNewWave)(emitterModel_t *emitter, long delay);
 	void				(*addNewParticleToLastWave)(emitterModel_t *emitter, particleModel_t *model);

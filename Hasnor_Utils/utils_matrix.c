@@ -64,12 +64,12 @@ void mat_orthographic(float mat[16], float left, float right, float bottom, floa
 	mat[15] = 1.0f;
 }
 
-void mat_rotation(float out[16], float pitch, float yaw, float roll, bool degrees)
+void mat_rotation(float out[16], float pitch, float yaw, float roll)
 {
 	float pitchMat[16], yawMat[16], rollMat[16], tempMat[16];
-	float cp = cosf(degrees ? pitch * M_PI / 180.0f : pitch), sp = sinf(degrees ? pitch * M_PI / 180.0f : pitch);
-	float cy = cosf(degrees ? yaw * M_PI / 180.0 : yaw), sy = sinf(degrees ? yaw * M_PI / 180.0f : yaw);
-	float cr = cosf(degrees ? roll * M_PI / 180.0f : roll), sr = sinf(degrees ? roll * M_PI / 180.0f : roll);
+	float cp = cosf(pitch), sp = sinf(pitch);
+	float cy = cosf(yaw), sy = sinf(yaw);
+	float cr = cosf(roll), sr = sinf(roll);
 
 	Memory.set(pitchMat, 0, sizeof(float) * 16);
 	Memory.set(yawMat, 0, sizeof(float) * 16);
@@ -157,8 +157,13 @@ void mat_multiply(float out[16], const float a[16], const float b[16])
 			{
 				val += a[i+(4*k)] * b[k+j];
 			}
-			out[i+j] = val;
+			_workMat[i+j] = val;
 		}
+	}
+
+	for (i=0; i<16; i++)
+	{
+		out[i] = _workMat[i];
 	}
 }
 
@@ -182,122 +187,122 @@ void mat_transpose(float out[16], const float src[16])
 
 bool mat_inverse(float out[16], const float src[16])
 { // Taken from GLU's implementation
-	float inv[16], det;
+	float det;
 	int i;
 
-	inv[0] = src[5] * src[10] * src[15] -
+	_workMat[0] = src[5] * src[10] * src[15] -
 			 src[5] * src[11] * src[14] -
 			 src[9] * src[6] * src[15] +
 			 src[9] * src[7] * src[14] +
 			 src[13] * src[6] * src[11] -
 			 src[13] * src[7] * src[10];
 
-	inv[4] = -src[4] * src[10] * src[15] +
+	_workMat[4] = -src[4] * src[10] * src[15] +
 			  src[4] * src[11] * src[14] +
 			  src[8] * src[6] * src[15] -
 			  src[8] * src[7] * src[14] -
 			  src[12] * src[6] * src[11] +
 			  src[12] * src[7] * src[10];
 
-	inv[8] = src[4] * src[9] * src[15] -
+	_workMat[8] = src[4] * src[9] * src[15] -
 			 src[4] * src[11] * src[13] -
 			 src[8] * src[5] * src[15] +
 			 src[8] * src[7] * src[13] +
 			 src[12] * src[5] * src[11] -
 			 src[12] * src[7] * src[9];
 
-	inv[12] = -src[4] * src[9] * src[14] +
+	_workMat[12] = -src[4] * src[9] * src[14] +
 			   src[4] * src[10] * src[13] +
 			   src[8] * src[5] * src[14] -
 			   src[8] * src[6] * src[13] -
 			   src[12] * src[5] * src[10] +
 			   src[12] * src[6] * src[9];
 
-	inv[1] = -src[1] * src[10] * src[15] +
+	_workMat[1] = -src[1] * src[10] * src[15] +
 			  src[1] * src[11] * src[14] +
 			  src[9] * src[2] * src[15] -
 			  src[9] * src[3] * src[14] -
 			  src[13] * src[2] * src[11] +
 			  src[13] * src[3] * src[10];
 
-	inv[5] = src[0] * src[10] * src[15] -
+	_workMat[5] = src[0] * src[10] * src[15] -
 			 src[0] * src[11] * src[14] -
 			 src[8] * src[2] * src[15] +
 			 src[8] * src[3] * src[14] +
 			 src[12] * src[2] * src[11] -
 			 src[12] * src[3] * src[10];
 
-	inv[9] = -src[0] * src[9] * src[15] +
+	_workMat[9] = -src[0] * src[9] * src[15] +
 			  src[0] * src[11] * src[13] +
 			  src[8] * src[1] * src[15] -
 			  src[8] * src[3] * src[13] -
 			  src[12] * src[1] * src[11] +
 			  src[12] * src[3] * src[9];
 
-	inv[13] = src[0] * src[9] * src[14] -
+	_workMat[13] = src[0] * src[9] * src[14] -
 			  src[0] * src[10] * src[13] -
 			  src[8] * src[1] * src[14] +
 			  src[8] * src[2] * src[13] +
 			  src[12] * src[1] * src[10] -
 			  src[12] * src[2] * src[9];
 
-	inv[2] = src[1] * src[6] * src[15] -
+	_workMat[2] = src[1] * src[6] * src[15] -
 			 src[1] * src[7] * src[14] -
 			 src[5] * src[2] * src[15] +
 			 src[5] * src[3] * src[14] +
 			 src[13] * src[2] * src[7] -
 			 src[13] * src[3] * src[6];
 
-	inv[6] = -src[0] * src[6] * src[15] +
+	_workMat[6] = -src[0] * src[6] * src[15] +
 			  src[0] * src[7] * src[14] +
 			  src[4] * src[2] * src[15] -
 			  src[4] * src[3] * src[14] -
 			  src[12] * src[2] * src[7] +
 			  src[12] * src[3] * src[6];
 
-	inv[10] = src[0] * src[5] * src[15] -
+	_workMat[10] = src[0] * src[5] * src[15] -
 			  src[0] * src[7] * src[13] -
 			  src[4] * src[1] * src[15] +
 			  src[4] * src[3] * src[13] +
 			  src[12] * src[1] * src[7] -
 			  src[12] * src[3] * src[5];
 
-	inv[14] = -src[0] * src[5] * src[14] +
+	_workMat[14] = -src[0] * src[5] * src[14] +
 			   src[0] * src[6] * src[13] +
 			   src[4] * src[1] * src[14] -
 			   src[4] * src[2] * src[13] -
 			   src[12] * src[1] * src[6] +
 			   src[12] * src[2] * src[5];
 
-	inv[3] = -src[1] * src[6] * src[11] +
+	_workMat[3] = -src[1] * src[6] * src[11] +
 			  src[1] * src[7] * src[10] +
 			  src[5] * src[2] * src[11] -
 			  src[5] * src[3] * src[10] -
 			  src[9] * src[2] * src[7] +
 			  src[9] * src[3] * src[6];
 
-	inv[7] = src[0] * src[6] * src[11] -
+	_workMat[7] = src[0] * src[6] * src[11] -
 			 src[0] * src[7] * src[10] -
 			 src[4] * src[2] * src[11] +
 			 src[4] * src[3] * src[10] +
 			 src[8] * src[2] * src[7] -
 			 src[8] * src[3] * src[6];
 
-	inv[11] = -src[0] * src[5] * src[11] +
+	_workMat[11] = -src[0] * src[5] * src[11] +
 			   src[0] * src[7] * src[9] +
 			   src[4] * src[1] * src[11] -
 			   src[4] * src[3] * src[9] -
 			   src[8] * src[1] * src[7] +
 			   src[8] * src[3] * src[5];
 
-	inv[15] = src[0] * src[5] * src[10] -
+	_workMat[15] = src[0] * src[5] * src[10] -
 			  src[0] * src[6] * src[9] -
 			  src[4] * src[1] * src[10] +
 			  src[4] * src[2] * src[9] +
 			  src[8] * src[1] * src[6] -
 			  src[8] * src[2] * src[5];
 
-	det = src[0] * inv[0] + src[1] * inv[4] + src[2] * inv[8] + src[3] * inv[12];
+	det = src[0] * _workMat[0] + src[1] * _workMat[4] + src[2] * _workMat[8] + src[3] * _workMat[12];
 
 	if (det == 0)
 	{
@@ -308,7 +313,7 @@ bool mat_inverse(float out[16], const float src[16])
 
 	for (i = 0; i < 16; i++)
 	{
-		out[i] = inv[i] * det;
+		out[i] = _workMat[i] * det;
 	}
 
 	return true;
