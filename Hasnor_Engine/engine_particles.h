@@ -2,6 +2,7 @@
 #define HASNOR_PARTICLES_IMPORTED
 
 #include "engine_texture.h"
+#include "engine_shader.h"
 #include "engine_physics.h"
 #include "engine_callbacks.h"
 #include <utils_array.h>
@@ -56,8 +57,7 @@ typedef struct {
 } emitter_t;
 
 typedef struct {
-	particleModel_t*	(*newParticle)(texture_t *texture, float r, float g, float b, float a, float scale, long life, bool useGravity);
-	void				(*setParticleTransition)(particleModel_t *model, float r, float g, float b, float a, float scale);
+	particleModel_t*	(*newParticle)(texture_t *texture, long life, bool transition);
 
 	void				(*setPause)(bool pause);
 } _particle_functions;

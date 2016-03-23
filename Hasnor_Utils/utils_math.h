@@ -1,6 +1,8 @@
 #ifndef HASNOR_MATH_IMPORTED
 #define HASNOR_MATH_IMPORTED
 
+#include "utils_types.h"
+
 typedef struct {
 	/* Constants */
 	float		pi;
@@ -29,6 +31,7 @@ typedef struct {
 	float		(*random)(void);
 	float		(*randomInterval)(float min, float max);
 	int			(*randomInteger)(int min, int max);
+	bool		(*randomBool)(void);
 
 	/* Utility */
 	int			(*ceil)(float);

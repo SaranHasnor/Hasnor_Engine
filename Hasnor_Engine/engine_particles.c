@@ -1,7 +1,6 @@
 #define HASNOR_ENGINE_INTERNAL
 
 #include "engine_particles.h"
-#include "engine_texture.h"
 #include "engine_camera.h"
 
 #include "utils_vector.h"
@@ -10,6 +9,7 @@
 #include <GL/glut.h>
 
 program_t *_defaultParticleProgram;
+program_t *_defaultFeedbackProgram;
 
 const char *_particleVertexShader =  
 	"in vec3 pos;																		\
@@ -34,6 +34,19 @@ const char *_particleFragmentShader =
 		vec3 inColor = texture2D(tex, v_texCoord).rgb * customColor.rgb * customColor.a;	\
 		float intensity = (inColor.r + inColor.g + inColor.b) / 3.0;					\
 		gl_FragColor = vec4(inColor, intensity);										\
+	}";
+
+const char *_particleTransformShader =
+	"layout(location = 0) in vec3 a_position;											\
+	layout(location = 1) in vec3 a_velocity;											\
+	layout(location = 2) in vec3 a_acceleration;										\
+	uniform float u_deltaTime;															\
+	out vec3 o_position;																\
+	out vec3 o_velocity;																\
+	void main(void)																		\
+	{																					\
+		o_position = a_position + a_velocity * u_deltaTime + a_acceleration * u_deltaTime * u_deltaTime * 0.5;\
+		o_velocity = a_velocity + a_acceleration * u_deltaTime;							\
 	}";
 
 static const float _defaultParticleCoords[] = {
@@ -325,31 +338,27 @@ void particles_Update(const timeStruct_t time)
 	_particlesMergeSort(&_particleList, _particleCount);
 }
 
-particleModel_t *particles_newParticleModel(texture_t *texture, float r, float g, float b, float a, float scale, long life, bool useGravity)
+particleData_t *_newParticleState()
+{
+	particleData_t *state = newObject(particleData_t);
+	state->red = 1.0f;
+	state->green = 1.0f;
+	state->blue = 1.0f;
+	state->alpha = 1.0f;
+	state->scale = 1.0f;
+	return state;
+}
+
+particleModel_t *particles_newParticleModel(texture_t *texture, long life, bool transition)
 {
 	particleModel_t *newModel = newObject(particleModel_t);
 	newModel->texture = texture;
 	newModel->program = _defaultParticleProgram;
-	newModel->startData = newObject(particleData_t);
-	newModel->startData->red = r;
-	newModel->startData->green = g;
-	newModel->startData->blue = b;
-	newModel->startData->alpha = a;
-	newModel->startData->scale = scale;
-	newModel->endData = NULL;
 	newModel->life = life;
-	newModel->useGravity = useGravity;
+	newModel->startData = _newParticleState();
+	newModel->endData = transition ? _newParticleState() : NULL;
+	newModel->useGravity = false;
 	return newModel;
-}
-
-void particles_addFinalStateToParticleModel(particleModel_t *model, float r, float g, float b, float a, float scale)
-{
-	model->endData = newObject(particleData_t);
-	model->endData->red = r;
-	model->endData->green = g;
-	model->endData->blue = b;
-	model->endData->alpha = a;
-	model->endData->scale = scale;
 }
 
 emitterModel_t *particles_newEmitterModel(void)
@@ -418,7 +427,6 @@ void particles_setPause(bool pause)
 void initParticleFunctions(void)
 {
 	GLParticles.newParticle = particles_newParticleModel;
-	GLParticles.setParticleTransition = particles_addFinalStateToParticleModel;
 	GLParticles.setPause = particles_setPause;
 
 	GLParticleEmitter.addNewParticleToLastWave = particles_AddNewParticleToEmitter;

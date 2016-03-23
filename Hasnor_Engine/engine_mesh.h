@@ -5,6 +5,7 @@
 #include <utils_vector.h>
 
 #include "engine_texture.h"
+#include "engine_shader.h"
 
 typedef struct {
 	float u;

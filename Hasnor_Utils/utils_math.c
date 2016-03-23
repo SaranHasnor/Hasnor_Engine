@@ -88,6 +88,11 @@ int	_randomInteger(int min, int max)
 	return min+rand()%(max-min+1);
 }
 
+bool _randomBool(void)
+{
+	return rand() > RAND_MAX / 2;
+}
+
 int _sign(float value)
 {
 	if (value < 0.0f)
@@ -168,6 +173,7 @@ void initMathFunctions(void)
 	Math.random = _random;
 	Math.randomInterval = _randomInterval;
 	Math.randomInteger = _randomInteger;
+	Math.randomBool = _randomBool;
 
 	Math.ceil = _ceil;
 	Math.floor = _floor;

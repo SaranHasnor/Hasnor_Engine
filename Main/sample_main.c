@@ -7,6 +7,8 @@
 #include <utils_init.h>
 
 #include <utils_matrix.h>
+#include <utils_quaternion.h>
+#include <utils_math.h>
 
 void keyDownFunc(uchar key)
 {
@@ -79,6 +81,55 @@ void updateCamera(inputStruct_t input)
 	Engine.Camera.setVelocity(velocity);
 }
 
+void debugQuaternions(void)
+{
+	float quat[4];
+	float mat[16];
+	float pitch = Math.deg2rad(45.0f),
+		yaw = Math.deg2rad(75.0f),
+		roll = Math.deg2rad(10.0f);
+
+	Matrix.rotation(mat, pitch, yaw, roll);
+
+	printf("%f %f %f %f\n%f %f %f %f\n%f %f %f %f\n%f %f %f %f\n\n",
+		mat[0], mat[4], mat[8],  mat[12],
+		mat[1], mat[5], mat[9],  mat[13],
+		mat[2], mat[6], mat[10], mat[14],
+		mat[3], mat[7], mat[11], mat[15]);
+
+	Quaternion.fromMatrix(quat, mat);
+
+	printf("%f %f %f %f\n\n",
+		quat[0], quat[1], quat[2], quat[3]);
+
+	Matrix.fromQuaternion(mat, quat);
+
+	printf("%f %f %f %f\n%f %f %f %f\n%f %f %f %f\n%f %f %f %f\n\n",
+		mat[0], mat[4], mat[8],  mat[12],
+		mat[1], mat[5], mat[9],  mat[13],
+		mat[2], mat[6], mat[10], mat[14],
+		mat[3], mat[7], mat[11], mat[15]);
+
+	printf("===================================================\n\n");
+
+	Quaternion.fromEuler(quat, pitch, yaw, roll);
+	printf("%f %f %f %f\n\n",
+		quat[0], quat[1], quat[2], quat[3]);
+
+	Matrix.fromQuaternion(mat, quat);
+
+	printf("%f %f %f %f\n%f %f %f %f\n%f %f %f %f\n%f %f %f %f\n\n",
+		mat[0], mat[4], mat[8],  mat[12],
+		mat[1], mat[5], mat[9],  mat[13],
+		mat[2], mat[6], mat[10], mat[14],
+		mat[3], mat[7], mat[11], mat[15]);
+
+	Quaternion.fromMatrix(quat, mat);
+
+	printf("%f %f %f %f\n\n",
+		quat[0], quat[1], quat[2], quat[3]);
+}
+
 extern void initSampleInterface(void);
 extern void initSampleParticles(void);
 extern void initSampleMesh(void);
@@ -91,7 +142,7 @@ void initFunc(void)
 	initSampleMesh();
 }
 
-extern void updateSampleMesh(timeStruct_t time, inputStruct_t input);
+extern void updateSampleMesh(const timeStruct_t time, const inputStruct_t input);
 void updateFunc(const timeStruct_t time, const inputStruct_t input)
 {
 	updateSampleMesh(time, input);
