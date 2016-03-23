@@ -1,7 +1,7 @@
 #ifndef UTILS_H_DEFINED
 #define UTILS_H_DEFINED
 
-#ifndef _cplusplus
+#ifndef __cplusplus
 #include "utils_ctools.h"
 #endif
 

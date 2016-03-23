@@ -8,7 +8,7 @@ typedef unsigned long ulong;
 typedef unsigned char byte;
 typedef signed char sbyte;
 
-#ifndef _cplusplus
+#ifndef __cplusplus
 typedef enum { false, true } bool;
 #endif
 
