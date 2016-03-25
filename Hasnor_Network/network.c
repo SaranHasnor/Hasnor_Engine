@@ -134,7 +134,7 @@ void _setupMaxConnections(uint maxConnections)
 {
 	uint i;
 	_maxConnections = maxConnections;
-	_connections = newArray(networkConnection_t, _maxConnections);
+	_connections = allocArray(networkConnection_t, _maxConnections);
 	Memory.set(_connections, 0, sizeof(networkConnection_t) * _maxConnections);
 	for (i = 0; i < _maxConnections; i++)
 	{
@@ -477,7 +477,7 @@ void receiveMessages(networkUpdate_t *update)
 
 				do {
 					update->count++;
-					update->messages = (networkMessage_t*)Memory.realloc(update->messages, sizeof(networkMessage_t) * update->count);
+					update->messages = (networkMessage_t*)Memory.reallocate(update->messages, sizeof(networkMessage_t) * update->count);
 
 					out = &update->messages[update->count-1];
 

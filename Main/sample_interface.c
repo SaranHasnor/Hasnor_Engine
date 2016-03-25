@@ -1,5 +1,6 @@
 #include <utils.h>
 #include <utils_string.h>
+#include <utils_misc.h>
 #include <engine.h>
 #include <network_client.h>
 
@@ -64,18 +65,18 @@ void initSampleInterface(void)
 {
 	int temp;
 
-	address = newArray(char, 16);
+	address = allocArray(char, 16);
 	String.copy(address, "127.0.0.1");
 	address[9] = '\0';
 
-	name = newArray(char, 32);
+	name = allocArray(char, 32);
 	String.copy(name, "Client");
 	name[6] = '\0';
 
-	message = newArray(char, 1024);
+	message = allocArray(char, 1024);
 	message[0] = '\0';
 
-	port = newObject(int);
+	port = alloc(int);
 	*port = 5875;
 	
 	// Menu 0: Connection

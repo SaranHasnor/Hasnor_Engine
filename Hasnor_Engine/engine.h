@@ -8,6 +8,7 @@
 
 #include "engine_geometry.h"
 #include "engine_particles.h"
+#include "engine_scene.h"
 
 typedef struct {
 	void (*run)(int argc, char **argv, int windowWidth, int windowHeight, const char *windowName, engineListener_t listener);

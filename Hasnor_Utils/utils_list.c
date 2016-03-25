@@ -8,7 +8,7 @@ void list_add(list_t **list, void *object)
 	{
 		list = &(*list)->next;
 	}
-	*list = newObject(list_t);
+	*list = alloc(list_t);
 	(*list)->content = object;
 	(*list)->next = NULL;
 }
@@ -25,7 +25,7 @@ void list_insert(list_t **list, void *object, uint pos)
 	if (i == pos)
 	{
 		list_t *next = *list;
-		*list = newObject(list_t);
+		*list = alloc(list_t);
 		(*list)->content = object;
 		(*list)->next = next;
 	}
@@ -39,7 +39,7 @@ void list_remove(list_t **list, void *object)
 		{
 			list_t *current = *list;
 			*list = (*list)->next;
-			destroy(current);
+			dealloc(current);
 			return;
 		}
 		list = &(*list)->next;
@@ -59,7 +59,7 @@ void list_removeAt(list_t **list, uint pos)
 	{
 		list_t *current = *list;
 		*list = (*list)->next;
-		destroy(current);
+		dealloc(current);
 	}
 }
 
@@ -68,7 +68,7 @@ void list_clear(list_t **list)
 	if (*list)
 	{
 		list_clear(&(*list)->next);
-		destroy(*list);
+		dealloc(*list);
 		*list = NULL;
 	}
 }
@@ -92,7 +92,7 @@ list_t *list_copy(list_t **list)
 	list_t **cursor = &res;
 	while (*list)
 	{
-		*cursor = newObject(list_t);
+		*cursor = alloc(list_t);
 		(*cursor)->content = (*list)->content;
 		(*cursor)->next = NULL;
 

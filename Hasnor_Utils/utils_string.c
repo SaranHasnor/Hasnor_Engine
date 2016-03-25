@@ -1,5 +1,7 @@
 #include "utils_string.h"
+
 #include "utils.h"
+#include "utils_misc.h"
 
 #include <stdlib.h>
 #include <string.h>
@@ -19,7 +21,7 @@ uint string_length(const char *str)
 char *string_new(const char *value)
 {
 	uint length = string_length(value);
-	char *r = newArray(char, length+1);
+	char *r = allocArray(char, length+1);
 	strncpy(r, value, length);
 	r[length] = '\0';
 	return r;
@@ -29,7 +31,7 @@ char *string_newCapped(const char *value, uint maxLength)
 {
 	uint sLen = string_length(value);
 	uint length = (sLen<maxLength)?sLen:maxLength;
-	char *r = newArray(char, maxLength+1);
+	char *r = allocArray(char, maxLength+1);
 	strncpy(r, value, length);
 	r[length] = '\0';
 	return r;
@@ -38,7 +40,7 @@ char *string_newCapped(const char *value, uint maxLength)
 char *string_fromInt(int value)
 {
 	uint len = nbDigits(value);
-	char *res = newArray(char, len+1);
+	char *res = allocArray(char, len+1);
 	sprintf(res, "%d", value);
 	return res;
 }
@@ -46,14 +48,14 @@ char *string_fromInt(int value)
 char *string_fromFloat(float value)
 {
 	uint len = nbDigits((int)value) + 10;	// Something like that...
-	char *res = newArray(char, len+1);
+	char *res = allocArray(char, len+1);
 	sprintf(res, "%f", value);
 	return res;
 }
 
 char *string_fromVector(const float *value)
 {
-	char *res = newArray(char, 48); // Sounds about right
+	char *res = allocArray(char, 48); // Sounds about right
 	sprintf(res, "%f %f %f", value[0], value[1], value[2]);
 	return res;
 }
@@ -122,7 +124,7 @@ void string_appendStr(char **str, const char *value)
 {
 	uint curLen = string_length(*str);
 	uint newLen = curLen + string_length(value);
-	*str = (char*)Memory.realloc(*str, sizeof(char) * newLen);
+	*str = (char*)Memory.reallocate(*str, sizeof(char) * newLen);
 	strcpy(*str + curLen, value);
 }
 
@@ -225,7 +227,7 @@ void string_parseVector(const char *str, float *vec)
 	vec[0] = (float)atof(temp);
 	vec[1] = (float)atof(pos+1);
 	vec[2] = (float)atof(pos2+1);
-	destroy(temp);
+	dealloc(temp);
 }
 
 void initStringFunctions(void)

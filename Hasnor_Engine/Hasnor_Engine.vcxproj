@@ -74,8 +74,14 @@ if not exist "$(OutputPath)glew32.dll" copy "$(HASNOR_LIBS_PATH)\Hasnor_Engine\L
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="all_components.h" />
+    <ClInclude Include="comp_camera.h" />
+    <ClInclude Include="comp_custom.h" />
+    <ClInclude Include="comp_renderer.h" />
+    <ClInclude Include="comp_transform.h" />
     <ClInclude Include="engine.h" />
     <ClInclude Include="engine_callbacks.h" />
+    <ClInclude Include="engine_entity.h" />
     <ClInclude Include="engine_init.h" />
     <ClInclude Include="engine_input.h" />
     <ClInclude Include="engine_interface.h" />
@@ -84,13 +90,19 @@ if not exist "$(OutputPath)glew32.dll" copy "$(HASNOR_LIBS_PATH)\Hasnor_Engine\L
     <ClInclude Include="engine_particles.h" />
     <ClInclude Include="engine_physics.h" />
     <ClInclude Include="engine_geometry.h" />
+    <ClInclude Include="engine_scene.h" />
     <ClInclude Include="engine_shader.h" />
     <ClInclude Include="engine_texture.h" />
     <ClInclude Include="engine_utils.h" />
     <ClInclude Include="engine_window.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="all_components.c" />
+    <ClCompile Include="comp_camera.c" />
+    <ClCompile Include="comp_custom.c" />
+    <ClCompile Include="comp_transform.c" />
     <ClCompile Include="engine.c" />
+    <ClCompile Include="engine_entity.c" />
     <ClCompile Include="engine_init.c" />
     <ClCompile Include="engine_input.c" />
     <ClCompile Include="engine_interface.c" />
@@ -98,6 +110,7 @@ if not exist "$(OutputPath)glew32.dll" copy "$(HASNOR_LIBS_PATH)\Hasnor_Engine\L
     <ClCompile Include="engine_particles.c" />
     <ClCompile Include="engine_physics.c" />
     <ClCompile Include="engine_geometry.c" />
+    <ClCompile Include="engine_scene.c" />
     <ClCompile Include="engine_shader.c" />
     <ClCompile Include="engine_texture.c" />
     <ClCompile Include="engine_utils.c" />

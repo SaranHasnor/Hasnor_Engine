@@ -7,22 +7,22 @@
 
 textField_t *newTextField(void)
 {
-	textField_t *textField = newObject(textField_t);
+	textField_t *textField = alloc(textField_t);
 	Memory.set(textField, 0, sizeof(textField_t));
 	return textField;
 }
 
 void destroyTextField(textField_t *textField)
 {
-	destroy(textField->text);
-	destroy(textField);
+	dealloc(textField->text);
+	dealloc(textField);
 }
 
 void updateFieldText(textField_t *field)
 { // value -> text (overwrite the value instead of reallocating it every time please :( )
 	if (field->text)
 	{
-		destroy(field->text);
+		dealloc(field->text);
 	}
 
 	if (field->type == FIELDTYPE_INT)

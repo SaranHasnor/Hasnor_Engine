@@ -1,102 +1,147 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="Fichiers sources">
-      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
-      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    <Filter Include="Logic">
+      <UniqueIdentifier>{4a04ef89-fef5-427b-9846-be363a67f889}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Fichiers d%27en-tête">
-      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
-      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    <Filter Include="Rendering">
+      <UniqueIdentifier>{15b7e236-a747-4d58-a0c2-5a438be89544}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Fichiers de ressources">
-      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
-      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    <Filter Include="Utils">
+      <UniqueIdentifier>{9bf60ed2-7b32-422a-8348-d85c8e883122}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Logic\Entities">
+      <UniqueIdentifier>{5bf603d7-dff1-4aeb-b793-71b0fc6635b9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Logic\Entities\Components">
+      <UniqueIdentifier>{4324366e-2bac-42d6-9a95-77403bdab32a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Init">
+      <UniqueIdentifier>{c2dca6ac-4143-4afe-b4ac-f651cb76a336}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="engine.h">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
-    <ClInclude Include="engine_input.h">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
-    <ClInclude Include="engine_interface.h">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
-    <ClInclude Include="engine_window.h">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
-    <ClInclude Include="engine_camera.h">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
-    <ClInclude Include="engine_callbacks.h">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
-    <ClInclude Include="engine_utils.h">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
-    <ClInclude Include="engine_physics.h">
-      <Filter>Fichiers d%27en-tête</Filter>
+    <ClInclude Include="engine_shader.h">
+      <Filter>Rendering</Filter>
     </ClInclude>
     <ClInclude Include="engine_texture.h">
-      <Filter>Fichiers d%27en-tête</Filter>
+      <Filter>Rendering</Filter>
     </ClInclude>
     <ClInclude Include="engine_particles.h">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
-    <ClInclude Include="engine_init.h">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
-    <ClInclude Include="engine_geometry.h">
-      <Filter>Fichiers d%27en-tête</Filter>
+      <Filter>Rendering</Filter>
     </ClInclude>
     <ClInclude Include="engine_mesh.h">
-      <Filter>Fichiers d%27en-tête</Filter>
+      <Filter>Rendering</Filter>
     </ClInclude>
-    <ClInclude Include="engine_shader.h">
-      <Filter>Fichiers d%27en-tête</Filter>
+    <ClInclude Include="engine_geometry.h">
+      <Filter>Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="engine_physics.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="engine_utils.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="engine_callbacks.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="engine_window.h">
+      <Filter>Logic</Filter>
+    </ClInclude>
+    <ClInclude Include="engine.h">
+      <Filter>Logic</Filter>
+    </ClInclude>
+    <ClInclude Include="engine_camera.h">
+      <Filter>Logic</Filter>
+    </ClInclude>
+    <ClInclude Include="engine_input.h">
+      <Filter>Logic</Filter>
+    </ClInclude>
+    <ClInclude Include="engine_interface.h">
+      <Filter>Logic</Filter>
+    </ClInclude>
+    <ClInclude Include="engine_entity.h">
+      <Filter>Logic\Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="comp_renderer.h">
+      <Filter>Logic\Entities\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="engine_init.h">
+      <Filter>Init</Filter>
+    </ClInclude>
+    <ClInclude Include="engine_scene.h">
+      <Filter>Logic</Filter>
+    </ClInclude>
+    <ClInclude Include="comp_transform.h">
+      <Filter>Logic\Entities\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="all_components.h">
+      <Filter>Logic\Entities\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="comp_camera.h">
+      <Filter>Logic\Entities\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="comp_custom.h">
+      <Filter>Logic\Entities\Components</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="engine.c">
-      <Filter>Fichiers sources</Filter>
-    </ClCompile>
-    <ClCompile Include="engine_input.c">
-      <Filter>Fichiers sources</Filter>
-    </ClCompile>
-    <ClCompile Include="engine_interface.c">
-      <Filter>Fichiers sources</Filter>
-    </ClCompile>
-    <ClCompile Include="engine_window.c">
-      <Filter>Fichiers sources</Filter>
-    </ClCompile>
-    <ClCompile Include="engine_camera.c">
-      <Filter>Fichiers sources</Filter>
-    </ClCompile>
-    <ClCompile Include="engine_utils.c">
-      <Filter>Fichiers sources</Filter>
-    </ClCompile>
-    <ClCompile Include="engine_physics.c">
-      <Filter>Fichiers sources</Filter>
-    </ClCompile>
     <ClCompile Include="engine_texture.c">
-      <Filter>Fichiers sources</Filter>
-    </ClCompile>
-    <ClCompile Include="engine_particles.c">
-      <Filter>Fichiers sources</Filter>
-    </ClCompile>
-    <ClCompile Include="engine_init.c">
-      <Filter>Fichiers sources</Filter>
-    </ClCompile>
-    <ClCompile Include="engine_geometry.c">
-      <Filter>Fichiers sources</Filter>
-    </ClCompile>
-    <ClCompile Include="engine_mesh.c">
-      <Filter>Fichiers sources</Filter>
+      <Filter>Rendering</Filter>
     </ClCompile>
     <ClCompile Include="engine_shader.c">
-      <Filter>Fichiers sources</Filter>
+      <Filter>Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="engine_particles.c">
+      <Filter>Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="engine_mesh.c">
+      <Filter>Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="engine_geometry.c">
+      <Filter>Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="engine_utils.c">
+      <Filter>Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="engine_physics.c">
+      <Filter>Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="engine_window.c">
+      <Filter>Logic</Filter>
+    </ClCompile>
+    <ClCompile Include="engine.c">
+      <Filter>Logic</Filter>
+    </ClCompile>
+    <ClCompile Include="engine_camera.c">
+      <Filter>Logic</Filter>
+    </ClCompile>
+    <ClCompile Include="engine_input.c">
+      <Filter>Logic</Filter>
+    </ClCompile>
+    <ClCompile Include="engine_interface.c">
+      <Filter>Logic</Filter>
+    </ClCompile>
+    <ClCompile Include="engine_entity.c">
+      <Filter>Logic\Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="engine_init.c">
+      <Filter>Init</Filter>
+    </ClCompile>
+    <ClCompile Include="engine_scene.c">
+      <Filter>Logic</Filter>
+    </ClCompile>
+    <ClCompile Include="comp_transform.c">
+      <Filter>Logic\Entities\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="all_components.c">
+      <Filter>Logic\Entities\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="comp_camera.c">
+      <Filter>Logic\Entities\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="comp_custom.c">
+      <Filter>Logic\Entities\Components</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

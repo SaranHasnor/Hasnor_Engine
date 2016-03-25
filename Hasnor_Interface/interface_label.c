@@ -3,7 +3,7 @@
 
 label_t *newLabel(void)
 {
-	label_t *label = newObject(label_t);
+	label_t *label = alloc(label_t);
 	Memory.set(label, 0, sizeof(label_t));
 	return label;
 }
@@ -12,9 +12,9 @@ void destroyLabel(label_t *label)
 {
 	if (label->text)
 	{
-		destroy(label->text);
+		dealloc(label->text);
 	}
-	destroy(label);
+	dealloc(label);
 }
 
 void drawLabel(label_t *label, staticPlacement_t placement)

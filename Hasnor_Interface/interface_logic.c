@@ -4,6 +4,7 @@
 
 #include <utils_bytestream.h>
 #include <utils_string.h>
+#include <utils_misc.h>
 
 void interface_init(void)
 {
@@ -11,7 +12,7 @@ void interface_init(void)
 
 	_curObject = NULL;
 
-	_curBlockStack = newObject(blockList_t);
+	_curBlockStack = alloc(blockList_t);
 	_curBlockStack->block = &_interface.mainBlock;
 	_curBlockStack->next = NULL;
 
@@ -263,7 +264,7 @@ bool interface_keyPressed(unsigned char key, int x, int y)
 		if (len > 0)
 		{
 			(*renameString)[pos-1] = '\0';
-			*renameString = (char*)Memory.realloc(*renameString, sizeof(char)*(pos));
+			*renameString = (char*)Memory.reallocate(*renameString, sizeof(char)*(pos));
 		}
 	}
 	else if (key == 13)
@@ -345,7 +346,7 @@ bool interface_keyPressed(unsigned char key, int x, int y)
 			}
 		}
 		
-		*renameString = (char*)Memory.realloc(*renameString, sizeof(char)*(pos+2));
+		*renameString = (char*)Memory.reallocate(*renameString, sizeof(char)*(pos+2));
 		(*renameString)[pos] = key;
 		(*renameString)[pos+1] = '\0';
 	}

@@ -5,11 +5,11 @@
 
 void _pushBlock(block_t *block)
 { // Creates a new block and enters its context
-	blockList_t *newBlockEntry = newObject(blockList_t);
+	blockList_t *newBlockEntry = alloc(blockList_t);
 	block_t *curBlock;
 
 	curBlock = _curBlockStack->block;
-	curBlock->children = (block_t**)Memory.realloc(curBlock->children, sizeof(block_t*) * (curBlock->nbChildren+1));
+	curBlock->children = (block_t**)Memory.reallocate(curBlock->children, sizeof(block_t*) * (curBlock->nbChildren+1));
 	curBlock->children[curBlock->nbChildren++] = block;
 
 	newBlockEntry->block = block;
@@ -19,7 +19,7 @@ void _pushBlock(block_t *block)
 
 void interface_pushBlock(placement_t placement)
 {
-	block_t *newBlock = newObject(block_t);
+	block_t *newBlock = alloc(block_t);
 	Memory.set(newBlock, 0, sizeof(block_t));
 	
 	newBlock->position.placement = placement;
@@ -33,7 +33,7 @@ void interface_popBlock(void)
 
 	_curBlockStack = _curBlockStack->next;
 
-	destroy(curBlockEntry);
+	dealloc(curBlockEntry);
 }
 
 int interface_newSideMenu(int x, int y, void (*onEnter)(uint), void (*onExit)(uint))
@@ -46,7 +46,7 @@ int interface_newSideMenu(int x, int y, void (*onEnter)(uint), void (*onExit)(ui
 		return -1;
 	}
 
-	_interface.sidePanel.menus = (sideMenu_t*)Memory.realloc(_interface.sidePanel.menus,sizeof(sideMenu_t)*(_interface.sidePanel.nbMenus+1));
+	_interface.sidePanel.menus = (sideMenu_t*)Memory.reallocate(_interface.sidePanel.menus,sizeof(sideMenu_t)*(_interface.sidePanel.nbMenus+1));
 
 	newMenu = &_interface.sidePanel.menus[_interface.sidePanel.nbMenus];
 	Memory.set(newMenu, 0, sizeof(sideMenu_t));
@@ -73,7 +73,7 @@ void _newRadioGroup(uint id)
 {
 	radioGroup_t *newGroup;
 
-	_interface.radioGroups = (radioGroup_t*)Memory.realloc(_interface.radioGroups, sizeof(radioGroup_t) * (_interface.nbRadioGroups+1));
+	_interface.radioGroups = (radioGroup_t*)Memory.reallocate(_interface.radioGroups, sizeof(radioGroup_t) * (_interface.nbRadioGroups+1));
 	
 	newGroup = &_interface.radioGroups[_interface.nbRadioGroups];
 	newGroup->id = id;
@@ -115,8 +115,8 @@ component_t *_addComponent(componentType_t type, placement_t placement)
 {	
 	component_t *newComp;
 
-	_curBlockStack->block->components = (component_t**)Memory.realloc(_curBlockStack->block->components, sizeof(component_t*)*(_curBlockStack->block->nbComponents+1));
-	_interface.allComponents = (component_t**)Memory.realloc(_interface.allComponents, sizeof(component_t*)*(_interface.nbComponents+1));
+	_curBlockStack->block->components = (component_t**)Memory.reallocate(_curBlockStack->block->components, sizeof(component_t*)*(_curBlockStack->block->nbComponents+1));
+	_interface.allComponents = (component_t**)Memory.reallocate(_interface.allComponents, sizeof(component_t*)*(_interface.nbComponents+1));
 
 	newComp = newComponent(type, _interface.nbComponents);
 
@@ -280,7 +280,7 @@ void interface_staticListEntry(uint listID, char *entry)
 {
 	list_t *list = _interface.allComponents[listID]->gen_component.object.list;
 	
-	list->entries = (listEntry_t*)Memory.realloc(list->entries, sizeof(listEntry_t)*(list->nbEntries+1));
+	list->entries = (listEntry_t*)Memory.reallocate(list->entries, sizeof(listEntry_t)*(list->nbEntries+1));
 
 	list->entries[list->nbEntries].value = entry;
 	list->entries[list->nbEntries].dynValue = NULL;
@@ -300,7 +300,7 @@ void interface_clearList(uint listID)
 
 	if (list->entries)
 	{
-		destroy(list->entries);
+		dealloc(list->entries);
 		list->entries = NULL;
 		list->nbEntries = 0;
 	}

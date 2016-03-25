@@ -36,7 +36,7 @@ void *map_getValueForKey(map_t *map, const char *key)
 	return NULL;
 }
 
-void map_setValueForKey(map_t *map, const char *key, void *value, bool strong)
+void map_setValueForKey(map_t *map, const char *key, void *value, bool freeOnRemove)
 {
 	list_t **list = &map->list;
 	ulong hash = _hashForKey(key);
@@ -47,23 +47,23 @@ void map_setValueForKey(map_t *map, const char *key, void *value, bool strong)
 		mapEntry_t *entry = (mapEntry_t*)(*list)->content;
 		if (entry->hash == hash)
 		{ // Already exists, replace the old value with the new value
-			if (entry->strong)
+			if (entry->freeOnRemove)
 			{
-				destroy(entry->value);
+				dealloc(entry->value);
 			}
 			entry->value = value;
-			entry->strong = strong;
+			entry->freeOnRemove = freeOnRemove;
 			return;
 		}
 		list = &(*list)->next;
 	}
 
 	// Doesn't exist yet
-	newEntry = newObject(mapEntry_t);
+	newEntry = alloc(mapEntry_t);
 	newEntry->hash = hash;
 	newEntry->key = String.create(key);
 	newEntry->value = value;
-	newEntry->strong = strong;
+	newEntry->freeOnRemove = freeOnRemove;
 	List.add(list, newEntry);
 }
 
@@ -78,13 +78,13 @@ void map_removeValueForKey(map_t *map, const char *key)
 		if (entry->hash == hash)
 		{
 			list_t *curObject = *list;
-			if (entry->strong)
+			if (entry->freeOnRemove)
 			{
-				destroy(entry->value);
+				dealloc(entry->value);
 			}
-			destroy(entry->key);
+			dealloc(entry->key);
 			*list = (*list)->next;
-			destroy(curObject);
+			dealloc(curObject);
 			return;
 		}
 		list = &(*list)->next;

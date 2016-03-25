@@ -1,9 +1,12 @@
 #define HASNOR_ENGINE_INTERNAL
 
 #include <GL/glut.h>
+
 #include "engine_input.h"
 #include "engine_interface.h"
+
 #include <utils.h>
+#include <utils_misc.h>
 
 typedef struct inputKey_s {
 	unsigned char		key;
@@ -54,7 +57,7 @@ void appendHeldKey(unsigned char key, int currentTime, bool onInterface)
 		curKey = &(*curKey)->next;
 	}
 	
-	*curKey = newObject(inputKey_t);
+	*curKey = alloc(inputKey_t);
 	(*curKey)->key = key;
 	(*curKey)->pressTime = currentTime;
 	(*curKey)->onInterface = onInterface;
@@ -71,7 +74,7 @@ bool deleteHeldKey(unsigned char key)
 			inputKey_t *temp = *curKey;
 			bool onScreen = !temp->onInterface;
 			*curKey = temp->next;
-			destroy(temp);
+			dealloc(temp);
 			return onScreen;
 		}
 		curKey = &(*curKey)->next;

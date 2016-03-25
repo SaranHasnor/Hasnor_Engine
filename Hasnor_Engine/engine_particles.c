@@ -150,7 +150,7 @@ void particles_Render(const float viewMatrix[16])
 
 particle_t *_newParticleFromEmitter(emitter_t *emitter, particleModel_t *model)
 {
-	particle_t *newParticle = newObject(particle_t);
+	particle_t *newParticle = alloc(particle_t);
 	float axis[3][3];
 
 	newParticle->model = model;
@@ -296,8 +296,8 @@ void particles_Update(const timeStruct_t time)
 			{
 				list_t *curItem = *particleListIterator;
 				*particleListIterator = (*particleListIterator)->next;
-				destroy(particle);
-				destroy(curItem);
+				dealloc(particle);
+				dealloc(curItem);
 				_particleCount--;
 			}
 		}
@@ -340,7 +340,7 @@ void particles_Update(const timeStruct_t time)
 
 particleData_t *_newParticleState()
 {
-	particleData_t *state = newObject(particleData_t);
+	particleData_t *state = alloc(particleData_t);
 	state->red = 1.0f;
 	state->green = 1.0f;
 	state->blue = 1.0f;
@@ -351,7 +351,7 @@ particleData_t *_newParticleState()
 
 particleModel_t *particles_newParticleModel(texture_t *texture, long life, bool transition)
 {
-	particleModel_t *newModel = newObject(particleModel_t);
+	particleModel_t *newModel = alloc(particleModel_t);
 	newModel->texture = texture;
 	newModel->program = _defaultParticleProgram;
 	newModel->life = life;
@@ -363,7 +363,7 @@ particleModel_t *particles_newParticleModel(texture_t *texture, long life, bool 
 
 emitterModel_t *particles_newEmitterModel(void)
 {
-	emitterModel_t *newModel = newObject(emitterModel_t);
+	emitterModel_t *newModel = alloc(emitterModel_t);
 	Memory.set(&newModel->particleTransform, 0, sizeof(transform_t));
 	newModel->spawnDataModel.nextWave = NULL;
 	return newModel;
@@ -380,10 +380,10 @@ void particles_CreateNewWaveForEmitter(emitterModel_t *emitter, long delay)
 			break;
 		}
 	}
-	*curWave = newObject(spawnWave_t);
+	*curWave = alloc(spawnWave_t);
 	(*curWave)->delay = delay;
 	(*curWave)->next = emitter->spawnDataModel.nextWave;
-	Array.init(&(*curWave)->models);
+	Array.init(&(*curWave)->models, 0);
 }
 
 void particles_AddNewParticleToEmitter(emitterModel_t *emitter, particleModel_t *model)
@@ -402,7 +402,7 @@ void particles_AddNewParticleToEmitter(emitterModel_t *emitter, particleModel_t 
 
 emitter_t *particles_CreateEmitterFromModel(emitterModel_t *model)
 {
-	emitter_t *newEmitter = newObject(emitter_t);
+	emitter_t *newEmitter = alloc(emitter_t);
 	newEmitter->model = model;
 	newEmitter->spawnData = model->spawnDataModel;
 	newEmitter->lastSpawn = 0;
@@ -416,7 +416,7 @@ emitter_t *particles_CreateEmitterFromModel(emitterModel_t *model)
 void particles_DeleteEmitter(emitter_t *emitter)
 {
 	List.remove(&_emitterList, emitter);
-	destroy(emitter);
+	dealloc(emitter);
 }
 
 void particles_setPause(bool pause)

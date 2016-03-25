@@ -4,7 +4,7 @@ component_t *newComponent(componentType_t type, uint id)
 {
 	component_t *newComp;
 
-	newComp = newObject(component_t);
+	newComp = alloc(component_t);
 
 	newComp->gen_component.type = type;
 

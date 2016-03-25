@@ -1,111 +1,123 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="Fichiers sources">
-      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
-      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    <Filter Include="Data">
+      <UniqueIdentifier>{ee5c9d9f-32d6-41d9-ae81-0f9978330492}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Fichiers d%27en-tête">
-      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
-      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    <Filter Include="Tools">
+      <UniqueIdentifier>{66d7fb90-3593-4cf0-bc2a-19ede014d089}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Fichiers de ressources">
-      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
-      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    <Filter Include="Init">
+      <UniqueIdentifier>{5c1e41f8-a13c-49b3-8a07-13be49b449e5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="System">
+      <UniqueIdentifier>{3bc4db22-74c1-4b35-82df-7ea73300591c}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="utils_bytestream.c">
-      <Filter>Fichiers sources</Filter>
-    </ClCompile>
-    <ClCompile Include="utils_string.c">
-      <Filter>Fichiers sources</Filter>
-    </ClCompile>
-    <ClCompile Include="utils_time.c">
-      <Filter>Fichiers sources</Filter>
-    </ClCompile>
-    <ClCompile Include="utils_misc.c">
-      <Filter>Fichiers sources</Filter>
-    </ClCompile>
-    <ClCompile Include="utils_vector.c">
-      <Filter>Fichiers sources</Filter>
-    </ClCompile>
-    <ClCompile Include="utils_ctools.c">
-      <Filter>Fichiers sources</Filter>
-    </ClCompile>
-    <ClCompile Include="utils_matrix.c">
-      <Filter>Fichiers sources</Filter>
-    </ClCompile>
-    <ClCompile Include="utils_quaternion.c">
-      <Filter>Fichiers sources</Filter>
-    </ClCompile>
-    <ClCompile Include="utils_list.c">
-      <Filter>Fichiers sources</Filter>
-    </ClCompile>
-    <ClCompile Include="utils_map.c">
-      <Filter>Fichiers sources</Filter>
+    <ClCompile Include="utils_init.c">
+      <Filter>Init</Filter>
     </ClCompile>
     <ClCompile Include="utils_array.c">
-      <Filter>Fichiers sources</Filter>
+      <Filter>Data</Filter>
+    </ClCompile>
+    <ClCompile Include="utils_list.c">
+      <Filter>Data</Filter>
+    </ClCompile>
+    <ClCompile Include="utils_map.c">
+      <Filter>Data</Filter>
+    </ClCompile>
+    <ClCompile Include="utils_matrix.c">
+      <Filter>Data</Filter>
+    </ClCompile>
+    <ClCompile Include="utils_object.c">
+      <Filter>Data</Filter>
+    </ClCompile>
+    <ClCompile Include="utils_quaternion.c">
+      <Filter>Data</Filter>
+    </ClCompile>
+    <ClCompile Include="utils_vector.c">
+      <Filter>Data</Filter>
     </ClCompile>
     <ClCompile Include="utils_file.c">
-      <Filter>Fichiers sources</Filter>
+      <Filter>System</Filter>
     </ClCompile>
-    <ClCompile Include="utils_init.c">
-      <Filter>Fichiers sources</Filter>
+    <ClCompile Include="utils_memory.c">
+      <Filter>System</Filter>
+    </ClCompile>
+    <ClCompile Include="utils_thread.c">
+      <Filter>System</Filter>
+    </ClCompile>
+    <ClCompile Include="utils_time.c">
+      <Filter>System</Filter>
     </ClCompile>
     <ClCompile Include="utils_math.c">
-      <Filter>Fichiers sources</Filter>
+      <Filter>Tools</Filter>
+    </ClCompile>
+    <ClCompile Include="utils_misc.c">
+      <Filter>Tools</Filter>
+    </ClCompile>
+    <ClCompile Include="utils_string.c">
+      <Filter>Tools</Filter>
+    </ClCompile>
+    <ClCompile Include="utils_bytestream.c">
+      <Filter>Data</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="utils_bytestream.h">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
-    <ClInclude Include="utils_string.h">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
-    <ClInclude Include="utils_time.h">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
-    <ClInclude Include="utils_types.h">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
-    <ClInclude Include="utils_misc.h">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
-    <ClInclude Include="utils.h">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
-    <ClInclude Include="utils_vector.h">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
-    <ClInclude Include="utils_ctools.h">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
-    <ClInclude Include="utils_math.h">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
-    <ClInclude Include="utils_matrix.h">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
-    <ClInclude Include="utils_quaternion.h">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
-    <ClInclude Include="utils_list.h">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
-    <ClInclude Include="utils_map.h">
-      <Filter>Fichiers d%27en-tête</Filter>
+    <ClInclude Include="utils_init.h">
+      <Filter>Init</Filter>
     </ClInclude>
     <ClInclude Include="utils_array.h">
-      <Filter>Fichiers d%27en-tête</Filter>
+      <Filter>Data</Filter>
+    </ClInclude>
+    <ClInclude Include="utils_list.h">
+      <Filter>Data</Filter>
+    </ClInclude>
+    <ClInclude Include="utils_map.h">
+      <Filter>Data</Filter>
+    </ClInclude>
+    <ClInclude Include="utils_matrix.h">
+      <Filter>Data</Filter>
+    </ClInclude>
+    <ClInclude Include="utils_quaternion.h">
+      <Filter>Data</Filter>
+    </ClInclude>
+    <ClInclude Include="utils_object.h">
+      <Filter>Data</Filter>
+    </ClInclude>
+    <ClInclude Include="utils_vector.h">
+      <Filter>Data</Filter>
     </ClInclude>
     <ClInclude Include="utils_file.h">
-      <Filter>Fichiers d%27en-tête</Filter>
+      <Filter>System</Filter>
     </ClInclude>
-    <ClInclude Include="utils_init.h">
-      <Filter>Fichiers d%27en-tête</Filter>
+    <ClInclude Include="utils_memory.h">
+      <Filter>System</Filter>
+    </ClInclude>
+    <ClInclude Include="utils_thread.h">
+      <Filter>System</Filter>
+    </ClInclude>
+    <ClInclude Include="utils_time.h">
+      <Filter>System</Filter>
+    </ClInclude>
+    <ClInclude Include="utils_misc.h">
+      <Filter>Tools</Filter>
+    </ClInclude>
+    <ClInclude Include="utils_string.h">
+      <Filter>Tools</Filter>
+    </ClInclude>
+    <ClInclude Include="utils_types.h">
+      <Filter>Tools</Filter>
+    </ClInclude>
+    <ClInclude Include="utils_math.h">
+      <Filter>Tools</Filter>
+    </ClInclude>
+    <ClInclude Include="utils.h">
+      <Filter>Tools</Filter>
+    </ClInclude>
+    <ClInclude Include="utils_bytestream.h">
+      <Filter>Data</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
