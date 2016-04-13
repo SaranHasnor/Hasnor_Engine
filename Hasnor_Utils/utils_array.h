@@ -6,10 +6,11 @@
 typedef struct {
 	void		**content;
 	uint		size;
+	uint		capacity;
 } array_t;
 
 typedef struct {
-	void (*init)(array_t *a);
+	void (*init)(array_t *a, uint capacity);
 	void (*add)(array_t *a, void *object);
 	void (*insert)(array_t *a, void *object, uint pos);
 	void (*remove)(array_t *a, void *object);

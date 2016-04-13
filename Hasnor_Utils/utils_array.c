@@ -2,29 +2,47 @@
 
 #include "utils.h"
 
-void array_init(array_t *ar)
+void array_init(array_t *ar, uint capacity)
 {
-	ar->content = NULL;
 	ar->size = 0;
+	ar->capacity = capacity;
+	if (capacity > 0)
+	{
+		ar->content = newArray(void*, capacity);
+	}
+	else
+	{
+		ar->content = NULL;
+	}
+}
+
+void _resizeArrayIfNeeded(array_t *ar)
+{ // TODO: Resize larger every time this step is required
+	if (ar->size >= ar->capacity)
+	{
+		ar->content = (void**)Memory.realloc(ar->content, sizeof(void*) * (ar->size+1));
+	}
 }
 
 void array_add(array_t *ar, void *object)
 {
-	ar->content = (void**)Memory.realloc(ar->content, sizeof(void*) * (ar->size+1));
-	ar->content[ar->size] = object;
-	ar->size++;
+	_resizeArrayIfNeeded(ar);
+	ar->content[ar->size++] = object;
 }
 
 void array_insert(array_t *ar, void *object, uint pos)
 {
-	uint i;
-	ar->content = (void**)Memory.realloc(ar->content, sizeof(void*) * (ar->size+1));
-	for (i = ar->size; i > pos; i--)
+	if (pos <= ar->size)
 	{
-		ar->content[i] = ar->content[i-1];
+		uint i;
+		_resizeArrayIfNeeded(ar);
+		for (i = ar->size; i > pos; i--)
+		{
+			ar->content[i] = ar->content[i-1];
+		}
+		ar->content[pos] = object;
+		ar->size++;
 	}
-	ar->content[pos] = object;
-	ar->size++;
 }
 
 void array_remove(array_t *ar, void *object)
@@ -45,14 +63,6 @@ void array_remove(array_t *ar, void *object)
 	}
 	if (found)
 	{
-		if (ar->size == 1)
-		{
-			ar->content = NULL;
-		}
-		else
-		{
-			ar->content = (void**)Memory.realloc(ar->content, sizeof(void*) * (ar->size-1));
-		}
 		ar->size--;
 	}
 }
@@ -65,14 +75,6 @@ void array_removeAt(array_t *ar, uint pos)
 		for (i = pos; i < ar->size - 1; i++)
 		{
 			ar->content[i] = ar->content[i+1];
-		}
-		if (ar->size == 1)
-		{
-			ar->content = NULL;
-		}
-		else
-		{
-			ar->content = (void**)Memory.realloc(ar->content, sizeof(void*) * (ar->size-1));
 		}
 		ar->size--;
 	}

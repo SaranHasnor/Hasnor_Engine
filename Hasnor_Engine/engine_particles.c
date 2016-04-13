@@ -383,7 +383,7 @@ void particles_CreateNewWaveForEmitter(emitterModel_t *emitter, long delay)
 	*curWave = newObject(spawnWave_t);
 	(*curWave)->delay = delay;
 	(*curWave)->next = emitter->spawnDataModel.nextWave;
-	Array.init(&(*curWave)->models);
+	Array.init(&(*curWave)->models, 0);
 }
 
 void particles_AddNewParticleToEmitter(emitterModel_t *emitter, particleModel_t *model)
