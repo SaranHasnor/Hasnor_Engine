@@ -470,6 +470,7 @@ void renderMesh(const mesh_t *mesh, const float viewMatrix[16])
 		face_t *face = mesh->faces[i];
 		program_t *program = face->program;
 		bool gotTexture = (face->texture != NULL);
+		bool useQuads = face->nbVertices == 4;
 
 		if (!program)
 		{
@@ -491,18 +492,18 @@ void renderMesh(const mesh_t *mesh, const float viewMatrix[16])
 		glBindBuffer(GL_ARRAY_BUFFER, face->vboIndex);
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, face->eboIndex);
 
-		glVertexAttribPointer(program->coordsLocation, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), NULL);
+		glVertexAttribPointer(program->coordsLocation, useQuads ? 4 : 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), NULL);
 		glEnableVertexAttribArray(program->coordsLocation);
-		glVertexAttribPointer(program->texCoordsLocation, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(3 * sizeof(float)));
+		glVertexAttribPointer(program->texCoordsLocation, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)((useQuads ? 4 : 3) * sizeof(float)));
 		glEnableVertexAttribArray(program->texCoordsLocation);
-		glVertexAttribPointer(program->normalsLocation, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(5 * sizeof(float)));
+		glVertexAttribPointer(program->normalsLocation, useQuads ? 4 : 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)((useQuads ? 6 : 5) * sizeof(float)));
 		glEnableVertexAttribArray(program->normalsLocation);
 
 		glUniformMatrix4fv(program->viewMatLocation, 1, GL_TRUE, viewMatrix);
 
 		glUniform4fv(program->colorLocation, 1, face->color);
 
-		glDrawElements(GL_TRIANGLES, face->nbVertices, GL_UNSIGNED_SHORT, NULL);
+		glDrawElements(useQuads ? GL_QUADS : GL_TRIANGLES, face->nbVertices, GL_UNSIGNED_SHORT, NULL);
 
 		if (gotTexture)
 		{
