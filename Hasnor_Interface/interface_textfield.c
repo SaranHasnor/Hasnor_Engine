@@ -31,7 +31,7 @@ void updateFieldText(textField_t *field)
 	}
 	else if (field->type == FIELDTYPE_FLOAT)
 	{
-		field->text = String.fromInt(*((float*)(*field->value)));
+		field->text = String.fromFloat(*((float*)(*field->value)));
 	}
 	else if (field->type == FIELDTYPE_BINARY)
 	{ // NEEDS TESTING

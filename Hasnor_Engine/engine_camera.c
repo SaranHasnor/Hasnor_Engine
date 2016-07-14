@@ -43,7 +43,7 @@ void initCamera(void)
 	Vector.copy(_mainCamera.transform.velocity, Vector.zero);
 	Vector.copy(_mainCamera.transform.rotation, Vector.zero);
 	Vector.set(_mainCamera.transform.position, 0.0f, -10.0f, 0.0f);
-	Vector.set(_mainCamera.transform.angles, 0.0f, 90.0f, 0.0f);
+	Vector.set(_mainCamera.transform.angles, 0.0f, 0.0f, 0.0f);
 
 	_mainCamera.viewportSize[0] = 1.0f;
 	_mainCamera.viewportSize[1] = 1.0f;
@@ -133,31 +133,36 @@ void engine_getViewMatrix(float out[16])
 	Matrix.multiply(out, _renderProjectionMatrix, _renderModelViewMatrix);
 }
 
-void _clampCameraAngles(void)
+void _clampCameraAngles(float angles[3])
 {
-	if (_mainCamera.transform.angles[0] < -85)
-		_mainCamera.transform.angles[0] = -85;
-	if (_mainCamera.transform.angles[0] > 85)
-		_mainCamera.transform.angles[0] = 85;
+	if (angles[0] < -85)
+		angles[0] = -85;
+	if (angles[0] > 85)
+		angles[0] = 85;
 
-	if (_mainCamera.transform.angles[1] < -180)
-		_mainCamera.transform.angles[1] += 360;
-	if (_mainCamera.transform.angles[1] > 180)
-		_mainCamera.transform.angles[1] -= 360;
+	if (angles[1] < -180)
+		angles[1] += 360;
+	if (angles[1] > 180)
+		angles[1] -= 360;
 }
 
 void updateGLCamera(timeStruct_t time, inputStruct_t input)
 {
+	float angles[3];
 	float forward[3], right[3];
 	float movement[3];
 
 	// Apply rotation
 	Vector.multiplyAdd(_mainCamera.transform.angles, _mainCamera.transform.angles, time.deltaTimeSeconds, _mainCamera.transform.rotation);
 
-	_clampCameraAngles();
+	// Make the camera align with the Y axis by default
+	Vector.copy(angles, _mainCamera.transform.angles);
+	angles[1] += 90.0f;
+
+	_clampCameraAngles(angles);
 
 	// Get the camera's local axis
-	Vector.axisFromAngles(_mainCamera.transform.angles, forward, right, NULL);
+	Vector.axisFromAngles(angles, forward, right, NULL);
 
 	// Update the camera position (cheap method because math is hard)
 	Vector.scale(movement, _mainCamera.transform.velocity[2], Vector.axis[2]);
@@ -166,7 +171,7 @@ void updateGLCamera(timeStruct_t time, inputStruct_t input)
 	
 	Vector.multiplyAdd(_mainCamera.transform.position, _mainCamera.transform.position, time.deltaTimeSeconds, movement);
 
-	Matrix.viewModel(_renderModelViewMatrix, _mainCamera.transform.position, _mainCamera.transform.angles);
+	Matrix.viewModel(_renderModelViewMatrix, _mainCamera.transform.position, angles);
 }
 
 void positionGLCameraForRender(void)
