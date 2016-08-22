@@ -8,6 +8,7 @@
 #include "engine_particles.h"
 
 #include <utils.h>
+#include <utils_misc.h>
 
 #include <GL\glew.h>
 #include <GL\glut.h>

@@ -3,14 +3,14 @@
 
 checkBox_t *newCheckBox(void)
 {
-	checkBox_t *checkbox = newObject(checkBox_t);
+	checkBox_t *checkbox = alloc(checkBox_t);
 	Memory.set(checkbox , 0, sizeof(checkBox_t));
 	return checkbox;
 }
 
 void destroyCheckBox(checkBox_t *checkbox)
 {
-	destroy(checkbox);
+	dealloc(checkbox);
 }
 
 void drawCheckBox(checkBox_t *checkBox, staticPlacement_t placement)

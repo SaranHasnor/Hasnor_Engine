@@ -3,14 +3,14 @@
 
 slider_t *newSlider(void)
 {
-	slider_t *slider = newObject(slider_t);
+	slider_t *slider = alloc(slider_t);
 	Memory.set(slider, 0, sizeof(slider_t));
 	return slider;
 }
 
 void destroySlider(slider_t *slider)
 {
-	destroy(slider);
+	dealloc(slider);
 }
 
 void updateSliderValue(slider_t *slider)

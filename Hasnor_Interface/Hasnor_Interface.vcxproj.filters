@@ -1,111 +1,108 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="Fichiers sources">
-      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
-      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    <Filter Include="Components">
+      <UniqueIdentifier>{9c03322f-1792-41ba-8e4e-2c0548cc9f5e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Fichiers d%27en-tête">
-      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
-      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    <Filter Include="Interface">
+      <UniqueIdentifier>{08e9d483-918a-4266-a8c7-5fdabb12d24d}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Fichiers de ressources">
-      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
-      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    <Filter Include="Utils">
+      <UniqueIdentifier>{37c1ae20-a5f6-457c-ae01-f5994576cc7c}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="interface_button.c">
-      <Filter>Fichiers sources</Filter>
-    </ClCompile>
-    <ClCompile Include="interface_checkbox.c">
-      <Filter>Fichiers sources</Filter>
-    </ClCompile>
-    <ClCompile Include="interface_label.c">
-      <Filter>Fichiers sources</Filter>
-    </ClCompile>
-    <ClCompile Include="interface_list.c">
-      <Filter>Fichiers sources</Filter>
-    </ClCompile>
-    <ClCompile Include="interface_radiobutton.c">
-      <Filter>Fichiers sources</Filter>
-    </ClCompile>
-    <ClCompile Include="interface_slider.c">
-      <Filter>Fichiers sources</Filter>
-    </ClCompile>
-    <ClCompile Include="interface_textfield.c">
-      <Filter>Fichiers sources</Filter>
-    </ClCompile>
     <ClCompile Include="interface_utils.c">
-      <Filter>Fichiers sources</Filter>
-    </ClCompile>
-    <ClCompile Include="interface_block.c">
-      <Filter>Fichiers sources</Filter>
-    </ClCompile>
-    <ClCompile Include="interface_component.c">
-      <Filter>Fichiers sources</Filter>
+      <Filter>Utils</Filter>
     </ClCompile>
     <ClCompile Include="interface_render.c">
-      <Filter>Fichiers sources</Filter>
-    </ClCompile>
-    <ClCompile Include="interface_sidepanel.c">
-      <Filter>Fichiers sources</Filter>
-    </ClCompile>
-    <ClCompile Include="interface_building.c">
-      <Filter>Fichiers sources</Filter>
+      <Filter>Utils</Filter>
     </ClCompile>
     <ClCompile Include="interface_logic.c">
-      <Filter>Fichiers sources</Filter>
+      <Filter>Interface</Filter>
+    </ClCompile>
+    <ClCompile Include="interface_building.c">
+      <Filter>Interface</Filter>
+    </ClCompile>
+    <ClCompile Include="interface_block.c">
+      <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="interface_textfield.c">
+      <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="interface_button.c">
+      <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="interface_checkbox.c">
+      <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="interface_component.c">
+      <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="interface_label.c">
+      <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="interface_list.c">
+      <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="interface_radiobutton.c">
+      <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="interface_sidepanel.c">
+      <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="interface_slider.c">
+      <Filter>Components</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="interface.h">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
-    <ClInclude Include="interface_label.h">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
-    <ClInclude Include="interface_button.h">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
-    <ClInclude Include="interface_list.h">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
-    <ClInclude Include="interface_slider.h">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
-    <ClInclude Include="interface_checkbox.h">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
-    <ClInclude Include="interface_radiobutton.h">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
-    <ClInclude Include="interface_textfield.h">
-      <Filter>Fichiers d%27en-tête</Filter>
+    <ClInclude Include="interface_render.h">
+      <Filter>Utils</Filter>
     </ClInclude>
     <ClInclude Include="interface_utils.h">
-      <Filter>Fichiers d%27en-tête</Filter>
+      <Filter>Utils</Filter>
     </ClInclude>
-    <ClInclude Include="interface_block.h">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
-    <ClInclude Include="interface_component.h">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
-    <ClInclude Include="interface_render.h">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
-    <ClInclude Include="interface_sidepanel.h">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
-    <ClInclude Include="interface_building.h">
-      <Filter>Fichiers d%27en-tête</Filter>
+    <ClInclude Include="interface.h">
+      <Filter>Interface</Filter>
     </ClInclude>
     <ClInclude Include="interface_logic.h">
-      <Filter>Fichiers d%27en-tête</Filter>
+      <Filter>Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="interface_building.h">
+      <Filter>Interface</Filter>
     </ClInclude>
     <ClInclude Include="interface_main.h">
-      <Filter>Fichiers d%27en-tête</Filter>
+      <Filter>Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="interface_block.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="interface_textfield.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="interface_button.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="interface_checkbox.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="interface_component.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="interface_label.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="interface_list.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="interface_radiobutton.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="interface_sidepanel.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="interface_slider.h">
+      <Filter>Components</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

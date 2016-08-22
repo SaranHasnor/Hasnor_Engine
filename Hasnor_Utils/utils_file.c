@@ -1,5 +1,7 @@
 #include "utils_file.h"
-#include "utils_ctools.h"
+#include "utils_memory.h"
+
+#include <stdio.h>
 
 #pragma warning (disable:4996)
 
@@ -15,7 +17,7 @@ bool file_read(const char *path, char **out)
 
 	fseek(file, 0, SEEK_END);
 	size = (ulong)ftell(file);
-	*out = newArray(char, size+1);
+	*out = allocArray(char, size+1);
 
 	fseek(file, 0, SEEK_SET);
 	size = fread(*out, sizeof(char), size, file);

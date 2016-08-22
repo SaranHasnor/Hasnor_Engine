@@ -1,11 +1,11 @@
+#include "utils.h"
 #include "utils_bytestream.h"
-#include "utils_ctools.h"
 
 void bytestream_init(bytestream_t *stream, uint size)
 {
 	if (size)
 	{
-		stream->data = newArray(byte, size);
+		stream->data = allocArray(byte, size);
 		Memory.set(stream->data, 0, sizeof(byte) * size);
 	}
 	else
@@ -41,7 +41,7 @@ void bytestream_destroy(bytestream_t *stream)
 	stream->cursor = 0;
 	if (stream->data)
 	{
-		destroy(stream->data);
+		dealloc(stream->data);
 	}
 }
 
@@ -53,7 +53,7 @@ char *bytestream_toString(bytestream_t *stream)
 
 	if (!len) len = 1;
 
-	res = newArray(char, len*9); // len * (8 digits + one space or \0)
+	res = allocArray(char, len*9); // len * (8 digits + one space or \0)
 
 	for (i = 0; i < len; i++)
 	{

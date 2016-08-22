@@ -15,7 +15,7 @@ mesh_t *createSphere(float radius, int rings, int sectors, texture_t *texture, p
 	const float R = 1.0f / (rings-1);
 	const float S = 1.0f / (sectors-1);
 	int r, s;
-	vertex_t *vertices = newArray(vertex_t, rings * sectors);
+	vertex_t *vertices = allocArray(vertex_t, rings * sectors);
 	vertex_t *vertexIterator = vertices;
 	mesh_t *sphere;
 
@@ -60,7 +60,7 @@ mesh_t *createSphere(float radius, int rings, int sectors, texture_t *texture, p
 			currentFace = Mesh.addFaceToMesh(sphere);
 			currentFace->texture = texture;
 			currentFace->program = program;
-			currentVertices = newArray(vertex_t*, 3);
+			currentVertices = allocArray(vertex_t*, 3);
 			currentVertices[0] = v1;
 			currentVertices[1] = v2;
 			currentVertices[2] = v3;
@@ -70,7 +70,7 @@ mesh_t *createSphere(float radius, int rings, int sectors, texture_t *texture, p
 			currentFace = Mesh.addFaceToMesh(sphere);
 			currentFace->texture = texture;
 			currentFace->program = program;
-			currentVertices = newArray(vertex_t*, 3);
+			currentVertices = allocArray(vertex_t*, 3);
 			currentVertices[0] = v3;
 			currentVertices[1] = v4;
 			currentVertices[2] = v1;
@@ -89,7 +89,7 @@ mesh_t *createRing(float innerRadius, float outerRadius, int sectors, texture_t 
 	const float S = 1.0f / (sectors-1);
 	const int vertexCount = 2 * sectors;
 	int s;
-	vertex_t *vertices = newArray(vertex_t, vertexCount);
+	vertex_t *vertices = allocArray(vertex_t, vertexCount);
 	vertex_t *vertexIterator = vertices;
 	mesh_t *ring;
 
@@ -144,7 +144,7 @@ mesh_t *createRing(float innerRadius, float outerRadius, int sectors, texture_t 
 		currentFace = Mesh.addFaceToMesh(ring);
 		currentFace->texture = texture;
 		currentFace->program = program;
-		currentVertices = newArray(vertex_t*, 3);
+		currentVertices = allocArray(vertex_t*, 3);
 		currentVertices[0] = v1;
 		currentVertices[1] = v2;
 		currentVertices[2] = v3;
@@ -154,7 +154,7 @@ mesh_t *createRing(float innerRadius, float outerRadius, int sectors, texture_t 
 		currentFace = Mesh.addFaceToMesh(ring);
 		currentFace->texture = texture;
 		currentFace->program = program;
-		currentVertices = newArray(vertex_t*, 3);
+		currentVertices = allocArray(vertex_t*, 3);
 		currentVertices[0] = v3;
 		currentVertices[1] = v4;
 		currentVertices[2] = v1;

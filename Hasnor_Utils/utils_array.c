@@ -8,7 +8,7 @@ void array_init(array_t *ar, uint capacity)
 	ar->capacity = capacity;
 	if (capacity > 0)
 	{
-		ar->content = newArray(void*, capacity);
+		ar->content = allocArray(void*, capacity);
 	}
 	else
 	{
@@ -20,7 +20,7 @@ void _resizeArrayIfNeeded(array_t *ar)
 { // TODO: Resize larger every time this step is required
 	if (ar->size >= ar->capacity)
 	{
-		ar->content = (void**)Memory.realloc(ar->content, sizeof(void*) * (ar->size+1));
+		ar->content = (void**)Memory.reallocate(ar->content, sizeof(void*) * (ar->size+1));
 	}
 }
 

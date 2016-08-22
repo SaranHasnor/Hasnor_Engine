@@ -49,7 +49,7 @@ void _printShaderLog(GLuint obj)
 
 	glGetShaderiv(obj, GL_INFO_LOG_LENGTH, &maxLength);
 
-	infoLog = newArray(char, maxLength);
+	infoLog = allocArray(char, maxLength);
 
 	glGetShaderInfoLog(obj, maxLength, &infoLogLength, infoLog);
 
@@ -58,7 +58,7 @@ void _printShaderLog(GLuint obj)
 		printf("printShaderLog: %s\n", infoLog);
 	}
 
-	destroy(infoLog);
+	dealloc(infoLog);
 }
 
 GLenum _translateShaderType(shaderType_t type)
@@ -78,7 +78,7 @@ GLenum _translateShaderType(shaderType_t type)
 
 shader_t *shaderFromContent(shaderType_t type, const char *contents)
 {
-	shader_t *newShader = newObject(shader_t);
+	shader_t *newShader = alloc(shader_t);
 	newShader->filePath = NULL;
 	newShader->content = String.create(contents);
 	newShader->type = type;
@@ -114,7 +114,7 @@ void _printProgramLog(GLuint obj)
 
 	glGetProgramiv(obj, GL_INFO_LOG_LENGTH, &maxLength);
 
-	infoLog = newArray(char, maxLength);
+	infoLog = allocArray(char, maxLength);
 
 	glGetProgramInfoLog(obj, maxLength, &infoLogLength, infoLog);
 
@@ -123,12 +123,12 @@ void _printProgramLog(GLuint obj)
 		printf("printProgramLog: %s\n", infoLog);
 	}
 
-	destroy(infoLog);
+	dealloc(infoLog);
 }
 
 program_t *programWithShaders(shader_t *vertexShader, shader_t *fragmentShader, shader_t *geometryShader)
 {
-	program_t *newProgram = newObject(program_t);
+	program_t *newProgram = alloc(program_t);
 	newProgram->vertexShader = vertexShader;
 	newProgram->fragmentShader = fragmentShader;
 	newProgram->geometryShader = geometryShader;
@@ -162,7 +162,7 @@ program_t *programWithShaders(shader_t *vertexShader, shader_t *fragmentShader, 
 
 program_t *transformFeedbackProgram(shader_t *transformShader, const char *varyings[], uint varyingsCount)
 {
-	program_t *newProgram = newObject(program_t);
+	program_t *newProgram = alloc(program_t);
 	newProgram->vertexShader = transformShader;
 	newProgram->fragmentShader = NULL;
 	newProgram->geometryShader = NULL;
@@ -192,7 +192,7 @@ program_t *transformFeedbackProgram(shader_t *transformShader, const char *varyi
 
 void registerCustomUniformForProgram(program_t *program, const char *name)
 {
-	int *location = newObject(int);
+	int *location = alloc(int);
 	*location = glGetUniformLocation(program->programID, name);
 	Map.setValueForKey(&program->customLocations, name, location, true);
 }

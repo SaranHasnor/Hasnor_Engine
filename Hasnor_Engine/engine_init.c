@@ -8,6 +8,7 @@
 #include "engine_mesh.h"
 #include "engine_geometry.h"
 #include "engine_particles.h"
+#include "engine_scene.h"
 #include "engine_interface.h"
 #include "engine_window.h"
 #undef HASNOR_INIT
@@ -24,6 +25,9 @@ void initHasnorEngine(void)
 	initGeometryFunctions();
 
 	initParticleFunctions();
+
+	initSceneFunctions();
+	initEntityFunctions(&Scene.Entity);
 
 	initCameraFunctions(&Engine.Camera);
 	initInterfaceFunctions(&Engine.UI);

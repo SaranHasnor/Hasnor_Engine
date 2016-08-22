@@ -32,14 +32,14 @@ void linkVertexToFace(face_t *face, vertex_t *vertex)
 	}
 #endif
 
-	face->vertices = (vertex_t**)Memory.realloc(face->vertices, sizeof(vertex_t*) * (face->nbVertices+1));
+	face->vertices = (vertex_t**)Memory.reallocate(face->vertices, sizeof(vertex_t*) * (face->nbVertices+1));
 
 	face->vertices[face->nbVertices++] = vertex;
 }
 
 vertex_t *_addVertexToFace(face_t *face, float pos[3], float u, float v)
 {
-	vertex_t *vertex = newObject(vertex_t);
+	vertex_t *vertex = alloc(vertex_t);
 	Vector.rotate(pos, _localAxis);
 	vertex->coords.x = pos[0] + _cursorPos[0];
 	vertex->coords.y = pos[1] + _cursorPos[1];
@@ -86,14 +86,14 @@ void linkFaceToMesh(mesh_t *mesh, face_t *face)
 	}
 #endif
 
-	mesh->faces = (face_t**)Memory.realloc(mesh->faces, sizeof(face_t*) * (mesh->nbFaces+1));
+	mesh->faces = (face_t**)Memory.reallocate(mesh->faces, sizeof(face_t*) * (mesh->nbFaces+1));
 
 	mesh->faces[mesh->nbFaces++] = face;
 }
 
 face_t *addFaceToMesh(mesh_t *mesh)
 {
-	face_t *face = newObject(face_t);
+	face_t *face = alloc(face_t);
 	Memory.set(face, 0, sizeof(face_t));
 
 	glGenBuffers(1, &face->vboIndex);
@@ -120,7 +120,7 @@ face_t *addFace(void)
 
 mesh_t *newMesh(void)
 {
-	mesh_t *mesh = newObject(mesh_t);
+	mesh_t *mesh = alloc(mesh_t);
 	Memory.set(mesh, 0, sizeof(mesh_t));
 
 	//glGenBuffers(1, &mesh->vboIndex);
@@ -141,11 +141,11 @@ vertex_t *duplicateVertex(const vertex_t *vertex)
 
 face_t *duplicateFace(const face_t *face)
 {
-	face_t *newFace = newObject(face_t);
+	face_t *newFace = alloc(face_t);
 	uint i;
 
 	newFace->nbVertices = face->nbVertices;
-	newFace->vertices = newArray(vertex_t*, newFace->nbVertices);
+	newFace->vertices = allocArray(vertex_t*, newFace->nbVertices);
 
 	for (i=0; i<newFace->nbVertices; i++)
 	{
@@ -157,11 +157,11 @@ face_t *duplicateFace(const face_t *face)
 
 mesh_t *duplicateMesh(const mesh_t *mesh)
 {
-	mesh_t *newMesh = newObject(mesh_t);
+	mesh_t *newMesh = alloc(mesh_t);
 	uint i;
 
 	newMesh->nbFaces = mesh->nbFaces;
-	newMesh->faces = newArray(face_t*, newMesh->nbFaces);
+	newMesh->faces = allocArray(face_t*, newMesh->nbFaces);
 
 	for (i=0; i<newMesh->nbFaces; i++)
 	{
@@ -189,18 +189,18 @@ void destroyFace(face_t *face)
 
 	if (face->vbo)
 	{
-		destroy(face->vbo);
+		dealloc(face->vbo);
 	}
 	if (face->ebo)
 	{
-		destroy(face->ebo);
+		dealloc(face->ebo);
 	}
 
 	if (face->vertices)
 	{
-		destroy(face->vertices);
+		dealloc(face->vertices);
 	}
-	destroy(face);
+	dealloc(face);
 }
 
 void destroyMesh(mesh_t *mesh)
@@ -212,9 +212,9 @@ void destroyMesh(mesh_t *mesh)
 	}
 	if (mesh->faces)
 	{
-		destroy(mesh->faces);
+		dealloc(mesh->faces);
 	}
-	destroy(mesh);
+	dealloc(mesh);
 }
 
 void setAutoSelect(bool active)
@@ -383,7 +383,7 @@ mesh_t *fuseMeshes(mesh_t **a, mesh_t **b)
 	uint i;
 
 	mesh->nbFaces = (*a)->nbFaces + (*b)->nbFaces;
-	mesh->faces = newArray(face_t*, mesh->nbFaces);
+	mesh->faces = allocArray(face_t*, mesh->nbFaces);
 
 	for (i = 0; i < (*a)->nbFaces; i++)
 	{
@@ -412,8 +412,8 @@ void updateMeshGeometry(mesh_t *mesh)
 	{
 		face_t *face = mesh->faces[i];
 
-		face->vbo = newArray(float, face->nbVertices * 8);
-		face->ebo = newArray(ushort, face->nbVertices);
+		face->vbo = allocArray(float, face->nbVertices * 8);
+		face->ebo = allocArray(ushort, face->nbVertices);
 
 		for (j = 0; j < face->nbVertices; j++)
 		{

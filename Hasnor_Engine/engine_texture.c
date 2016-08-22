@@ -42,7 +42,7 @@ void updateTextureContents(texture_t *texture)
 
 texture_t *textureFromPath(const char *filePath)
 {
-	texture_t *newTexture = newObject(texture_t);
+	texture_t *newTexture = alloc(texture_t);
 
 	newTexture->filePath = String.create(filePath);
 	newTexture->textureID = 0;

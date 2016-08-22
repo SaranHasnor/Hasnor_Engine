@@ -16,6 +16,10 @@ void keyDownFunc(uchar key)
 	{
 		Engine.shutdown();
 	}
+	else if (key == 'm')
+	{
+		Memory.print();
+	}
 }
 
 void keyUpFunc(uchar key)
@@ -172,6 +176,8 @@ int main(int argc, char **argv)
 
 	initHasnorUtils();
 	initHasnorEngine();
+
+	//Memory.createDynamicCache(250000);
 
 	setupNetwork(3000, 10000);
 
