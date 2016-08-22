@@ -17,21 +17,21 @@ void time_init(void)
 	_offset = 0;
 }
 
-double time_current_sec(void)
+timestamp_sec_t time_current_sec(void)
 {
 	clock_t current = clock();
 
 	return ((double)_offset / 1000.0) + ((double)(current - _start) / CLOCKS_PER_SEC);
 }
 
-long time_current_ms(void)
+timestamp_ms_t time_current_ms(void)
 {
 	clock_t current = clock();
 
 	return _offset + (long)((double)(current - _start) / CLOCKS_PER_MSEC);
 }
 
-void time_sync(long currentTime)
+void time_sync(timestamp_ms_t currentTime)
 {
 	_offset = currentTime - time_current_ms();
 }

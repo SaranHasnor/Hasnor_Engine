@@ -1,57 +1,63 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="Fichiers sources">
-      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
-      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    <Filter Include="Internal">
+      <UniqueIdentifier>{a3c4800d-530b-48a5-9630-84e0aa860391}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Fichiers d%27en-tête">
-      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
-      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    <Filter Include="Utils">
+      <UniqueIdentifier>{5e2257c8-74fa-4e6e-92dd-02ebbd5af55b}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Fichiers de ressources">
-      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
-      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    <Filter Include="Interface">
+      <UniqueIdentifier>{f7066548-3a36-4e1c-96ba-956afba8ab7f}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="network_utils.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
     <ClInclude Include="network_client.h">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
-    <ClInclude Include="network_server.h">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
-    <ClInclude Include="network_tcp.h">
-      <Filter>Fichiers d%27en-tête</Filter>
+      <Filter>Internal</Filter>
     </ClInclude>
     <ClInclude Include="network_udp.h">
-      <Filter>Fichiers d%27en-tête</Filter>
+      <Filter>Internal</Filter>
     </ClInclude>
-    <ClInclude Include="network_utils.h">
-      <Filter>Fichiers d%27en-tête</Filter>
+    <ClInclude Include="network_server.h">
+      <Filter>Internal</Filter>
+    </ClInclude>
+    <ClInclude Include="network_tcp.h">
+      <Filter>Internal</Filter>
+    </ClInclude>
+    <ClInclude Include="network_internal.h">
+      <Filter>Internal</Filter>
     </ClInclude>
     <ClInclude Include="network.h">
-      <Filter>Fichiers d%27en-tête</Filter>
+      <Filter>Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="network_init.h">
+      <Filter>Interface</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="network_server.c">
-      <Filter>Fichiers sources</Filter>
-    </ClCompile>
-    <ClCompile Include="network_tcp.c">
-      <Filter>Fichiers sources</Filter>
-    </ClCompile>
-    <ClCompile Include="network_udp.c">
-      <Filter>Fichiers sources</Filter>
-    </ClCompile>
     <ClCompile Include="network_utils.c">
-      <Filter>Fichiers sources</Filter>
-    </ClCompile>
-    <ClCompile Include="network.c">
-      <Filter>Fichiers sources</Filter>
+      <Filter>Utils</Filter>
     </ClCompile>
     <ClCompile Include="network_client.c">
-      <Filter>Fichiers sources</Filter>
+      <Filter>Internal</Filter>
+    </ClCompile>
+    <ClCompile Include="network_udp.c">
+      <Filter>Internal</Filter>
+    </ClCompile>
+    <ClCompile Include="network_server.c">
+      <Filter>Internal</Filter>
+    </ClCompile>
+    <ClCompile Include="network_tcp.c">
+      <Filter>Internal</Filter>
+    </ClCompile>
+    <ClCompile Include="network_internal.c">
+      <Filter>Internal</Filter>
+    </ClCompile>
+    <ClCompile Include="network_init.c">
+      <Filter>Interface</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

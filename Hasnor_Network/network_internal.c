@@ -1,6 +1,5 @@
-#include "network.h"
+#include "network_internal.h"
 #include <WinSock2.h>
-#include <utils_time.h>
 
 #include "network_tcp.h"
 #include "network_udp.h"
@@ -15,16 +14,16 @@ typedef struct {
 	socketProtocol_t	protocol;
 	SOCKADDR_IN			address;
 
-	long				lastInActivity;		// Time at which we last received a message from this client
-	long				lastOutActivity;	// Time at which we last sent a message to this client
+	timestamp_ms_t		lastInActivity;		// Time at which we last received a message from this client
+	timestamp_ms_t		lastOutActivity;	// Time at which we last sent a message to this client
 } networkConnection_t;
 
 networkMode_t _networkMode = NETWORK_MODE_LOCAL;
 networkConnection_t *_connections = NULL;
 uint _maxConnections = 0;
 
-long _worry = 10000;		// Seconds before sending a heartbeat
-long _timeout = 30000;		// Seconds before dropping a connection
+timestamp_ms_t _worry = 10000;		// Milliseconds before sending a heartbeat
+timestamp_ms_t _timeout = 30000;	// Milliseconds before dropping a connection
 
 networkMode_t currentNetworkMode(void)
 {
@@ -36,11 +35,14 @@ uint maxConnections(void)
 	return _maxConnections;
 }
 
-void setupNetwork(long worryTime, long timeoutTime)
+void setupNetwork(networkMode_t mode)
 {
 	WSADATA data;
 	WSAStartup(MAKEWORD(2, 2), &data);
+}
 
+void setTimeout(timestamp_ms_t worryTime, timestamp_ms_t timeoutTime)
+{
 	_worry = worryTime;
 	_timeout = timeoutTime;
 }

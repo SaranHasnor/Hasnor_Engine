@@ -1,40 +1,39 @@
-#ifndef _NETWORK_TOOLS_DEFINED
-#define _NETWORK_TOOLS_DEFINED
+#ifndef _NETWORK_IMPORTED
+#define _NETWORK_IMPORTED
 
-#include <utils.h>
 #include "network_utils.h"
 
-typedef enum {
-	NETWORK_MODE_LOCAL,
-	NETWORK_MODE_CLIENT,
-	NETWORK_MODE_HOST,
-	NETWORK_MODE_MASTER
-} networkMode_t;
+typedef struct {
+	void	(*start)(int maxConnections, unsigned short port, socketProtocol_t protocol, networkStatus_t *status);
+	void	(*stop)(networkStatus_t *status);
 
-typedef enum {
-	SOCKET_TYPE_INACTIVE,
-	SOCKET_TYPE_CLIENT,
-	SOCKET_TYPE_HOST
-} socketType_t;
+	int		(*checkForNewClients)(void);
+	void	(*kickClient)(int clientID);
+} _network_server_functions;
 
-networkMode_t currentNetworkMode(void);
-uint maxConnections(void);
+typedef struct {
+	void	(*connect)(const char *address, unsigned short port, bytestream_t clientInfo, socketProtocol_t protocol, networkStatus_t *status);
+	void	(*disconnect)(networkStatus_t *status);
 
-void setupNetwork(long worryTime, long timeoutTime);
-void shutdownNetwork(void);
+	bool	(*isConnected)(void);
+} _network_client_functions;
 
-bool createHostSocket(int maxConnections, unsigned short port, socketProtocol_t protocol, networkStatus_t *status);
-bool createSocket(const char *address, unsigned short port, socketProtocol_t protocol, networkStatus_t *status);
+typedef struct {
+	void	(*init)(networkMode_t mode);
+	void	(*shutdown)(void);
 
-bool tryToConnect(bytestream_t clientInfo, networkStatus_t *status);
-bool getNewClient(void);
+	void	(*setTimeout)(timestamp_ms_t worryTime, timestamp_ms_t timeoutTime);
 
-void dropClient(int id);
-void disconnect(void);
+	void	(*sendMessage)(int targetID, bytestream_t message);
+	void	(*update)(networkUpdate_t *update);
 
-void checkForTimeOuts(void);
+	_network_server_functions SV;
+	_network_client_functions CL;
 
-void sendMessage(networkMessageType_t type, int senderID, int receiverID, bytestream_t content);
-void receiveMessages(networkUpdate_t *update);
+	void	(*printError)(networkStatus_t status);
+	void	(*printMessage)(networkMessage_t message);
+} _network_functions;
+
+_network_functions Network;
 
 #endif

@@ -28,8 +28,6 @@ typedef struct {
 _scene_entity_functions *EntityInternal;
 #endif
 
-#define compNameForType(type) #type
-
 #ifdef HASNOR_INIT
 void initEntityFunctions(_scene_entity_functions *Entity);
 #endif

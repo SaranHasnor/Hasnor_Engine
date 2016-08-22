@@ -2,7 +2,7 @@
 #include <utils_string.h>
 #include <utils_misc.h>
 #include <engine.h>
-#include <network_client.h>
+#include <network.h>
 
 /*
 Engine.UI.init.c
@@ -28,7 +28,7 @@ void send(void)
 	bytestream_t stream;
 	ByteStream.init(&stream, len);
 	ByteStream.write(&stream, (byte*)message, len);
-	CL_sendMessage(-1, stream);
+	Network.sendMessage(-1, stream);
 	ByteStream.free(&stream);
 	message[0] = '\0';
 }
@@ -40,7 +40,7 @@ void connect(void)
 	ByteStream.init(&clientInfo, String.length(name));
 	ByteStream.write(&clientInfo, (byte*)name, clientInfo.len);
 
-	CL_connectToServer(address, (unsigned short)*port, clientInfo, SOCKET_PROTOCOL_TCP, &status);
+	Network.CL.connect(address, (unsigned short)*port, clientInfo, SOCKET_PROTOCOL_TCP, &status);
 
 	ByteStream.free(&clientInfo);
 
@@ -50,13 +50,13 @@ void connect(void)
 	}
 	else
 	{
-		printError(status);
+		Network.printError(status);
 	}
 }
 
 void leave(void)
 {
-	CL_disconnectFromServer(NULL);
+	Network.CL.disconnect(NULL);
 	//setMenu(0);
 }
 

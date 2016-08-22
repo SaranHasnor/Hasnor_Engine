@@ -2,11 +2,8 @@
 
 #include "engine_entity.h"
 
-#include <utils_map.h>
 #include <utils_string.h>
 #include <utils_matrix.h>
-
-map_t _prefabMap;
 
 entity_t *newEntity(void)
 {
@@ -37,8 +34,6 @@ void destroy_entity(entity_t *self)
 
 void initEntityFunctions(_scene_entity_functions *Entity)
 {
-	Map.init(&_prefabMap);
-
 	EntityInternal = Entity;
 
 	Entity->create = newEntity;

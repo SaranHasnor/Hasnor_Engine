@@ -1,5 +1,5 @@
 #include "network_client.h"
-#include "network.h"
+#include "network_internal.h"
 
 void CL_connectToServer(const char *address, unsigned short port, bytestream_t clientInfo, socketProtocol_t protocol, networkStatus_t *status)
 {
@@ -54,11 +54,4 @@ bool CL_connected(void)
 void CL_sendMessage(int targetID, bytestream_t message)
 {
 	sendMessage(NETWORK_MESSAGE_CUSTOM, -1, targetID, message);
-}
-
-void CL_update(networkUpdate_t *update)
-{
-	receiveMessages(update);
-
-	checkForTimeOuts();
 }

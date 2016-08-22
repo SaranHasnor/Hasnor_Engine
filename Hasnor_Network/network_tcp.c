@@ -119,14 +119,14 @@ bool TCP_acceptNewClient(SOCKET hostSocket, SOCKET *socket, SOCKADDR *addr, int 
 
 bool TCP_sendMessage(SOCKET socket, bytestream_t message)
 {
-	return (send(socket, message.data, message.len, 0) != SOCKET_ERROR);
+	return (send(socket, (char*)message.data, message.len, 0) != SOCKET_ERROR);
 }
 
 bool TCP_receiveMessages(SOCKET socket, bytestream_t *out)
 {
-	static char buffer[65536];
+	static byte buffer[65536];
 	
-	int received = recv(socket, buffer, 65536, 0);
+	int received = recv(socket, (char*)buffer, 65536, 0);
 	if (received > 0)
 	{
 		ByteStream.init(out, received);

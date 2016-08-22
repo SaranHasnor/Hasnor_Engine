@@ -1,5 +1,5 @@
 #include "network_server.h"
-#include "network.h"
+#include "network_internal.h"
 
 void SV_initServer(int maxConnections, unsigned short port, socketProtocol_t protocol, networkStatus_t *status)
 {
@@ -53,33 +53,4 @@ void SV_closeServer(networkStatus_t *status)
 void SV_kickClient(int clientID)
 {
 	dropClient(clientID);
-}
-
-void SV_sendMessage(int targetID, bytestream_t message)
-{
-	sendMessage(NETWORK_MESSAGE_CUSTOM, -1, targetID, message);
-}
-
-void SV_update(networkUpdate_t *update)
-{
-	uint i;
-
-	receiveMessages(update);
-
-	// Redirect the received messages to targeted clients
-	for (i = 0; i < update->count; i++)
-	{
-		networkMessage_t *message = &update->messages[i];
-		if (message->type != NETWORK_MESSAGE_HEARTBEAT)
-		{
-			sendMessage(message->type, message->senderID, message->receiverID, message->content);
-
-			if (message->type == NETWORK_MESSAGE_EXIT)
-			{ // Client left
-				dropClient(message->senderID);
-			}
-		}
-	}
-
-	checkForTimeOuts();
 }

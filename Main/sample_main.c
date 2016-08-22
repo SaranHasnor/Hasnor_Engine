@@ -1,10 +1,11 @@
 #include <stdio.h>
 #include <engine.h>
 #include <engine_utils.h>
-#include <network_server.h>
+#include <network.h>
 
 #include <engine_init.h>
 #include <utils_init.h>
+#include <network_init.h>
 
 #include <utils_matrix.h>
 #include <utils_quaternion.h>
@@ -176,10 +177,12 @@ int main(int argc, char **argv)
 
 	initHasnorUtils();
 	initHasnorEngine();
+	initNetworkFunctions();
 
 	//Memory.createDynamicCache(250000);
 
-	setupNetwork(3000, 10000);
+	Network.init(NETWORK_MODE_LOCAL);
+	Network.setTimeout(3000, 10000);
 
 	Engine.run(argc, argv, 1200, 600, "Test", listener);
 

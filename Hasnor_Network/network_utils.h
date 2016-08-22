@@ -3,6 +3,15 @@
 
 #include <utils_types.h>
 #include <utils_bytestream.h>
+#include <utils_time.h>
+
+typedef enum {
+	NETWORK_MODE_LOCAL,
+	NETWORK_MODE_CLIENT,
+	NETWORK_MODE_HOST,
+	NETWORK_MODE_HOST_WITH_MASTER,
+	NETWORK_MODE_P2P
+} networkMode_t;
 
 typedef enum {
 	NETWORK_ERROR_NONE,
@@ -42,13 +51,13 @@ typedef struct {
 	int						senderID;	// If -1, message was sent by the server
 	int						receiverID; // If -1, message is a broadcast
 	networkMessageType_t	type;
-	bytestream_t				content;
-	long					receiveTime;
+	bytestream_t			content;
+	timestamp_ms_t			receiveTime;
 } networkMessage_t;
 
 typedef struct {
 	networkMessage_t	*messages;
-	unsigned int		count;
+	uint				count;
 
 	networkStatus_t		status;
 } networkUpdate_t;
@@ -57,8 +66,5 @@ typedef enum {
 	SOCKET_PROTOCOL_TCP,
 	SOCKET_PROTOCOL_UDP
 } socketProtocol_t;
-
-void printError(networkStatus_t status);
-void printMessage(networkMessage_t message);
 
 #endif

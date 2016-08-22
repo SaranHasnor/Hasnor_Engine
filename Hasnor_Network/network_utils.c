@@ -5,7 +5,7 @@ void printError(networkStatus_t status)
 {
 	if (status.error != NETWORK_ERROR_NONE)
 	{
-		printf("Error: ");
+		printf("Network error: ");
 
 		switch (status.error)
 		{
