@@ -263,8 +263,9 @@ bool interface_keyPressed(unsigned char key, int x, int y)
 	{ // Backspace
 		if (len > 0)
 		{
-			(*renameString)[pos-1] = '\0';
-			*renameString = (char*)Memory.reallocate(*renameString, sizeof(char)*(pos));
+			char *temp = String.createCapped(*renameString, len-1);
+			dealloc(*renameString);
+			*renameString = temp;
 		}
 	}
 	else if (key == 13)

@@ -1,2 +1,2 @@
 
-void initNetworkFunctions(void);
+void initHasnorNetwork(void);

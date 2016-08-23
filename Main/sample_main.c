@@ -177,7 +177,7 @@ int main(int argc, char **argv)
 
 	initHasnorUtils();
 	initHasnorEngine();
-	initNetworkFunctions();
+	initHasnorNetwork();
 
 	//Memory.createDynamicCache(250000);
 

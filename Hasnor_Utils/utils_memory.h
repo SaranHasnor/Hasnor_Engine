@@ -32,9 +32,10 @@ _memory_functions Memory;
 
 
 #define alloc(type) (type*)Memory.allocate(sizeof(type))
-//#define alloc0(type) (type*)Memory.allocate(sizeof(type)) // TODO
+//#define alloc0(type) (type*)Memory.allocate(sizeof(type)) // TODO: memset to 0
 #define allocArray(type, count) (type*)Memory.allocate(sizeof(type) * (count))
-//#define allocArray0(type, count) (type*)Memory.allocate(sizeof(type) * (count)) // TODO
+//#define allocArray0(type, count) (type*)Memory.allocate(sizeof(type) * (count)) // TODO: memset to 0
+//#define realloc(type, object, count) (type*)Memory.reallocate(object, sizeof(type) * (count))
 #define dealloc(object) Memory.free(object)
 
 #ifdef HASNOR_INIT

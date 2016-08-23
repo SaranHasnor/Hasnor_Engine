@@ -38,7 +38,7 @@ void _update(networkUpdate_t *update)
 	checkForTimeOuts();
 }
 
-void initNetworkFunctions(void)
+void initHasnorNetwork(void)
 {
 	Network.init = setupNetwork;
 	Network.shutdown = shutdownNetwork;
