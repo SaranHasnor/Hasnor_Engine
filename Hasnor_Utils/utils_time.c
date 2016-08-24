@@ -1,4 +1,5 @@
 #include "utils_time.h"
+#include "utils_console.h"
 #include <time.h>
 #include <windows.h>
 #include <stdio.h>
@@ -41,7 +42,7 @@ void _beginBenchmark(const char *name)
 	QueryPerformanceFrequency(&_benchmarkFrequency);
 	QueryPerformanceCounter(&_benchmarkStart);
 
-	printf("===========================\nBenchmark start: %s\n", name);
+	Console.print("===========================\nBenchmark start: %s\n", name);
 }
 
 void _logBenchmark(void)
@@ -49,7 +50,7 @@ void _logBenchmark(void)
 	LARGE_INTEGER current;
 	QueryPerformanceCounter(&current);
 
-	printf("Benchmark: %fs\n", (current.QuadPart - _benchmarkStart.QuadPart) / _benchmarkFrequency.QuadPart);
+	Console.print("Benchmark: %fs\n", (current.QuadPart - _benchmarkStart.QuadPart) / _benchmarkFrequency.QuadPart);
 }
 
 void _endBenchmark(void)
@@ -57,7 +58,7 @@ void _endBenchmark(void)
 	LARGE_INTEGER end;
 	QueryPerformanceCounter(&end);
 
-	printf("End of benchmark: %fs\n===========================\n", (double)(end.QuadPart - _benchmarkStart.QuadPart) / _benchmarkFrequency.QuadPart);
+	Console.print("End of benchmark: %fs\n===========================\n", (double)(end.QuadPart - _benchmarkStart.QuadPart) / _benchmarkFrequency.QuadPart);
 }
 
 void initTimeFunctions(void)

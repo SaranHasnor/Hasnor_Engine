@@ -36,4 +36,6 @@ typedef struct {
 
 _network_functions Network;
 
+void HasnorNetworkInit(networkMode_t mode);
+
 #endif

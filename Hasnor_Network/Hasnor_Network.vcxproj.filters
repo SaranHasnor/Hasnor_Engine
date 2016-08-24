@@ -33,9 +33,6 @@
     <ClInclude Include="network.h">
       <Filter>Interface</Filter>
     </ClInclude>
-    <ClInclude Include="network_init.h">
-      <Filter>Interface</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="network_utils.c">
@@ -56,7 +53,7 @@
     <ClCompile Include="network_internal.c">
       <Filter>Internal</Filter>
     </ClCompile>
-    <ClCompile Include="network_init.c">
+    <ClCompile Include="network.c">
       <Filter>Interface</Filter>
     </ClCompile>
   </ItemGroup>

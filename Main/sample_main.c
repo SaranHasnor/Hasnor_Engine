@@ -4,9 +4,8 @@
 #include <network.h>
 
 #include <engine_init.h>
-#include <utils_init.h>
-#include <network_init.h>
 
+#include <utils_program.h>
 #include <utils_matrix.h>
 #include <utils_quaternion.h>
 #include <utils_math.h>
@@ -96,7 +95,7 @@ void debugQuaternions(void)
 
 	Matrix.rotation(mat, pitch, yaw, roll);
 
-	printf("%f %f %f %f\n%f %f %f %f\n%f %f %f %f\n%f %f %f %f\n\n",
+	Console.print("%f %f %f %f\n%f %f %f %f\n%f %f %f %f\n%f %f %f %f\n\n",
 		mat[0], mat[4], mat[8],  mat[12],
 		mat[1], mat[5], mat[9],  mat[13],
 		mat[2], mat[6], mat[10], mat[14],
@@ -104,26 +103,26 @@ void debugQuaternions(void)
 
 	Quaternion.fromMatrix(quat, mat);
 
-	printf("%f %f %f %f\n\n",
+	Console.print("%f %f %f %f\n\n",
 		quat[0], quat[1], quat[2], quat[3]);
 
 	Matrix.fromQuaternion(mat, quat);
 
-	printf("%f %f %f %f\n%f %f %f %f\n%f %f %f %f\n%f %f %f %f\n\n",
+	Console.print("%f %f %f %f\n%f %f %f %f\n%f %f %f %f\n%f %f %f %f\n\n",
 		mat[0], mat[4], mat[8],  mat[12],
 		mat[1], mat[5], mat[9],  mat[13],
 		mat[2], mat[6], mat[10], mat[14],
 		mat[3], mat[7], mat[11], mat[15]);
 
-	printf("===================================================\n\n");
+	Console.print("===================================================\n\n");
 
 	Quaternion.fromEuler(quat, pitch, yaw, roll);
-	printf("%f %f %f %f\n\n",
+	Console.print("%f %f %f %f\n\n",
 		quat[0], quat[1], quat[2], quat[3]);
 
 	Matrix.fromQuaternion(mat, quat);
 
-	printf("%f %f %f %f\n%f %f %f %f\n%f %f %f %f\n%f %f %f %f\n\n",
+	Console.print("%f %f %f %f\n%f %f %f %f\n%f %f %f %f\n%f %f %f %f\n\n",
 		mat[0], mat[4], mat[8],  mat[12],
 		mat[1], mat[5], mat[9],  mat[13],
 		mat[2], mat[6], mat[10], mat[14],
@@ -131,7 +130,7 @@ void debugQuaternions(void)
 
 	Quaternion.fromMatrix(quat, mat);
 
-	printf("%f %f %f %f\n\n",
+	Console.print("%f %f %f %f\n\n",
 		quat[0], quat[1], quat[2], quat[3]);
 }
 
@@ -140,6 +139,9 @@ extern void initSampleParticles(void);
 extern void initSampleMesh(void);
 void initFunc(void)
 {
+	Network.init(NETWORK_MODE_LOCAL);
+	Network.setTimeout(3000, 10000);
+
 	initSampleInterface();
 
 	initSampleParticles();
@@ -163,9 +165,13 @@ void renderFunc(const float viewMatrix[16])
 	drawSampleMesh(viewMatrix);
 }
 
-int main(int argc, char **argv)
+int main(int argc, char** argv)
 {
 	engineListener_t listener;
+
+	HasnorInit(argc, argv);
+	HasnorEngineInit();
+	HasnorNetworkInit(NETWORK_MODE_LOCAL);
 
 	listener.keyDownFunc = keyDownFunc;
 	listener.keyUpFunc = keyUpFunc;
@@ -175,16 +181,7 @@ int main(int argc, char **argv)
 	listener.updateFunc = updateFunc;
 	listener.initFunc = initFunc;
 
-	initHasnorUtils();
-	initHasnorEngine();
-	initHasnorNetwork();
-
 	//Memory.createDynamicCache(250000);
 
-	Network.init(NETWORK_MODE_LOCAL);
-	Network.setTimeout(3000, 10000);
-
 	Engine.run(argc, argv, 1200, 600, "Test", listener);
-
-	return 0;
 }

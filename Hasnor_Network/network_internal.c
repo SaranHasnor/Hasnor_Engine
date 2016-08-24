@@ -246,7 +246,7 @@ bool getNewClient(void)
 		return true;
 	}
 
-	printf("No more open client slots!\n");
+	Console.print("No more open client slots!\n");
 	return false;
 }
 
@@ -297,7 +297,7 @@ void checkForTimeOuts(void)
 		
 		if ((curTime - connection->lastInActivity) > _timeout)
 		{ // Lost connection to the server
-			printf("Server timed out, dropping\n");
+			Console.print("Server timed out, dropping\n");
 			disconnect();
 		}
 		else if ((curTime - connection->lastOutActivity) > _worry)
@@ -317,7 +317,7 @@ void checkForTimeOuts(void)
 			{
 				if ((curTime - connection->lastInActivity) > _timeout)
 				{ // This client has been idle for too long, drop it
-					printf("Dropping idle connection %i\n", connection->id);
+					Console.print("Dropping idle connection %i\n", connection->id);
 					_closeConnection(connection, true);
 				}
 				else if ((curTime - connection->lastOutActivity) > _worry)
@@ -406,7 +406,7 @@ void sendMessage(networkMessageType_t type, int senderID, int receiverID, bytest
 				{
 					if (!_doSend(&_connections[i], serializedMessage))
 					{
-						printf("Failed to send broadcasted message to client %i\n", i);
+						Console.print("Failed to send broadcasted message to client %i\n", i);
 					}
 				}
 			}
@@ -417,11 +417,11 @@ void sendMessage(networkMessageType_t type, int senderID, int receiverID, bytest
 			{
 				if (_networkMode == NETWORK_MODE_HOST)
 				{
-					printf("Failed to send message to client %i\n", target->id);
+					Console.print("Failed to send message to client %i\n", target->id);
 				}
 				else
 				{
-					printf("Failed to send message to server\n");
+					Console.print("Failed to send message to server\n");
 				}
 			}
 		}
@@ -430,7 +430,7 @@ void sendMessage(networkMessageType_t type, int senderID, int receiverID, bytest
 	}
 	else
 	{
-		printf("Socket error while sending\n");
+		Console.print("Socket error while sending\n");
 	}
 
 	ByteStream.free(&message.content);

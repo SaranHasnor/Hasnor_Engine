@@ -1,6 +1,7 @@
 #include "utils_memory.h"
+#include "utils_debug.h"
+#include "utils_console.h"
 
-#include <assert.h>
 #include <stdlib.h>
 #include <string.h>
 
@@ -77,7 +78,7 @@ void *_cache_alloc(size_t size)
 		}
 	}
 
-	assert(0);
+	Debug.assert(0);
 	return NULL;
 }
 
@@ -161,7 +162,7 @@ void *mem_realloc(void *mem, size_t size)
 		}
 		else
 		{ // We were asked to reallocate a piece of memory we didn't create, let's just allocate it?
-			assert(0);
+			Debug.assert(0);
 			return mem_alloc(size);
 		}
 	}
@@ -238,8 +239,8 @@ void mem_free(void *mem)
 	}
 	else
 	{
-		printf("WARNING: Freeing memory address %p even though it was not allocated properly!\n", mem);
-		assert(0);
+		Console.print("WARNING: Freeing memory address %p even though it was not allocated properly!\n", mem);
+		Debug.assert(0);
 		free(mem);
 	}
 }
@@ -334,19 +335,19 @@ void mem_print(void)
 
 	if (!_memStack)
 	{
-		printf("Could not find any allocated memory\n");
+		Console.print("Could not find any allocated memory\n");
 		return;
 	}
 
-	printf("Allocated memory:\n");
+	Console.print("Allocated memory:\n");
 	while (mem)
 	{
-		printf(" %i - Address %p has %i bytes allocated\n", mem->id, mem->address, mem->size);
+		Console.print(" %i - Address %p has %i bytes allocated\n", mem->id, mem->address, mem->size);
 		total += mem->size;
 		mem = mem->next;
 	}
 
-	printf("Total: %i bytes\n", total);
+	Console.print("Total: %i bytes\n", total);
 }
 
 void initMemoryFunctions(void)

@@ -18,7 +18,7 @@ void bytestream_init(bytestream_t *stream, uint size)
 
 int bytestream_write(bytestream_t *stream, byte *data, uint size)
 {
-	assert(stream->cursor + size <= stream->len);
+	Debug.assert(stream->cursor + size <= stream->len);
 	if (size > 0)
 	{
 		Memory.copy(stream->data+stream->cursor, data, size);
@@ -29,7 +29,7 @@ int bytestream_write(bytestream_t *stream, byte *data, uint size)
 
 int bytestream_read(bytestream_t *stream, byte *out, uint size)
 {
-	assert(stream->cursor + size <= stream->len);
+	Debug.assert(stream->cursor + size <= stream->len);
 	Memory.copy(out, stream->data+stream->cursor, size);
 	stream->cursor += size;
 	return size;

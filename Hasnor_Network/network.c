@@ -1,4 +1,3 @@
-#include "network_init.h"
 #include "network.h"
 #include "network_internal.h"
 #include "network_client.h"
@@ -38,7 +37,7 @@ void _update(networkUpdate_t *update)
 	checkForTimeOuts();
 }
 
-void initHasnorNetwork(void)
+void HasnorNetworkInit(networkMode_t mode)
 {
 	Network.init = setupNetwork;
 	Network.shutdown = shutdownNetwork;
@@ -57,4 +56,6 @@ void initHasnorNetwork(void)
 
 	Network.printError = printError;
 	Network.printMessage = printMessage;
+
+	setupNetwork(mode);
 }

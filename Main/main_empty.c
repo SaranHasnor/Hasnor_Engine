@@ -1,8 +1,7 @@
 #include <stdio.h>
 #include <engine.h>
 #include <engine_utils.h>
-
-#include <utils_init.h>
+#include <utils_program.h>
 #include <engine_init.h>
 
 
@@ -100,6 +99,9 @@ int main(int argc, char **argv)
 {
 	engineListener_t listener;
 
+	HasnorInit(argc, argv);
+	HasnorEngineInit();
+
 	listener.keyDownFunc = keyDownFunc;
 	listener.keyUpFunc = keyUpFunc;
 	listener.mouseDownFunc = mouseDownFunc;
@@ -107,9 +109,6 @@ int main(int argc, char **argv)
 	listener.renderFunc = renderFunc;
 	listener.updateFunc = updateFunc;
 	listener.initFunc = initFunc;
-
-	initHasnorUtils();
-	initHasnorEngine();
 
 	Engine.run(argc, argv, 1200, 600, "NewProject", listener);
 

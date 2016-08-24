@@ -9,6 +9,4 @@ uint nbDigits(int n);
 
 bool charsEqualCaseInsensitive(char a, char b);
 
-void quit(void);
-
 #endif

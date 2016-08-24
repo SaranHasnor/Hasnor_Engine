@@ -8,7 +8,7 @@
 #include "engine_particles.h"
 
 #include <utils.h>
-#include <utils_misc.h>
+#include <utils_program.h>
 
 #include <GL\glew.h>
 #include <GL\glut.h>
@@ -25,7 +25,7 @@ void update(int prevTime)
 	time.deltaTime = curTime-prevTime;
 	time.deltaTimeSeconds = time.deltaTime / 1000.0f;
 
-	//printf("FPS: %f\n", 1.0f / time.deltaTimeSeconds);
+	//Console.print("FPS: %f\n", 1.0f / time.deltaTimeSeconds);
 
 	interface_update(time.deltaTimeSeconds);
 
@@ -65,7 +65,7 @@ void display(void)
 
 void engine_run(int argc, char **argv, int windowWidth, int windowHeight, const char *windowName, engineListener_t listener)
 {
-    glutInit(&argc, argv);
+	glutInit(&argc, argv);
 	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGBA | GLUT_DEPTH);
 
 	createWindow(windowName, windowWidth, windowHeight);
@@ -91,7 +91,7 @@ void engine_run(int argc, char **argv, int windowWidth, int windowHeight, const 
 
 void engine_shutdown(void)
 { // TODO: Actually stop the loop
-	quit();
+	Program.close();
 }
 
 void initEngineFunctions(void)

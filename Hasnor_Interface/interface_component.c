@@ -32,7 +32,7 @@ component_t *newComponent(componentType_t type, uint id)
 		newComp->gen_component.object.radioButton = newRadioButton();
 		break;
 	default:
-		printf("Error: unknown object type: %i\n", type);
+		Console.print("Error: unknown object type: %i\n", type);
 		break;
 	}
 

@@ -28,9 +28,3 @@ bool charsEqualCaseInsensitive(char a, char b)
 		|| (a >= 'a' && a <= 'z' && b == (a + 'A' - 'a'))
 		|| (a >= 'A' && a <= 'Z' && b == (a + 'a' - 'A'));
 }
-
-void quit(void)
-{ // Exit the program
-	Memory.freeAll();
-	exit(0);
-}

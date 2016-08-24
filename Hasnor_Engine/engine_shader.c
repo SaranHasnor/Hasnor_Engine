@@ -55,7 +55,7 @@ void _printShaderLog(GLuint obj)
 
 	if (infoLogLength > 0)
 	{
-		printf("printShaderLog: %s\n", infoLog);
+		Console.print("printShaderLog: %s\n", infoLog);
 	}
 
 	dealloc(infoLog);
@@ -120,7 +120,7 @@ void _printProgramLog(GLuint obj)
 
 	if (infoLogLength > 0)
 	{
-		printf("printProgramLog: %s\n", infoLog);
+		Console.print("printProgramLog: %s\n", infoLog);
 	}
 
 	dealloc(infoLog);
@@ -240,10 +240,7 @@ void initShaderFunctions(void)
 {
 	GLShader.fromContent = shaderFromContent;
 	GLShader.fromPath = shaderFromPath;
-}
 
-void initProgramFunctions(void)
-{
 	GLProgram.getDefault = defaultProgram;
 	GLProgram.getCustomUniformLocation = getCustomUniformLocationForProgram;
 	GLProgram.withShaders = programWithShaders;

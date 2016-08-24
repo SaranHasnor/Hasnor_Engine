@@ -109,6 +109,8 @@
   <ItemGroup>
     <ClCompile Include="utils_array.c" />
     <ClCompile Include="utils_bytestream.c" />
+    <ClCompile Include="utils_console.c" />
+    <ClCompile Include="utils_debug.c" />
     <ClCompile Include="utils_memory.c" />
     <ClCompile Include="utils_file.c" />
     <ClCompile Include="utils_init.c" />
@@ -117,8 +119,10 @@
     <ClCompile Include="utils_math.c" />
     <ClCompile Include="utils_matrix.c" />
     <ClCompile Include="utils_object.c" />
+    <ClCompile Include="utils_program.c" />
     <ClCompile Include="utils_quaternion.c" />
     <ClCompile Include="utils_string.c" />
+    <ClCompile Include="utils_system.c" />
     <ClCompile Include="utils_thread.c" />
     <ClCompile Include="utils_time.c" />
     <ClCompile Include="utils_misc.c" />
@@ -127,6 +131,8 @@
   <ItemGroup>
     <ClInclude Include="utils_array.h" />
     <ClInclude Include="utils_bytestream.h" />
+    <ClInclude Include="utils_console.h" />
+    <ClInclude Include="utils_debug.h" />
     <ClInclude Include="utils_memory.h" />
     <ClInclude Include="utils.h" />
     <ClInclude Include="utils_file.h" />
@@ -136,8 +142,10 @@
     <ClInclude Include="utils_math.h" />
     <ClInclude Include="utils_matrix.h" />
     <ClInclude Include="utils_object.h" />
+    <ClInclude Include="utils_program.h" />
     <ClInclude Include="utils_quaternion.h" />
     <ClInclude Include="utils_string.h" />
+    <ClInclude Include="utils_system.h" />
     <ClInclude Include="utils_thread.h" />
     <ClInclude Include="utils_time.h" />
     <ClInclude Include="utils_types.h" />

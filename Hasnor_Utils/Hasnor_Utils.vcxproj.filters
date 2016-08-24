@@ -13,6 +13,9 @@
     <Filter Include="System">
       <UniqueIdentifier>{3bc4db22-74c1-4b35-82df-7ea73300591c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Main">
+      <UniqueIdentifier>{210b4fba-a6a2-442f-8b59-e41f8b91eee8}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="utils_init.c">
@@ -62,6 +65,18 @@
     </ClCompile>
     <ClCompile Include="utils_bytestream.c">
       <Filter>Data</Filter>
+    </ClCompile>
+    <ClCompile Include="utils_system.c">
+      <Filter>System</Filter>
+    </ClCompile>
+    <ClCompile Include="utils_debug.c">
+      <Filter>Tools</Filter>
+    </ClCompile>
+    <ClCompile Include="utils_console.c">
+      <Filter>Tools</Filter>
+    </ClCompile>
+    <ClCompile Include="utils_program.c">
+      <Filter>Main</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -118,6 +133,18 @@
     </ClInclude>
     <ClInclude Include="utils_bytestream.h">
       <Filter>Data</Filter>
+    </ClInclude>
+    <ClInclude Include="utils_system.h">
+      <Filter>System</Filter>
+    </ClInclude>
+    <ClInclude Include="utils_debug.h">
+      <Filter>Tools</Filter>
+    </ClInclude>
+    <ClInclude Include="utils_console.h">
+      <Filter>Tools</Filter>
+    </ClInclude>
+    <ClInclude Include="utils_program.h">
+      <Filter>Main</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

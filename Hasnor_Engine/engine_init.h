@@ -1,2 +1,2 @@
 
-void initHasnorEngine(void);
+void HasnorEngineInit(void);

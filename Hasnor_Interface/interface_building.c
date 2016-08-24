@@ -42,7 +42,7 @@ int interface_newSideMenu(int x, int y, void (*onEnter)(uint), void (*onExit)(ui
 
 	if (_curBlockStack->next)
 	{
-		printf("Can't add a side menu while in a block!\n");
+		Console.print("Can't add a side menu while in a block!\n");
 		return -1;
 	}
 

@@ -47,7 +47,7 @@ typedef struct {
 typedef struct {
 	shader_t*	(*fromContent)(shaderType_t type, const char *contents);
 	shader_t*	(*fromPath)(shaderType_t type, const char *filePath);
-} _shader_functions;
+} _glshader_functions;
 
 typedef struct {
 	program_t*	(*withShaders)(shader_t *vertexShader, shader_t *fragmentShader, shader_t *geometryShader);
@@ -57,14 +57,13 @@ typedef struct {
 	int			(*getCustomUniformLocation)(program_t *program, const char *name);
 
 	program_t*	(*getDefault)(bool forTexture);
-} _program_functions;
+} _glprogram_functions;
 
-_shader_functions GLShader;
-_program_functions GLProgram;
+_glshader_functions GLShader;
+_glprogram_functions GLProgram;
 
 #ifdef HASNOR_INIT
 void initShaderFunctions(void);
-void initProgramFunctions(void);
 #endif
 
 #endif

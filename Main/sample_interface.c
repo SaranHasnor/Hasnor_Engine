@@ -1,6 +1,6 @@
 #include <utils.h>
 #include <utils_string.h>
-#include <utils_misc.h>
+#include <utils_program.h>
 #include <engine.h>
 #include <network.h>
 
@@ -98,7 +98,7 @@ void initSampleInterface(void)
 
 	Engine.UI.staticButton(String.create("Connexion"), staticPlacement(900, 20, 150, 60), connect);
 	
-	Engine.UI.staticButton(String.create("Quitter"), relativePlacement(0.9f, 0.8f, 0.05f, 0.1f), quit);
+	Engine.UI.staticButton(String.create("Quitter"), relativePlacement(0.9f, 0.8f, 0.05f, 0.1f), Program.close);
 
 	// Menu 1: Chat room
 	//newMenu(Engine.UI.WIDTH, 0, NULL, NULL);

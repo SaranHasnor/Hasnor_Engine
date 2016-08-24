@@ -13,13 +13,12 @@
 #include "engine_window.h"
 #undef HASNOR_INIT
 
-void initHasnorEngine(void)
+void HasnorEngineInit(void)
 {
 	initEngineFunctions();
 	
 	initTextureFunctions();
 	initShaderFunctions();
-	initProgramFunctions();
 
 	initMeshFunctions();
 	initGeometryFunctions();

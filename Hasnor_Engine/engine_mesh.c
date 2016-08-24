@@ -25,7 +25,7 @@ void linkVertexToFace(face_t *face, vertex_t *vertex)
 	{
 		if (face->vertices[i] == vertex)
 		{
-			printf("ERROR: Vertex is already in face!\n");
+			Console.print("ERROR: Vertex is already in face!\n");
 			return;
 		}
 		i++;
@@ -79,7 +79,7 @@ void linkFaceToMesh(mesh_t *mesh, face_t *face)
 	{
 		if (mesh->faces[i] == face)
 		{
-			printf("ERROR: Face is already in mesh!\n");
+			Console.print("ERROR: Face is already in mesh!\n");
 			return;
 		}
 		i++;

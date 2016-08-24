@@ -131,7 +131,7 @@ void mouse(int button, int state, int x, int y)
 	}
 	else
 	{ // ???
-		assert(0);
+		Debug.assert(0);
 		actualButton = (ushort)-1;
 	}
 

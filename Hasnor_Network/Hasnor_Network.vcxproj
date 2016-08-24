@@ -64,7 +64,6 @@
   <ItemGroup>
     <ClInclude Include="network.h" />
     <ClInclude Include="network_client.h" />
-    <ClInclude Include="network_init.h" />
     <ClInclude Include="network_internal.h" />
     <ClInclude Include="network_server.h" />
     <ClInclude Include="network_tcp.h" />
@@ -72,7 +71,7 @@
     <ClInclude Include="network_utils.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="network_init.c" />
+    <ClCompile Include="network.c" />
     <ClCompile Include="network_client.c" />
     <ClCompile Include="network_internal.c" />
     <ClCompile Include="network_server.c" />
